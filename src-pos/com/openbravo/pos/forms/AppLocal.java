@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (C) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -29,7 +29,12 @@ public class AppLocal {
     
     public static final String APP_NAME = "uniCenta oPOS";
     public static final String APP_ID = "unicentaopos";
-    public static final String APP_VERSION = "3.02";
+    public static final String APP_VERSION = "3.50";
+
+//    public static final String APP_IDJL = "Unicenta John L's changes";    
+//    public static final String APP_VERSIONJL ="1.04";
+//    public static final String APP_VERSIONJLCORE="130703";
+  
   
     // private static List<ResourceBundle> m_messages;
     private static final LocaleResources m_resources;

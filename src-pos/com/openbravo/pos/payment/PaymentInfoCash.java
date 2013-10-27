@@ -25,6 +25,7 @@ public class PaymentInfoCash extends PaymentInfo {
     private double prePayAmount = 0.0;
     private double m_dPaid;
     private double m_dTotal;
+    private double m_dTendered;
 
     /**
      * Creates a new instance of PaymentInfoCash
@@ -57,10 +58,12 @@ public class PaymentInfoCash extends PaymentInfo {
         return m_dTotal;
     }
 
+    
     public double getPaid() {
         return m_dPaid;
     }
 
+    
     public double getPrePaid() {
         return prePayAmount;
     }
@@ -85,4 +88,11 @@ public class PaymentInfoCash extends PaymentInfo {
     public String printChange() {
         return Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal));
     }
+
+   public double getChange(){
+       return m_dPaid - m_dTotal;
+   }
+
+
+
 }

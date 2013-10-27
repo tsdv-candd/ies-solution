@@ -30,6 +30,8 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     private double m_dTicket;
     private String m_sName;
     private String m_transactionID;
+    private double m_dTendered;
+    private double m_change;
     
     /** Creates a new instance of PaymentInfoCash */
     public PaymentInfoTicket(double dTicket, String sName) {
@@ -54,6 +56,7 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         m_sName = dr.getString(1);
         m_dTicket = dr.getDouble(2).doubleValue();
         m_transactionID = dr.getString(3);
+        m_dTendered = dr.getDouble(4).doubleValue();
     }
     
     @Override
@@ -68,10 +71,16 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     public double getTotal() {
         return m_dTicket;
     }
+
     @Override
     public String getTransactionID(){
         return m_transactionID;
-    }
+    }   
+    
+    public String printTendered() {
+        return Formats.CURRENCY.formatValue(new Double(m_dTendered));
+    }    
+    
     public String printPaid() {
         return Formats.CURRENCY.formatValue(new Double(m_dTicket));
     }
@@ -81,4 +90,17 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         // En una devolucion hay que cambiar el signo al total
         return Formats.CURRENCY.formatValue(new Double(-m_dTicket));
     }          
+    @Override
+    public double getPaid() {
+        return (0.0); 
+    }
+
+    public String printChange() {
+        return Formats.CURRENCY.formatValue(new Double(m_dTendered - m_dTicket));
+    }
+
+    public double getChange(){
+       return m_dTendered - m_dTicket;
+   }
+
 }

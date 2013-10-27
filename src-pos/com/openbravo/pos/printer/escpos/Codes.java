@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -46,6 +46,7 @@ public abstract class Codes {
     public abstract byte[] getNewLine();    
     public abstract byte[] getImageHeader();
     public abstract int getImageWidth();
+    public abstract byte[] getImageLogo();
 
     public void printBarcode(PrinterWritter out, String type, String position, String code) {
 

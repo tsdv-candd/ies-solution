@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -80,7 +80,7 @@ public class SQLDatabase implements TreeNode {
     }
     @Override
     public boolean isLeaf() {
-// JG 16 May 2012 use isEmpty
+// JG 16 May 2013 use isEmpty
         return m_aTables.isEmpty();
     }    
 }

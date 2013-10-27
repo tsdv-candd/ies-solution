@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -92,22 +92,27 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
             setFocusable(false);
             setRequestFocusEnabled(false);
             setMargin(new Insets(8, 14, 8, 14));
-            //setFont(new java.awt.Font ("Dialog", 1, 24));    
-            //setBackground(new java.awt.Color (220, 220, 220));
-            addActionListener(new ActionListener() {
-        
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-                    
-                    // Selecciono el ticket
-                    m_sDialogTicket = m_Ticket.getId();
-   
-                    // y oculto la ventana
-                    JTicketsBagSharedList.this.setVisible(false);
-                }
-            });
+            setFont(new java.awt.Font ("Dialog", 1, 16));
+//            setBackground(new java.awt.Color (220, 220, 220));
+            addActionListener(new ActionListenerImpl());
             
             setText(ticket.getName());
+        }
+
+        private class ActionListenerImpl implements ActionListener {
+
+            public ActionListenerImpl() {
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                        
+                        // Selecciono el ticket
+                        m_sDialogTicket = m_Ticket.getId();
+       
+                        // y oculto la ventana
+                        JTicketsBagSharedList.this.setVisible(false);
+                    }
         }
     }
     
@@ -133,7 +138,7 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jPanel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         m_jtickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -149,6 +154,7 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
         jPanel3.add(jPanel4);
 
+        m_jButtonCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/cancel.png"))); // NOI18N
         m_jButtonCancel.setText(AppLocal.getIntString("Button.Close")); // NOI18N
         m_jButtonCancel.setFocusPainted(false);

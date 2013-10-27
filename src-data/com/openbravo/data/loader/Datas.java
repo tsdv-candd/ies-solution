@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -201,7 +201,6 @@ public abstract class Datas {
 //            return b == null ? null : new java.io.ByteArrayInputStream(b);
 //        }
 //        public void setValue(DataWrite dw, int i, Object value) throws DataException {
-//            // TODO: Please implement this method
 //        }
 //    }  
     private static final class DatasOBJECT extends Datas {

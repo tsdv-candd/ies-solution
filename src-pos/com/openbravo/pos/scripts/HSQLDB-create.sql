@@ -1,5 +1,5 @@
 --    uniCenta oPOS - Touch Friendly Point Of Sale
---    Copyright (C) 2009-2012 uniCenta
+--    Copyright (C) 2009-2013 uniCenta
 --    http://sourceforge.net/projects/unicentaopos
 --
 --    This file is part of uniCenta oPOS.
@@ -18,8 +18,9 @@
 --    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
 
 -- Database create script for HSQLDB
--- Copyright (c) 2009-2012 uniCenta
--- v3.01
+-- Copyright (c) 2009-2013 uniCenta
+-- v3..50
+
 
 CREATE TABLE APPLICATIONS (
     ID VARCHAR(255) NOT NULL,
@@ -27,8 +28,6 @@ CREATE TABLE APPLICATIONS (
     VERSION VARCHAR(255) NOT NULL,
     PRIMARY KEY (ID)
 );
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
-
 
 CREATE TABLE ROLES (
     ID VARCHAR(255) NOT NULL,
@@ -94,7 +93,6 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('17', 'img.run_script',
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('18', 'img.ticket_print', 1, $FILE{/com/openbravo/pos/templates/img.ticket_print.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('19', 'img.user', 1, $FILE{/com/openbravo/pos/templates/img.user.png});
 
-
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('20', 'note.50', 1, $FILE{/com/openbravo/pos/templates/note.50.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('21', 'note.20', 1, $FILE{/com/openbravo/pos/templates/note.20.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('22', 'note.10', 1, $FILE{/com/openbravo/pos/templates/note.10.png});
@@ -111,30 +109,33 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('31', 'Printer.PartialC
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('32', 'Printer.Start', 0, $FILE{/com/openbravo/pos/templates/Printer.Start.xml});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'Printer.Ticket', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.xml});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('34', 'Printer.Ticket2', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket2.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('35', 'Printer.TicketKitchen', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketKitchen.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Printer.TicketLine', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketLine.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('37', 'Printer.TicketPreview', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketPreview.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('38', 'Printer.TicketTotal', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketTotal.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('39', 'Printer.Ticket.Logo', 1, $FILE{/com/openbravo/pos/templates/Printer.Ticket.Logo.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('40', 'Ticket.TicketLineTaxesIncluded', 1, $FILE{/com/openbravo/pos/templates/Ticket.TicketLineTaxesIncluded.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('35', 'Printer.TicketClose', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketClose.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Printer.TicketKitchen', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketKitchen.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('37', 'Printer.TicketLine', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketLine.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('38', 'Printer.TicketPreview', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketPreview.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('39', 'Printer.TicketTotal', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketTotal.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('40', 'Printer.Ticket.Logo', 1, $FILE{/com/openbravo/pos/templates/Printer.Ticket.Logo.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('41', 'Ticket.TicketLineTaxesIncluded', 1, $FILE{/com/openbravo/pos/templates/Ticket.TicketLineTaxesIncluded.xml});
 
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('41', 'script.Event.Total', 0, $FILE{/com/openbravo/pos/templates/script.Event.Total.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('42', 'script.linediscount', 0, $FILE{/com/openbravo/pos/templates/script.linediscount.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('43', 'script.ReceiptConsolidate', 0, $FILE{/com/openbravo/pos/templates/script.ReceiptConsolidate.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('44', 'script.Refundit', 0, $FILE{/com/openbravo/pos/templates/script.Refundit.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('45', 'script.SendOrder', 0, $FILE{/com/openbravo/pos/templates/script.SendOrder.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('46', 'script.SetPerson', 0, $FILE{/com/openbravo/pos/templates/script.SetPerson.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('47', 'script.StockCurrentAdd', 0, $FILE{/com/openbravo/pos/templates/script.StockCurrentAdd.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('48', 'script.StockCurrentSet', 0, $FILE{/com/openbravo/pos/templates/script.StockCurrentSet.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('49', 'script.totaldiscount', 0, $FILE{/com/openbravo/pos/templates/script.totaldiscount.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('42', 'script.AddLineNote', 0, $FILE{/com/openbravo/pos/templates/script.AddLineNote.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('43', 'script.Event.Total', 0, $FILE{/com/openbravo/pos/templates/script.Event.Total.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('44', 'script.linediscount', 0, $FILE{/com/openbravo/pos/templates/script.linediscount.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('45', 'script.ReceiptConsolidate', 0, $FILE{/com/openbravo/pos/templates/script.ReceiptConsolidate.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('46', 'script.Refundit', 0, $FILE{/com/openbravo/pos/templates/script.Refundit.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('47', 'script.SendOrder', 0, $FILE{/com/openbravo/pos/templates/script.SendOrder.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('48', 'script.ServiceCharge.txt', 0, $FILE{/com/openbravo/pos/templates/script.script.ServiceCharge.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('49', 'script.SetPerson', 0, $FILE{/com/openbravo/pos/templates/script.SetPerson.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('50', 'script.StockCurrentAdd', 0, $FILE{/com/openbravo/pos/templates/script.StockCurrentAdd.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('51', 'script.StockCurrentSet', 0, $FILE{/com/openbravo/pos/templates/script.StockCurrentSet.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('52', 'script.totaldiscount', 0, $FILE{/com/openbravo/pos/templates/script.totaldiscount.txt});
 
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('50', 'Ticket.Buttons', 0, $FILE{/com/openbravo/pos/templates/Ticket.Buttons.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('51', 'Ticket.Close', 0, $FILE{/com/openbravo/pos/templates/Ticket.Close.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('52', 'Ticket.Discount', 0, $FILE{/com/openbravo/pos/templates/Ticket.Discount.xml});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('53', 'Ticket.Line', 0, $FILE{/com/openbravo/pos/templates/Ticket.Line.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('53', 'Ticket.Buttons', 0, $FILE{/com/openbravo/pos/templates/Ticket.Buttons.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('54', 'Ticket.Close', 0, $FILE{/com/openbravo/pos/templates/Ticket.Close.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('55', 'Ticket.Discount', 0, $FILE{/com/openbravo/pos/templates/Ticket.Discount.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('56', 'Ticket.Line', 0, $FILE{/com/openbravo/pos/templates/Ticket.Line.xml});
 
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('54', 'Window.Logo', 1, $FILE{/com/openbravo/pos/templates/Window.Logo.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('55', 'Window.Title', 0, $FILE{/com/openbravo/pos/templates/Window.Title.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('57', 'Window.Logo', 1, $FILE{/com/openbravo/pos/templates/Window.Logo.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('58', 'Window.Title', 0, $FILE{/com/openbravo/pos/templates/Window.Title.txt});
 
 
 CREATE TABLE TAXCUSTCATEGORIES (
@@ -169,6 +170,7 @@ CREATE TABLE CUSTOMERS (
     VISIBLE BOOLEAN DEFAULT TRUE NOT NULL,
     CURDATE TIMESTAMP,
     CURDEBT DOUBLE,
+    IMAGE VARBINARY(2),
     PRIMARY KEY (ID),
     CONSTRAINT CUSTOMERS_TAXCAT FOREIGN KEY (TAXCATEGORY) REFERENCES TAXCUSTCATEGORIES(ID)
 );
@@ -183,6 +185,8 @@ CREATE TABLE CATEGORIES (
     NAME VARCHAR(255) NOT NULL,
     PARENTID VARCHAR(255),
     IMAGE VARBINARY(2),
+    TEXTTIP VARCHAR(255) DEFAULT NULL,
+    CATSHOWNAME BOOLEAN DEFAULT TRUE NOT NULL
     PRIMARY KEY (ID),
     CONSTRAINT CATEGORIES_FK_1 FOREIGN KEY (PARENTID) REFERENCES CATEGORIES(ID)
 );
@@ -253,7 +257,6 @@ CREATE TABLE ATTRIBUTEUSE (
 CREATE UNIQUE INDEX ATTUSE_LINE ON ATTRIBUTEUSE(ATTRIBUTESET_ID, LINENO);
 
 
-
 CREATE TABLE ATTRIBUTESETINSTANCE (
     ID VARCHAR(255) NOT NULL,
     ATTRIBUTESET_ID VARCHAR(255) NOT NULL,
@@ -296,6 +299,10 @@ CREATE TABLE PRODUCTS (
     ISSERVICE BOOLEAN DEFAULT FALSE NOT NULL,
     ATTRIBUTES VARBINARY(2),
     DISPLAY VARCHAR(255),
+    ISVPRICE BOOLEAN DEFAULT FALSE NOT NULL,
+    ISVERPATRIB BOOLEAN DEFAULT FALSE NOT NULL,
+    TEXTTIP VARCHAR(255) DEFAULT '',
+    WARRANTY BOOLEAN DEFAULT FALSE NOT NULL,
     PRIMARY KEY (ID),
     CONSTRAINT PRODUCTS_FK_1 FOREIGN KEY (CATEGORY) REFERENCES CATEGORIES(ID),
     CONSTRAINT PRODUCTS_TAXCAT_FK FOREIGN KEY (TAXCAT) REFERENCES TAXCATEGORIES(ID),
@@ -345,6 +352,7 @@ CREATE TABLE STOCKDIARY (
     ATTRIBUTESETINSTANCE_ID VARCHAR(255),
     UNITS DOUBLE NOT NULL,
     PRICE DOUBLE NOT NULL,
+    APPUSER VARCHAR(255)
     PRIMARY KEY (ID),
     CONSTRAINT STOCKDIARY_FK_1 FOREIGN KEY (PRODUCT) REFERENCES PRODUCTS(ID),
     CONSTRAINT STOCKDIARY_ATTSETINST FOREIGN KEY (ATTRIBUTESETINSTANCE_ID) REFERENCES ATTRIBUTESETINSTANCE(ID),
@@ -478,6 +486,8 @@ CREATE TABLE PLACES (
     X INTEGER NOT NULL,
     Y INTEGER NOT NULL,
     FLOOR VARCHAR(255) NOT NULL,
+    CUSTOMER VARCHAR(255),
+    WAITER VARCHAR(255),
     PRIMARY KEY (ID),
     CONSTRAINT PLACES_FK_1 FOREIGN KEY (FLOOR) REFERENCES FLOORS(ID)
 );
@@ -499,7 +509,7 @@ INSERT INTO PLACES(ID, NAME, X, Y, FLOOR) VALUES ('12', 'Table 12', 550, 290, '0
 CREATE TABLE RESERVATIONS (
     ID VARCHAR(255) NOT NULL,
     CREATED TIMESTAMP NOT NULL,
-    DATENEW TIMESTAMP DEFAULT '2012-01-01 00:00:00' NOT NULL,
+    DATENEW TIMESTAMP DEFAULT '2013-01-01 00:00:00' NOT NULL,
     TITLE VARCHAR(255) NOT NULL,
     CHAIRS INTEGER NOT NULL,
     ISDONE BOOLEAN NOT NULL,
@@ -541,6 +551,8 @@ CREATE TABLE SHAREDTICKETS (
     ID VARCHAR(255) NOT NULL,
     NAME VARCHAR(255) NOT NULL,
     CONTENT VARBINARY(2),
+    PICKUPID INTEGER DEFAULT 0 NOT NULL,
+    APPUSER VARCHAR(255),
     PRIMARY KEY (ID)
 );
 
@@ -553,7 +565,7 @@ CREATE TABLE SHIFTS (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO SHIFTS(ID, STARTSHIFT, ENDSHIFT, PPLID) VALUES ('0', '2012-09-01 00:00:00.001', '2012-09-01 00:00:00.002','0');
+INSERT INTO SHIFTS(ID, STARTSHIFT, ENDSHIFT, PPLID) VALUES ('0', '2013-09-01 00:00:00.001', '2013-09-01 00:00:00.002','0');
 
 CREATE TABLE LEAVES (
   ID VARCHAR(255) NOT NULL,
@@ -589,4 +601,34 @@ CREATE TABLE SHIFT_BREAKS (
   CONSTRAINT SHIFT_BREAKS_SHIFTID FOREIGN KEY (SHIFTID) REFERENCES SHIFTS(ID)
 );
 
-INSERT INTO SHIFT_BREAKS(ID, SHIFTID, BREAKID, STARTTIME, ENDTIME) VALUES ('0', '0', '0', '2012-09-01 00:00:00.003', '2012-09-01 00:00:00.004');
+INSERT INTO SHIFT_BREAKS(ID, SHIFTID, BREAKID, STARTTIME, ENDTIME) VALUES ('0', '0', '0', '2013-09-01 00:00:00.003', '2013-09-01 00:00:00.004');
+
+
+CREATE TABLE moorers (
+  VesselName VARCHAR(255),
+  size INTEGER,
+  days INTEGER,
+  power BOOLEAN NOT NULL DEFAULT FALSE
+  );
+
+
+CREATE TABLE csvimport (
+  id VARCHAR(255) NOT NULL,
+  rownumber VARCHAR(255),
+  csverror VARCHAR(255),
+  reference VARCHAR(255),
+  code VARCHAR(255),
+  name VARCHAR(255),
+  pricebuy DOUBLE,
+  pricesell DOUBLE,
+  previousbuy DOUBLE,
+  previoussell DOUBLE,
+  PRIMARY KEY (id)
+);
+CREATE TABLE PICKUP_NUMBER (
+  ID INTEGER);
+INSERT INTO PICKUP_NUMBER VALUES (DEFAULT);
+
+CREATE SEQUENCE PICKUP_NUMBER START WITH 1;
+
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});

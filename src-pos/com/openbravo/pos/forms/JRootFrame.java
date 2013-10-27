@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -72,7 +72,10 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
                 this.setIconImage(ImageIO.read(JRootFrame.class.getResourceAsStream("/com/openbravo/images/favicon.png")));
             } catch (IOException e) {
             }   
-            setTitle(AppLocal.APP_NAME + " - " + AppLocal.APP_VERSION);
+// Title with John L's sub[dot] updates commented out by JG 23 Jul 13
+//            setTitle(AppLocal.APP_NAME + " - " + AppLocal.APP_VERSION+ " - " + AppLocal.APP_VERSIONJL + "-" + AppLocal.APP_VERSIONJLCORE);
+
+            setTitle(AppLocal.APP_NAME + " - " + AppLocal.APP_VERSION);       
             pack();
             setLocationRelativeTo(null);        
             

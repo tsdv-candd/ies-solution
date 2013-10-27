@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -36,13 +36,17 @@ public class CategoryInfo implements IKeyed {
     private static final long serialVersionUID = 8612449444103L;
     private String m_sID;
     private String m_sName;
+    private String m_sTextTip;
     private BufferedImage m_Image;
+    private Boolean m_bCatShowName;
 
     /** Creates new CategoryInfo */
-    public CategoryInfo(String id, String name, BufferedImage image) {
+    public CategoryInfo(String id, String name, BufferedImage image, String texttip, Boolean catshowname) {
         m_sID = id;
         m_sName = name;
         m_Image = image;
+        m_sTextTip = texttip;
+        m_bCatShowName = catshowname;
     }
 
     @Override
@@ -65,7 +69,29 @@ public class CategoryInfo implements IKeyed {
     public void setName(String sName) {
         m_sName = sName;
     }
+// ADDED JDL 13.04.13 *************
+    public String getTextTip() {
+        return m_sTextTip;
+    }
 
+    public void setTextTip(String sName) {
+        m_sTextTip = sName;
+    }
+ 
+    public Boolean getCatShowName() {
+        return m_bCatShowName;
+    }
+
+    public void setCatShowName(Boolean bcatshowname) {
+        m_bCatShowName = bcatshowname;
+    }
+    
+    
+    
+    
+    
+    // *******************************  
+    
     public BufferedImage getImage() {
         return m_Image;
     }
@@ -82,7 +108,7 @@ public class CategoryInfo implements IKeyed {
     public static SerializerRead getSerializerRead() {
         return new SerializerRead() {@Override
  public Object readValues(DataRead dr) throws BasicException {
-            return new CategoryInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)));
+            return new CategoryInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)),dr.getString(4),dr.getBoolean(5));
         }};
     }
 }

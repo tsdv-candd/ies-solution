@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -33,6 +33,7 @@ public class DevicePrinterESCPOS implements DevicePrinter  {
     
 //    private boolean m_bInline;
     private String m_sName;
+    
     
     // Creates new TicketPrinter
     public DevicePrinterESCPOS(PrinterWritter CommOutputPrinter, Codes codes, UnicodeTranslator trans) throws TicketPrinterException {
@@ -78,6 +79,13 @@ public class DevicePrinterESCPOS implements DevicePrinter  {
         m_CommOutputPrinter.write(ESCPOS.SELECT_PRINTER);        
         m_CommOutputPrinter.write(m_codes.transImage(image));
     }
+    
+    @Override
+    public void printLogo() {        
+        m_CommOutputPrinter.write(ESCPOS.SELECT_PRINTER);        
+        m_CommOutputPrinter.write(m_codes.getImageLogo());
+    } 
+    
     
     @Override
     public void printBarCode(String type, String position, String code) {

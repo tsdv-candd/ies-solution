@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -20,10 +20,10 @@
 package com.openbravo.pos.config;
 
 import com.openbravo.data.user.DirtyManager;
-import java.awt.Component;
 import com.openbravo.pos.forms.AppConfig;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.util.AltEncrypter;
+import java.awt.Component;
 
 /**
  *
@@ -109,37 +109,37 @@ public class JPanelConfigERP extends javax.swing.JPanel implements PanelConfig {
         jLabelProperties = new javax.swing.JLabel();
         jtxtPassword = new javax.swing.JPasswordField();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.configerp"))); // NOI18N
+        setLayout(null);
 
-        jlabelUrl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlabelUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jlabelUrl.setText(AppLocal.getIntString("label.erpurl")); // NOI18N
 
-        jtxtUrl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabelId.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabelId.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabelId.setText(AppLocal.getIntString("label.erpid")); // NOI18N
 
-        jtxtId.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtId.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("label.erporg")); // NOI18N
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("label.erppos")); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabelName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabelName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabelName.setText(AppLocal.getIntString("label.erpuser")); // NOI18N
 
-        jtxtName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabelProperties.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabelProperties.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabelProperties.setText(AppLocal.getIntString("label.erppassword")); // NOI18N
 
-        jtxtPassword.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,7 +172,7 @@ public class JPanelConfigERP extends javax.swing.JPanel implements PanelConfig {
                         .addComponent(jLabelProperties, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(217, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,22 +204,8 @@ public class JPanelConfigERP extends javax.swing.JPanel implements PanelConfig {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
+        add(jPanel1);
+        jPanel1.setBounds(10, 11, 741, 207);
     }// </editor-fold>//GEN-END:initComponents
     
     

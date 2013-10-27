@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -60,6 +60,11 @@ public class DevicePrinterPlain implements DevicePrinter  {
     
     @Override
     public void printImage(BufferedImage image) {
+    }
+    
+    @Override
+    public void printLogo(){
+        
     }
     
     @Override

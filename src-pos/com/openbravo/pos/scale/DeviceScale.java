@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -39,7 +39,7 @@ public class DeviceScale {
                 m_scale = new ScaleComm(sScaleParam1);
                 break;
             case "samsungesp":
-                m_scale = new ScaleSamsungEsp(sScaleParam1);
+                m_scale = new ScaleCasioPD1(sScaleParam1);
                 break;
             case "fake":
                 // a fake scale for debugging purposes

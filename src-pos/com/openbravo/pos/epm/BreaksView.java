@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -140,23 +140,23 @@ public final class BreaksView extends javax.swing.JPanel implements EditorRecord
         m_Name3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        m_jBreakName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jBreakName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         m_jBreakDescription.setColumns(20);
-        m_jBreakDescription.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        m_jBreakDescription.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jBreakDescription.setLineWrap(true);
         m_jBreakDescription.setRows(5);
         jScrollPane1.setViewportView(m_jBreakDescription);
 
-        m_jVisible.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jVisible.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        m_Ncx.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_Ncx.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_Ncx.setText(AppLocal.getIntString("label.epm.visible")); // NOI18N
 
-        m_Name3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_Name3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_Name3.setText(AppLocal.getIntString("label.epm.notes")); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jLabel1.setText(bundle.getString("label.epm.employee")); // NOI18N
 

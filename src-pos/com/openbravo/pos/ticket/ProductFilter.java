@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -128,11 +128,12 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
         jLabel2 = new javax.swing.JLabel();
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.bybarcode"))); // NOI18N
+        jPanel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 
-        m_jBarcode.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jBarcode.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -156,31 +157,32 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.byform"))); // NOI18N
+        jPanel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
 
-        m_jCboName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jCboName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        m_jName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        m_jPriceBuy.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jPriceBuy.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        m_jCboPriceBuy.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jCboPriceBuy.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        m_jCboPriceSell.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jCboPriceSell.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        m_jPriceSell.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jPriceSell.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        m_jCategory.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

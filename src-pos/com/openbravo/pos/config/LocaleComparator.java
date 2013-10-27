@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -32,6 +32,7 @@ public class LocaleComparator implements Comparator<Locale> {
     public LocaleComparator() {
     }
     
+    @Override
     public int compare(Locale o1, Locale o2) {
         return o1.getDisplayName().compareTo(o2.getDisplayName());
     }

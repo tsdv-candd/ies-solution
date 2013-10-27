@@ -148,7 +148,9 @@ public final class MagCardReaderGeneric implements MagCardReader {
     private void checkTracks() {
         
         // Test del tipo de tarjeta
-        if (m_cCardType != 'B') return;
+        if (m_cCardType != 'B') {
+            return;
+        }
         
         // Lectura de los valores
         String sCardNumber1 = (m_aTrack1 == null || m_aTrack1.size() < 1) ? null : (String) m_aTrack1.get(0);
@@ -158,11 +160,17 @@ public final class MagCardReaderGeneric implements MagCardReader {
         String sExpDate2 =  (m_aTrack2 == null || m_aTrack2.size() < 2) ? null : ((String) m_aTrack2.get(1)).substring(0, 4);
             
         // Test del numero de tarjeta
-        if (!checkCardNumber(sCardNumber1) || (sCardNumber2 != null && !sCardNumber1.equals(sCardNumber2))) return;
+        if (!checkCardNumber(sCardNumber1) || (sCardNumber2 != null && !sCardNumber1.equals(sCardNumber2))) {
+            return;
+        }
         // Test del nombre del propietario
-        if (sHolderName == null) return;
+        if (sHolderName == null) {
+            return;
+        }
         // Test de la fecha de expiracion
-        if ((sExpDate1 != null || !checkExpDate(sExpDate2)) && (!checkExpDate(sExpDate1) || !sExpDate1.equals(sExpDate2))) return;
+        if ((sExpDate1 != null || !checkExpDate(sExpDate2)) && (!checkExpDate(sExpDate1) || !sExpDate1.equals(sExpDate2))) {
+            return;
+        }
 
         m_sCardNumber = sCardNumber1;
         m_sHolderName = formatHolderName(sHolderName);

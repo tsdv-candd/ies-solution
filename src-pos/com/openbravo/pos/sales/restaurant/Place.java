@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -28,6 +28,7 @@ import com.openbravo.data.gui.NullIcon;
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.SerializableRead;
 import com.openbravo.basic.BasicException;
+import java.awt.Insets;
 
 public class Place implements SerializableRead, java.io.Serializable {
     
@@ -40,6 +41,10 @@ public class Place implements SerializableRead, java.io.Serializable {
     private int m_ix;
     private int m_iy;
     private String m_sfloor;
+    private String m_customer;
+    private String m_waiter;
+    private String m_ticketId;
+    private Boolean m_tableMoved;
     
     private boolean m_bPeople;
     private JButton m_btn;
@@ -54,6 +59,10 @@ public class Place implements SerializableRead, java.io.Serializable {
         m_ix = dr.getInt(3).intValue();
         m_iy = dr.getInt(4).intValue();
         m_sfloor = dr.getString(5);
+        m_customer = dr.getString(6);
+        m_waiter = dr.getString(7);
+        m_ticketId = dr.getString(8);
+        m_tableMoved = dr.getBoolean(9);
         
         m_bPeople = false;
         m_btn = new JButton();
@@ -65,6 +74,8 @@ public class Place implements SerializableRead, java.io.Serializable {
         m_btn.setVerticalTextPosition(SwingConstants.BOTTOM);            
         m_btn.setIcon(ICO_FRE);
         m_btn.setText(m_sName);
+        m_btn.setMargin(new Insets(2,5,2,5));
+
     }
 
     public String getId() { return m_sId; }
@@ -78,7 +89,11 @@ public class Place implements SerializableRead, java.io.Serializable {
     public String getFloor() { return m_sfloor; }
    
     public JButton getButton() { return m_btn; }
+    
+    public String getCustomer(){ return m_customer; }
 
+    public String getWaiter(){ return m_waiter;}
+    
     public boolean hasPeople() {
         return m_bPeople;
     }   
@@ -88,8 +103,15 @@ public class Place implements SerializableRead, java.io.Serializable {
     }     
     public void setButtonBounds() {
         Dimension d = m_btn.getPreferredSize();
+        m_btn.setPreferredSize(new Dimension(d.width +30,d.height + 15));
+        d = m_btn.getPreferredSize();
         m_btn.setBounds(m_ix - d.width / 2, m_iy - d.height / 2, d.width, d.height); 
     }
+    
+    public void setButtonText(String btnText){
+        m_btn.setText(btnText);         
+    }
+    
 }    
 
     

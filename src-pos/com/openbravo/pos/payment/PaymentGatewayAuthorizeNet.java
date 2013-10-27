@@ -74,7 +74,8 @@ public class PaymentGatewayAuthorizeNet implements PaymentGateway {
             
             sb.append("&x_market_type=2");
             
-            sb.append("&x_device_type=1");
+//            sb.append("&x_device_type=1");  // JG 1 Oct 13 - changed from 1 unknown to PC based 5
+            sb.append("&x_device_type=5");
             
             sb.append("&x_login=");        
             sb.append(URLEncoder.encode(m_sCommerceID, "UTF-8"));

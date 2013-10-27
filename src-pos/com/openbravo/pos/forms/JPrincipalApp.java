@@ -1,5 +1,5 @@
 //    uniCenta oPOS Touch Friendly Point of Sale
-//    Copyright (C) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/product
 //
 //    This file is part of uniCenta oPOS.
@@ -29,6 +29,7 @@ import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.util.Hashcypher;
 import com.openbravo.pos.util.StringUtils;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         m_actionfirst = null;
         m_jLastView = null;
 
-// JG 6 May 2012 use diamond inference        
+// JG 6 May 2013 use diamond inference        
         m_aPreparedViews = new HashMap<>();
         m_aCreatedViews = new HashMap<>();
                 
@@ -102,8 +103,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         }
         assignMenuButtonIcon();        
                 
-        // m_jPanelTitle.setUI(new GradientUI());
-        m_jPanelTitle.setBorder(RoundedBorder.createGradientBorder());
+        // m_jPanelTitle.setBorder(RoundedBorder.createGradientBorder());  - JG 2 Sept 2013 commented-out (for flat look)
         m_jPanelTitle.setVisible(false);
         
         m_jPanelContainer.add(new JPanel(), "<NULL>");
@@ -116,7 +116,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             logger.log(Level.SEVERE, "Cannot read Menu.Root resource. Trying default menu.", e);
             try {
                 m_jPanelLeft.setViewportView(getScriptMenu(StringUtils.readResource("/com/openbravo/pos/templates/Menu.Root.txt")));
-// JG 6 May 2012 use multicatch
+// JG 6 May 2013 use multicatch
             } catch (    IOException | ScriptException ex) {
                 logger.log(Level.SEVERE, "Cannot read default menu", ex);
             }
@@ -299,6 +299,12 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         }
     }
     
+    public void exitToLogin() {
+        m_appview.closeAppView();
+        //m_appview.showLogin();
+    }    
+    
+    
     private class ChangePasswordAction extends AbstractAction {
         public ChangePasswordAction(String icon, String keytext) {
             putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
@@ -321,6 +327,9 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             }
         }
     }
+    
+
+    
     
     private void showView(String sView) {
         CardLayout cl = (CardLayout)(m_jPanelContainer.getLayout());
@@ -433,6 +442,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        jPanel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         jButton1.setToolTipText("Open/Close Menu");
@@ -460,12 +470,13 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
         m_jPanelTitle.setLayout(new java.awt.BorderLayout());
 
-        m_jTitle.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        m_jTitle.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         m_jTitle.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, java.awt.Color.darkGray), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         m_jPanelTitle.add(m_jTitle, java.awt.BorderLayout.NORTH);
 
         m_jPanelRight.add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
 
+        m_jPanelContainer.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jPanelContainer.setLayout(new java.awt.CardLayout());
         m_jPanelRight.add(m_jPanelContainer, java.awt.BorderLayout.CENTER);
 

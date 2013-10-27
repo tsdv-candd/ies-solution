@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -52,6 +52,7 @@ public interface DevicePrinter {
     // INTERFAZ PRINTER   
     public void beginReceipt();
     public void printImage(BufferedImage image);
+    public void printLogo();
     public void printBarCode(String type, String position, String code);
     public void beginLine(int iTextSize);
     public void printText(int iStyle, String sText);

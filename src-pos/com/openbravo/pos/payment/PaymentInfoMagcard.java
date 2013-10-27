@@ -37,7 +37,16 @@ public class PaymentInfoMagcard extends PaymentInfo {
     protected String m_sReturnMessage;
     
     /** Creates a new instance of PaymentInfoMagcard */
-    public PaymentInfoMagcard(String sHolderName, String sCardNumber, String sExpirationDate, String track1, String track2, String track3, String sTransactionID, double dTotal) {
+    public PaymentInfoMagcard(
+            String sHolderName, 
+            String sCardNumber, 
+            String sExpirationDate, 
+            String track1, 
+            String track2, 
+            String track3, 
+            String sTransactionID, 
+            double dTotal) {
+        
         m_sHolderName = sHolderName;
         m_sCardNumber = sCardNumber;
         m_sExpirationDate = sExpirationDate;
@@ -54,13 +63,27 @@ public class PaymentInfoMagcard extends PaymentInfo {
     }
     
     /** Creates a new instance of PaymentInfoMagcard */
-    public PaymentInfoMagcard(String sHolderName, String sCardNumber, String sExpirationDate, String sTransactionID, double dTotal) {
+    public PaymentInfoMagcard(
+            String sHolderName, 
+            String sCardNumber, 
+            String sExpirationDate, 
+            String sTransactionID, 
+            double dTotal) {
         this(sHolderName, sCardNumber, sExpirationDate, null, null, null, sTransactionID, dTotal);
     }
     
     @Override
     public PaymentInfo copyPayment(){
-        PaymentInfoMagcard p = new PaymentInfoMagcard(m_sHolderName, m_sCardNumber, m_sExpirationDate, track1, track2, track3, m_sTransactionID, m_dTotal);
+        PaymentInfoMagcard p = new PaymentInfoMagcard(
+                m_sHolderName, 
+                m_sCardNumber, 
+                m_sExpirationDate, 
+                track1, 
+                track2, 
+                track3, 
+                m_sTransactionID, 
+                m_dTotal);
+        
         p.m_sAuthorization = m_sAuthorization;
         p.m_sErrorMessage = m_sErrorMessage;
         return p;
@@ -100,7 +123,7 @@ public class PaymentInfoMagcard extends PaymentInfo {
      *    - LRC 
      * @param framingChar 
      *    true: including framing characters
-     *    false: exluding framing characters
+     *    false: excluding framing characters
      * @return tracks of the magnetic card
      */
     public String getTrack1(boolean framingChar) {
@@ -154,7 +177,7 @@ public class PaymentInfoMagcard extends PaymentInfo {
             return m_sCardNumber.substring(0, m_sCardNumber.length()-4).replaceAll(".", "*") +
                     m_sCardNumber.substring(m_sCardNumber.length() - 4);
         } else {
-            return "****";
+            return "**** **** **** ****";
         }
     }
     public String printExpirationDate() {
@@ -166,4 +189,14 @@ public class PaymentInfoMagcard extends PaymentInfo {
     public String printTransactionID() {
         return m_sTransactionID;
     }
+    @Override
+    public double getPaid() {
+        return (0.0); 
+    }    
+    
+    @Override
+    public double getChange(){
+       return 0.00;
+   }   
+    
 }

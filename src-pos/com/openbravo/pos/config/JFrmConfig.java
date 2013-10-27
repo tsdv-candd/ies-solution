@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -29,22 +29,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.SubstanceSkin;
+
 /**
  *
  * @author adrianromero
  */
 public class JFrmConfig extends javax.swing.JFrame {
-    
+ 
     private JPanelConfiguration config;
     
     /** Creates new form JFrmConfig */
     public JFrmConfig(AppProperties props) {
-        
+      
         initComponents();
         
         try {
@@ -87,9 +85,11 @@ public class JFrmConfig extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(500, 500));
+        setPreferredSize(new java.awt.Dimension(700, 550));
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-731)/2, (screenSize.height-600)/2, 731, 600);
+        setBounds((screenSize.width-758)/2, (screenSize.height-534)/2, 758, 534);
     }// </editor-fold>//GEN-END:initComponents
     
     /**
@@ -104,15 +104,9 @@ public class JFrmConfig extends javax.swing.JFrame {
                 config.load();    
                 
 // Set the look and feel.
-// JG 6 May 2012 to Multicatch                
+// JG 6 May 2013 to Multicatch                
                 try {                    
-                    Object laf = Class.forName(config.getProperty("swing.defaultlaf")).newInstance();                    
-                    if (laf instanceof LookAndFeel){
-                        UIManager.setLookAndFeel((LookAndFeel) laf);
-                    } else if (laf instanceof SubstanceSkin) {                      
-                        SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);                   
-                    }
-// JG 6 May 2012 to multicatch
+                    UIManager.setLookAndFeel(config.getProperty("swing.defaultlaf"));
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
                 }
                 

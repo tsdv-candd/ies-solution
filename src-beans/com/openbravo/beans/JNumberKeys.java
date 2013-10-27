@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -103,7 +103,13 @@ public class JNumberKeys extends javax.swing.JPanel {
     public boolean isEqualsEnabled() {
         return equalsenabled;
     }
-
+    
+    public void dotIs00(boolean enabled) {
+        if (enabled) {
+            m_jKeyDot.setIcon(new javax.swing.ImageIcon(getClass()
+                    .getResource("/com/openbravo/images/btn00.png")));
+        }
+    }
     
     public boolean isNumbersOnly() {
         return m_jEquals.isVisible();

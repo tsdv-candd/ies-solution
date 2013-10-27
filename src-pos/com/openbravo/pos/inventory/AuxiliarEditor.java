@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -234,10 +234,10 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
         m_jBarcode = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("label.prodref")); // NOI18N
 
-        m_jReference.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jReference.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jReference.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jReferenceActionPerformed(evt);
@@ -272,14 +272,14 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
             }
         });
 
-        m_jBarcode.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jBarcode.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jBarcode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jBarcodeActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

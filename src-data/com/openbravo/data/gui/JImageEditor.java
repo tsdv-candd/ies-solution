@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -19,6 +19,7 @@
 
 package com.openbravo.data.gui;
 
+import com.openbravo.data.loader.LocalRes;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -37,7 +38,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
-import com.openbravo.data.loader.LocalRes;
 
 public class JImageEditor extends javax.swing.JPanel {
     
@@ -67,6 +67,7 @@ public class JImageEditor extends javax.swing.JPanel {
         return m_maxsize;
     }
     
+    @Override
     public void setEnabled(boolean value) {
 
         privateSetEnabled(value);
@@ -201,12 +202,15 @@ public class JImageEditor extends javax.swing.JPanel {
             this.ico = null;
             this.zoom = 1.0;
         }
+        @Override
         public int getIconHeight() {
             return ico == null ? 0 : (int) (zoom * ico.getIconHeight());
         }
+        @Override
         public int getIconWidth() {
             return ico == null ? 0 : (int) (zoom * ico.getIconWidth());
         }
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (ico != null) {
                 Graphics2D g2d = (Graphics2D) g;
@@ -239,6 +243,7 @@ public class JImageEditor extends javax.swing.JPanel {
             this.extensions = extensions;            
         }
         
+        @Override
         public boolean accept(java.io.File f) {
             if (f.isDirectory()) {
                 return true;
@@ -257,6 +262,7 @@ public class JImageEditor extends javax.swing.JPanel {
             }   
         }
         
+        @Override
         public String getDescription() {
             return message;
         }      

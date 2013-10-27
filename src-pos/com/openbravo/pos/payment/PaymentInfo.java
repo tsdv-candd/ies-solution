@@ -27,6 +27,8 @@ public abstract class PaymentInfo {
     public abstract double getTotal();
     public abstract PaymentInfo copyPayment();
     public abstract String getTransactionID();
+    public abstract double getPaid();
+    public abstract double getChange();
     
     public String printTotal() {
         return Formats.CURRENCY.formatValue(new Double(getTotal()));

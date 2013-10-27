@@ -35,7 +35,7 @@
 
 //    Portions:
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://www.unicenta.net/unicentaopos
 //    author adrian romero
 // This class is a copy of net.sf.jasperreports.view.JRViewer

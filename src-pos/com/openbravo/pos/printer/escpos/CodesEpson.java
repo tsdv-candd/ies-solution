@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -37,6 +37,7 @@ public class CodesEpson extends Codes {
     private static final byte[] PARTIAL_CUT_1 = {0x1B, 0x69};
     private static final byte[] IMAGE_HEADER = {0x1D, 0x76, 0x30, 0x03};
     private static final byte[] NEW_LINE = {0x0D, 0x0A}; // Print and carriage return
+    private static final byte[] IMAGE_LOGO = {0x1B, 0x1C, 0x70, 0x01, 0x00};
     
     /** Creates a new instance of CodesEpson */
     public CodesEpson() {
@@ -73,4 +74,6 @@ public class CodesEpson extends Codes {
     public byte[] getImageHeader() { return IMAGE_HEADER; }
     @Override
     public int getImageWidth() { return 256; }
+    @Override
+    public byte[] getImageLogo(){ return IMAGE_LOGO; }
 }

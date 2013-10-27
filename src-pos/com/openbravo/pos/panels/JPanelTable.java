@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -88,7 +88,9 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
             if (cr != null) {
                 JListNavigator nl = new JListNavigator(bd);
                 nl.applyComponentOrientation(getComponentOrientation());
-                if (cr != null) nl.setCellRenderer(cr);
+                if (cr != null) {
+                    nl.setCellRenderer(cr);
+                }
                 container.add(nl, java.awt.BorderLayout.LINE_START);
             }
 
@@ -180,7 +182,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new java.awt.BorderLayout());
 
-        container.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        container.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         container.setLayout(new java.awt.BorderLayout());
         container.add(toolbar, java.awt.BorderLayout.NORTH);
 

@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -48,6 +48,7 @@ public class CustomerInfoExt extends CustomerInfo {
     protected String city;
     protected String region;
     protected String country;
+    protected String image;
     
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
@@ -151,18 +152,22 @@ public class CustomerInfoExt extends CustomerInfo {
         this.lastname = lastname;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getPhone() {
         return phone;
     }
 
+    @Override
     public void setPhone(String phone) {
         this.phone = phone;
     }
@@ -199,10 +204,12 @@ public class CustomerInfoExt extends CustomerInfo {
         this.address2 = address2;
     }
 
+    @Override
     public String getPostal() {
         return postal;
     }
 
+    @Override
     public void setPostal(String postal) {
         this.postal = postal;
     }
@@ -230,4 +237,13 @@ public class CustomerInfoExt extends CustomerInfo {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
 }

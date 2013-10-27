@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -68,13 +68,17 @@ public class JTicketsBagSimple extends JTicketsBag {
 
         m_jDelTicket = new javax.swing.JButton();
 
+        setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         m_jDelTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/sale_delete.png"))); // NOI18N
         m_jDelTicket.setToolTipText("Delete current Sale");
         m_jDelTicket.setFocusPainted(false);
         m_jDelTicket.setFocusable(false);
-        m_jDelTicket.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jDelTicket.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        m_jDelTicket.setMaximumSize(new java.awt.Dimension(50, 40));
+        m_jDelTicket.setMinimumSize(new java.awt.Dimension(50, 40));
+        m_jDelTicket.setPreferredSize(new java.awt.Dimension(50, 40));
         m_jDelTicket.setRequestFocusEnabled(false);
         m_jDelTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
     uniCenta oPOS - Touch friendly Point Of Sale
-    Copyright (c) 2009-2012 uniCenta.
+    Copyright (c) 2009-2013 uniCenta.
     http://sourceforge.net/projects/unicentaopos
 
     This file is part of uniCenta oPOS.
@@ -48,6 +48,7 @@
     <class name="refund.cheque"/>
     <class name="refund.paper"/>
     <class name="refund.magcard"/>
+    <class name="sales.PrintKitchen"/>
     <class name="com.openbravo.pos.forms.MenuCustomers"/>
     <class name="com.openbravo.pos.customers.CustomersPanel"/>
     <class name="/com/openbravo/reports/customers_list.bs"/>
@@ -104,13 +105,15 @@
     <class name="com.openbravo.pos.panels.JPanelPrinter"/>
     <class name="com.openbravo.pos.config.JPanelConfiguration"/>
 
-<!-- Section for Additional button scripts -->    
-<!--    <class name="button.refundit"/> -->
-    <class name="button.sendorder"/>
+<!-- Standard button scripts -->
+    <class name="button.totaldiscount"/>
     <class name="button.print"/>
     <class name="button.opendrawer"/>
-    <class name="button.linediscount"/>
-<!--    <class name="button.totaldiscount"/> -->
+    
+<!-- Additional button scripts -->
+<!--    <class name="button.linediscount"/> -->
+<!--    <class name="button.sendorder"/> -->
+<!--    <class name="button.refundit"/> -->
 <!--    <class name="button.scharge"/> -->
 
 <!-- These reports will report an error with Derby DB's due to SQL limitations 

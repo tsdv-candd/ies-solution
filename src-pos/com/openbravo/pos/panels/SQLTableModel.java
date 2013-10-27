@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -106,7 +106,7 @@ public class SQLTableModel extends AbstractTableModel {
     }     
     public String getColumnString(int row) {
         Object [] rowvalues = (Object[]) m_aRows.get(row);
-// JG 16 May 2012 use StringBuilder instead of StringBuilder
+// JG 16 May 2013 use StringBuilder instead of StringBuilder
         StringBuilder s = new StringBuilder();
         for(int i = 0; i < rowvalues.length; i++) {
             if (i > 0) {

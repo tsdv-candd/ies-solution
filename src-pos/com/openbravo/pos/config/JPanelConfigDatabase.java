@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -19,12 +19,25 @@
 
 package com.openbravo.pos.config;
 
+import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.MessageInf;
+import com.openbravo.data.loader.Session;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppConfig;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.DriverWrapper;
 import com.openbravo.pos.util.AltEncrypter;
 import com.openbravo.pos.util.DirectoryEvent;
 import java.awt.Component;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,9 +57,18 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         jtxtDbURL.getDocument().addDocumentListener(dirty);
         jtxtDbPassword.getDocument().addDocumentListener(dirty);
         jtxtDbUser.getDocument().addDocumentListener(dirty);
-         
         jbtnDbDriverLib.addActionListener(new DirectoryEvent(jtxtDbDriverLib));
+        jcboDBDriver.addActionListener(dirty);
+
+//  JG 31 Aug 13 - Added DB Defaults
+        jcboDBDriver.addItem("Apache Derby Embedded");
+        jcboDBDriver.addItem("Apache Derby Client/Server");
+        jcboDBDriver.addItem("HSQLDB");
+        jcboDBDriver.addItem("MySQL");
+        jcboDBDriver.addItem("Oracle 11g Express");
+        jcboDBDriver.addItem("PostgreSQL");                
     }
+    
     
     @Override
     public boolean hasChanged() {
@@ -99,7 +121,8 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jcboDBDriver = new javax.swing.JComboBox();
         jLabel18 = new javax.swing.JLabel();
         jtxtDbDriverLib = new javax.swing.JTextField();
         jbtnDbDriverLib = new javax.swing.JButton();
@@ -111,122 +134,194 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         jtxtDbUser = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jtxtDbPassword = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jButtonTest = new javax.swing.JButton();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("Label.Database"))); // NOI18N
-        jPanel1.setFocusable(false);
-        jPanel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(680, 190));
+        setLayout(null);
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel6.setText("Database");
+        add(jLabel6);
+        jLabel6.setBounds(20, 15, 80, 20);
+
+        jcboDBDriver.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jcboDBDriver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcboDBDriverActionPerformed(evt);
+            }
+        });
+        add(jcboDBDriver);
+        jcboDBDriver.setBounds(100, 10, 330, 30);
+
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel18.setText(AppLocal.getIntString("label.dbdriverlib")); // NOI18N
+        add(jLabel18);
+        jLabel18.setBounds(20, 50, 80, 25);
 
-        jtxtDbDriverLib.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtDbDriverLib.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jtxtDbDriverLib.setPreferredSize(new java.awt.Dimension(6, 30));
+        add(jtxtDbDriverLib);
+        jtxtDbDriverLib.setBounds(100, 50, 480, 25);
 
         jbtnDbDriverLib.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileopen.png"))); // NOI18N
         jbtnDbDriverLib.setMaximumSize(new java.awt.Dimension(64, 32));
         jbtnDbDriverLib.setMinimumSize(new java.awt.Dimension(64, 32));
-        jbtnDbDriverLib.setPreferredSize(new java.awt.Dimension(64, 32));
+        jbtnDbDriverLib.setPreferredSize(new java.awt.Dimension(64, 40));
+        add(jbtnDbDriverLib);
+        jbtnDbDriverLib.setBounds(590, 42, 64, 40);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("Label.DbDriver")); // NOI18N
+        add(jLabel1);
+        jLabel1.setBounds(20, 80, 80, 25);
 
-        jtxtDbDriver.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtDbDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jtxtDbDriver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtDbDriverActionPerformed(evt);
+            }
+        });
+        add(jtxtDbDriver);
+        jtxtDbDriver.setBounds(100, 80, 310, 25);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("Label.DbURL")); // NOI18N
+        add(jLabel2);
+        jLabel2.setBounds(20, 110, 80, 25);
 
-        jtxtDbURL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtDbURL.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        add(jtxtDbURL);
+        jtxtDbURL.setBounds(100, 110, 480, 25);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("Label.DbUser")); // NOI18N
+        add(jLabel3);
+        jLabel3.setBounds(20, 140, 80, 25);
 
-        jtxtDbUser.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtDbUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        add(jtxtDbUser);
+        jtxtDbUser.setBounds(100, 140, 180, 25);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText(AppLocal.getIntString("Label.DbPassword")); // NOI18N
+        add(jLabel4);
+        jLabel4.setBounds(20, 170, 80, 25);
 
-        jtxtDbPassword.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtDbPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        add(jtxtDbPassword);
+        jtxtDbPassword.setBounds(100, 170, 180, 25);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jtxtDbUser, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jtxtDbPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jtxtDbURL, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxtDbDriver, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxtDbDriverLib, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbtnDbDriverLib, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(76, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jtxtDbDriverLib, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jbtnDbDriverLib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtDbDriver, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtDbURL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtDbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtDbPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/Window.Logo.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
+        jLabel5.setText(bundle.getString("message.DBDefault")); // NOI18N
+        jLabel5.setToolTipText("");
+        add(jLabel5);
+        jLabel5.setBounds(10, 240, 650, 180);
+        add(jSeparator1);
+        jSeparator1.setBounds(10, 222, 650, 10);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jButtonTest.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButtonTest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/database.png"))); // NOI18N
+        jButtonTest.setText(bundle.getString("Button.Test")); // NOI18N
+        jButtonTest.setActionCommand(bundle.getString("Button.Test")); // NOI18N
+        jButtonTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTestjButtonTestConnectionActionPerformed(evt);
+            }
+        });
+        add(jButtonTest);
+        jButtonTest.setBounds(300, 150, 100, 40);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtxtDbDriverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDbDriverActionPerformed
+
+    }//GEN-LAST:event_jtxtDbDriverActionPerformed
+
+    private void jcboDBDriverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcboDBDriverActionPerformed
+//  JG 31 Aug 13 - Added DB Defaults        
+        if ("Apache Derby Embedded".equals(jcboDBDriver.getSelectedItem())) {
+            jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/derby.jar");
+            jtxtDbDriver.setText("org.apache.derby.jdbc.EmbeddedDriver");
+            jtxtDbURL.setText("jdbc:derby:C:/Documents and Settings/yourUserName/unicentaopos-database;create=true");
+            
+        } else if ("Apache Derby Client/Server".equals(jcboDBDriver.getSelectedItem())) {
+            jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/derbyclient.jar");
+            jtxtDbDriver.setText("org.apache.derby.jdbc.ClientDriver");
+            jtxtDbURL.setText("jdbc:derby://localhost:1527/unicentaopos");
+            
+        } else if ("HSQLDB".equals(jcboDBDriver.getSelectedItem())) {
+            jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/hsqldb.jar");
+            jtxtDbDriver.setText("org.hsqldb.jdbcDriver");
+            jtxtDbURL.setText("jdbc:hsqldb:hsql://localhost");
+            
+        } else if ("MySQL".equals(jcboDBDriver.getSelectedItem())) {
+            jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/mysql-connector-java-5.1.26-bin.jar");
+            jtxtDbDriver.setText("com.mysql.jdbc.Driver");
+            jtxtDbURL.setText("jdbc:mysql://localhost:3306/unicentaopos");
+            
+        } else if ("Oracle 11g Express".equals(jcboDBDriver.getSelectedItem())) {
+            jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/hsqldb.jar");
+            jtxtDbDriver.setText("oracle.jdbc.driver.OracleDriver");
+            jtxtDbURL.setText("jdbc:oracle:thin://localhost:1521/unicentaopos");
+            
+        } else if ("PostgreSQL".equals(jcboDBDriver.getSelectedItem())) {
+            jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/Postgresql-9.0-801.jdbc4.jar");
+            jtxtDbDriver.setText("org.postgresql.Driver");
+            jtxtDbURL.setText("jdbc:postgresql://localhost:5432/unicentaopos");            
+        } else {
+            
+        }
+        
+    }//GEN-LAST:event_jcboDBDriverActionPerformed
+
+//  JG 3 Oct 13 - Test DB Connection
+    private void jButtonTestjButtonTestConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestjButtonTestConnectionActionPerformed
+        try {
+            String driverlib = jtxtDbDriverLib.getText();
+            String driver = jtxtDbDriver.getText();
+            String url = jtxtDbURL.getText();
+            String user = jtxtDbUser.getText();
+            String password = new String(jtxtDbPassword.getPassword());
+
+            ClassLoader cloader = new URLClassLoader(new URL[]{new File(driverlib).toURI().toURL()});
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(driver, true, cloader).newInstance()));
+
+            Session session =  new Session(url, user, password);
+            Connection connection = session.getConnection();
+            boolean isValid = (connection == null) ? false : connection.isValid(1000);
+
+            if (isValid) {
+                JOptionPane.showMessageDialog(this, AppLocal.getIntString("message.databasesuccess"), "Connection Test", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, "Connection Error"));
+            }
+        } catch (InstantiationException | IllegalAccessException | MalformedURLException | ClassNotFoundException e) {
+            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.databasedrivererror"), e));
+        } catch (SQLException e) {
+            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.databaseconnectionerror"), e));
+        } catch (Exception e) {
+            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, "Unknown exception", e));
+        }
+    }//GEN-LAST:event_jButtonTestjButtonTestConnectionActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonTest;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbtnDbDriverLib;
+    private javax.swing.JComboBox jcboDBDriver;
     private javax.swing.JTextField jtxtDbDriver;
     private javax.swing.JTextField jtxtDbDriverLib;
     private javax.swing.JPasswordField jtxtDbPassword;

@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -32,7 +32,7 @@ import java.sql.SQLException;
 public class Session {
     
     private String m_surl;
-    private String m_suser;
+    private String m_sappuser;
     private String m_spassword;
     
     private Connection m_c;
@@ -43,7 +43,7 @@ public class Session {
     /** Creates a new instance of Session */
     public Session(String url, String user, String password) throws SQLException {
         m_surl = url;
-        m_suser = user;
+        m_sappuser = user;
         m_spassword = password;
         
         m_c = null;
@@ -60,9 +60,9 @@ public class Session {
         close();
         
         // creamos una nueva conexion.
-        m_c = (m_suser == null && m_spassword == null)
+        m_c = (m_sappuser == null && m_spassword == null)
         ? DriverManager.getConnection(m_surl)
-        : DriverManager.getConnection(m_surl, m_suser, m_spassword);         
+        : DriverManager.getConnection(m_surl, m_sappuser, m_spassword);         
         m_c.setAutoCommit(true);
         m_bInTransaction = false;
     }     

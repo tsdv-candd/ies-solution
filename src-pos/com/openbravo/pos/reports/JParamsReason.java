@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -93,12 +93,12 @@ public class JParamsReason extends javax.swing.JPanel implements ReportEditorCre
         setPreferredSize(new java.awt.Dimension(400, 60));
         setLayout(null);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("label.stockreason")); // NOI18N
         add(jLabel2);
         jLabel2.setBounds(20, 20, 100, 25);
 
-        m_jreason.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jreason.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         add(m_jreason);
         m_jreason.setBounds(150, 20, 220, 25);
     }// </editor-fold>//GEN-END:initComponents

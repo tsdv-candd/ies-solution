@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -51,24 +51,29 @@ public abstract class JEditorAbstract extends javax.swing.JPanel implements Edit
     protected abstract void typeCharInternal(char c);    
     protected abstract void transCharInternal(char c);
     
+    @Override
     public void typeChar(char c) {
         typeCharInternal(c);
         reprintText();
         firePropertyChange("Edition", null, null);
     }
     
+    @Override
     public void transChar(char c) {
         transCharInternal(c);
         reprintText();
         firePropertyChange("Edition", null, null);
     }
     
+    @Override
     public void addEditorKeys(EditorKeys ed) {
         editorkeys = ed;
     }
+    @Override
     public void deactivate() {
         setActive(false);
     }
+    @Override
     public Component getComponent() {
         return this;
     }
@@ -104,6 +109,7 @@ public abstract class JEditorAbstract extends javax.swing.JPanel implements Edit
         }
     }
     
+    @Override
     public void setEnabled(boolean b) {
         
         if (editorkeys != null) {
@@ -133,7 +139,7 @@ public abstract class JEditorAbstract extends javax.swing.JPanel implements Edit
         panBackground.setLayout(new java.awt.BorderLayout());
 
         m_jText.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.background"));
-        m_jText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jText.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jText.setContentAreaFilled(false);
         m_jText.setFocusPainted(false);
         m_jText.setFocusable(false);

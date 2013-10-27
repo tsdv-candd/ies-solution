@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -25,6 +25,7 @@ import java.io.Serializable;
 /** @author adrianromero */
 
 // JG 20 Sep 12 Extended for Postal
+// JG 2 Sep 13 Extended for Phone + Email
 public class CustomerInfo implements Serializable {
     
     private static final long serialVersionUID = 9083257536541L;
@@ -33,6 +34,8 @@ public class CustomerInfo implements Serializable {
     protected String taxid;
     protected String name;
     protected String postal;
+    protected String phone;
+    protected String email;    
     
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfo(String id) {
@@ -41,6 +44,8 @@ public class CustomerInfo implements Serializable {
         this.taxid = null;
         this.name = null;
         this.postal = null;
+        this.phone = null;
+        this.email = null;
     }
     
     public String getId() {
@@ -77,7 +82,23 @@ public class CustomerInfo implements Serializable {
 
     public void setPostal(String postal) {
         this.postal = postal;
-    }    
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+    
+   public void setPhone(String phone) {
+        this.phone = phone;
+    }
+   
+   public String getEmail() {
+        return email;
+    }
+    
+   public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String printTaxid() {
         return StringUtils.encodeXML(taxid);
@@ -92,4 +113,3 @@ public class CustomerInfo implements Serializable {
         return getName();
     }    
 }
-

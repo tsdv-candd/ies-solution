@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -24,6 +24,8 @@ import com.openbravo.data.loader.LocalRes;
 import com.openbravo.data.loader.SerializableRead;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.CustomerInfoExt;
+import com.openbravo.pos.forms.AppConfig;
+import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.payment.PaymentInfoMagcard;
 import com.openbravo.pos.util.StringUtils;
@@ -49,6 +51,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private String m_sId;
     private int tickettype;
     private int m_iTicketId;
+    private int m_iPickupId;
     private java.util.Date m_dDate;
     private Properties attributes;
     private UserInfo m_User;
@@ -58,7 +61,9 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private List<PaymentInfo> payments;
     private List<TicketTaxInfo> taxes;
     private String m_sResponse;
-
+    private String loyaltyCardNumber;
+    
+    
     /** Creates new TicketModel */
     public TicketInfo() {
         m_sId = UUID.randomUUID().toString();
@@ -74,6 +79,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         payments = new ArrayList<>(); // JG June 2102 diamond inference
         taxes = null;
         m_sResponse = null;
+        
     }
 
     @Override
@@ -175,11 +181,26 @@ public class TicketInfo implements SerializableRead, Externalizable {
     // refreshLines();
     }
 
+    public void setPickupId(int iTicketId) {
+        m_iPickupId = iTicketId;
+    }   
+  
+    public int getPickupId() {
+        return m_iPickupId;
+    }
+    
     public String getName(Object info) {
 
         StringBuilder name = new StringBuilder();
 
         if (getCustomerId() != null) {
+// TO DO  Add Waiter to TicketsBagShared
+// JG 29 Aug 13 - Add User to SharedList (serialized_whilst testing)
+// For use with multi-user + user switching mainly in restaurant mode + tables
+//            name.append(m_User.toString());
+//            name.append(" - ");
+// ***********            
+            
             name.append(m_Customer.toString());
             name.append(" - ");
         }
@@ -196,7 +217,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         
         return name.toString();
     }
-
+    
     public String getName() {
         return getName(null);
     }
@@ -353,7 +374,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
             }
         }
         return sum;
-    }
+          }
 
     public List<TicketLineInfo> getLines() {
         return m_aLines;
@@ -424,9 +445,30 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public String printId() {
+// We need acces to the config file        
+      AppConfig m_config =  new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));        
+      m_config.load();
+      String receiptSize =(m_config.getProperty("till.receiptsize"));
+      String receiptPrefix =(m_config.getProperty("till.receiptprefix"));
+// we have finished with m_config so unload it      
+      m_config =null;
+      
+        
         if (m_iTicketId > 0) {
-            // valid ticket id
-            return Formats.INT.formatValue(new Integer(m_iTicketId));
+            String tmpTicketId=Integer.toString(m_iTicketId);
+            if (receiptSize == null || (Integer.parseInt(receiptSize) <= tmpTicketId.length())){
+                if (receiptPrefix != null){
+                    tmpTicketId=receiptPrefix+tmpTicketId;
+                } 
+                return tmpTicketId;
+            }            
+            while (tmpTicketId.length()<Integer.parseInt(receiptSize)){
+                tmpTicketId="0"+tmpTicketId;
+            }
+            if (receiptPrefix != null){
+                    tmpTicketId=receiptPrefix+tmpTicketId;
+            }             
+            return tmpTicketId;
         } else {
             return "";
         }
@@ -439,7 +481,20 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printUser() {
         return m_User == null ? "" : m_User.getName();
     }
-
+// Added JDL 28.05.13 for loyalty card functions
+    public void clearCardNumber(){
+        loyaltyCardNumber=null;
+    }
+    
+    public void setLoyaltyCardNumber(String cardNumber){
+        loyaltyCardNumber=cardNumber;
+    }
+    
+    public String getLoyaltyCardNumber(){
+        return (loyaltyCardNumber);
+    }
+// Loyalty card functions added    
+         
     public String printCustomer() {
         return m_Customer == null ? "" : m_Customer.getName();
     }
@@ -463,4 +518,9 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printTotalPaid() {
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid()));
     }
+    
+    public String VoucherReturned(){
+        return Formats.CURRENCY.formatValue(new Double(getTotalPaid())- new Double(getTotal()));
+    }
+
 }

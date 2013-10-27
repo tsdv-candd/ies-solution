@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -95,21 +95,21 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
         setPreferredSize(new java.awt.Dimension(0, 100));
         setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("Label.StartDate")); // NOI18N
         add(jLabel1);
         jLabel1.setBounds(20, 20, 80, 25);
 
-        jTxtStartDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTxtStartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         add(jTxtStartDate);
         jTxtStartDate.setBounds(100, 20, 130, 25);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
         add(jLabel2);
         jLabel2.setBounds(300, 20, 80, 25);
 
-        jTxtEndDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTxtEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         add(jTxtEndDate);
         jTxtEndDate.setBounds(380, 20, 140, 25);
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
     uniCenta oPOS - Touch friendly Point Of Sale
-    Copyright (c) 2009-2012 uniCenta.
+    Copyright (c) 2009-2013 uniCenta.
     http://sourceforge.net/projects/unicentaopos
 
     This file is part of uniCenta oPOS.
@@ -33,19 +33,20 @@
                 
 	<!-- SET Line or Total Discount (Default=TotalDiscount= ENABLED) -->
 	<button key="button.totaldiscount" image="img.discount" code="script.totaldiscount"/>
-	<!-- <button key="button.linediscount" image="img.discount" code="script.linediscount"/> -->
+	<!-- <button key="button.linediscount" image="img.discount" code="script.linediscount"/>  -->
 
-	<!-- SET Server's name (Default=DISABLED) -->
-	<!-- <button key="button.setperson" image="img.user" code="script.SetPerson"/> -->
+	<!-- SET Waiter's name (Default=DISABLED) -->
+	<!-- <button key="button.setperson" image="img.user" code="script.SetPerson"/>  -->
 
-	<!-- SET Kitchen Print (Default=DISABLED) -->
-	<!-- <button key="button.sendorder" image="img.kit_print" code="script.SendOrder"/> -->
+	<!-- SET Remote Printer (Default=DISABLED) Not required for John L changes--> 
+	<!-- <button key="button.sendorder" image="img.kit_print" code="script.SendOrder"/>  -->
 
 	<!-- SET Ticket Print Preview (Default=ENABLED) -->
     	<button key="button.print" image="img.ticket_print" template="Printer.TicketPreview"/>
 
 	<!-- SET Open Cashdrawer (Default=ENABLED) -->
 	<button key="button.opendrawer" image="img.cashdrawer" template="Printer.OpenDrawer"/>
+        
 <!-- END Sales Ticket Button Bar - Show icons -->
 
 <!-- SET Ticket Button Bar - Text Only ****************************************************************** -->

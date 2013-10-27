@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -70,19 +70,19 @@ public class PaymentsModel {
         
         p.m_iPayments = new Integer(0);
         p.m_dPaymentsTotal = new Double(0.0);
-// JG 16 May 2012 use diamond inference
+// JG 16 May 2013 use diamond inference
         p.m_lpayments = new ArrayList<>();
 
 // JG 9 Nov 12
         p.m_iCategorySalesRows = new Integer(0);
         p.m_dCategorySalesTotalUnits = new Double(0.0);
         p.m_dCategorySalesTotal = new Double(0.0);
-        p.m_lcategorysales = new ArrayList<CategorySalesLine>();        
+        p.m_lcategorysales = new ArrayList<>();        
 // end
         p.m_iSales = null;
         p.m_dSalesBase = null;
         p.m_dSalesTaxes = null;
-// JG 16 May 2012 use diamond inference
+// JG 16 May 2013 use diamond inference
         p.m_lsales = new ArrayList<>();
 
       
@@ -211,7 +211,7 @@ public class PaymentsModel {
                 , new SerializerReadClass(PaymentsModel.SalesLine.class))
                 .list(app.getActiveCashIndex());
         if (asales == null) {
-// JG 16 May 2012 use diamond inference
+// JG 16 May 2013 use diamond inference
             p.m_lsales = new ArrayList<>();
         } else {
             p.m_lsales = asales;
@@ -353,6 +353,7 @@ public class PaymentsModel {
         private Double m_CategoryUnits;
         private Double m_CategorySum;
 
+        @Override
         public void readValues(DataRead dr) throws BasicException {
             m_CategoryName = dr.getString(1);
             m_CategoryUnits = dr.getDouble(2);

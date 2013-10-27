@@ -28,6 +28,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.Icon;
 import javax.swing.JFrame;
 
 /**
@@ -60,12 +61,13 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         this.applyComponentOrientation(o);
         
         getRootPane().setDefaultButton(m_jButtonOK); 
+   
     }
     /** Creates new form JPaymentSelect */
     protected JPaymentSelect(java.awt.Dialog parent, boolean modal, ComponentOrientation o) {
         super(parent, modal);
-        initComponents();       
-        
+        initComponents();    
+
         this.applyComponentOrientation(o);        
     }    
     
@@ -95,8 +97,10 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_dTotal = total;
         
         this.customerext = customerext;        
-
+        
+        setPrintSelected(!Boolean.valueOf(app.getProperties().getProperty("till.receiptprintoff")).booleanValue());
         m_jButtonPrint.setSelected(printselected);
+
         m_jTotalEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal)));
         
         addTabs();
@@ -353,20 +357,20 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jTabPayment = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        m_jButtonPrint = new javax.swing.JToggleButton();
+        m_jButtonCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         m_jButtonOK = new javax.swing.JButton();
-        m_jButtonCancel = new javax.swing.JButton();
+        m_jButtonPrint = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(AppLocal.getIntString("payment.title")); // NOI18N
         setResizable(false);
 
-        m_jLblTotalEuros1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jLblTotalEuros1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
         jPanel4.add(m_jLblTotalEuros1);
 
-        m_jTotalEuros.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        m_jTotalEuros.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jTotalEuros.setOpaque(true);
@@ -376,11 +380,11 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
 
-        m_jLblRemainingEuros.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jLblRemainingEuros.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblRemainingEuros.setText(AppLocal.getIntString("label.remainingcash")); // NOI18N
         jPanel6.add(m_jLblRemainingEuros);
 
-        m_jRemaininglEuros.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        m_jRemaininglEuros.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         m_jRemaininglEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jRemaininglEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jRemaininglEuros.setOpaque(true);
@@ -427,29 +431,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/printer24.png"))); // NOI18N
-        m_jButtonPrint.setSelected(true);
-        m_jButtonPrint.setToolTipText("Print Receipt");
-        m_jButtonPrint.setFocusPainted(false);
-        m_jButtonPrint.setFocusable(false);
-        m_jButtonPrint.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        m_jButtonPrint.setRequestFocusEnabled(false);
-        jPanel2.add(m_jButtonPrint);
-        jPanel2.add(jPanel1);
-
-        m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ok.png"))); // NOI18N
-        m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
-        m_jButtonOK.setFocusPainted(false);
-        m_jButtonOK.setFocusable(false);
-        m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        m_jButtonOK.setRequestFocusEnabled(false);
-        m_jButtonOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jButtonOKActionPerformed(evt);
-            }
-        });
-        jPanel2.add(m_jButtonOK);
-
+        m_jButtonCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/cancel.png"))); // NOI18N
         m_jButtonCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         m_jButtonCancel.setFocusPainted(false);
@@ -461,8 +443,40 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
             }
         });
         jPanel2.add(m_jButtonCancel);
+        jPanel2.add(jPanel1);
+
+        m_jButtonOK.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ok.png"))); // NOI18N
+        m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
+        m_jButtonOK.setFocusPainted(false);
+        m_jButtonOK.setFocusable(false);
+        m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonOK.setMaximumSize(new java.awt.Dimension(100, 44));
+        m_jButtonOK.setPreferredSize(new java.awt.Dimension(100, 55));
+        m_jButtonOK.setRequestFocusEnabled(false);
+        m_jButtonOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jButtonOKActionPerformed(evt);
+            }
+        });
+        jPanel2.add(m_jButtonOK);
 
         jPanel5.add(jPanel2, java.awt.BorderLayout.LINE_END);
+
+        m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/printer24_off.png"))); // NOI18N
+        m_jButtonPrint.setSelected(true);
+        m_jButtonPrint.setToolTipText("Print Receipt");
+        m_jButtonPrint.setFocusPainted(false);
+        m_jButtonPrint.setFocusable(false);
+        m_jButtonPrint.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonPrint.setRequestFocusEnabled(false);
+        m_jButtonPrint.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/printer24.png"))); // NOI18N
+        m_jButtonPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jButtonPrintActionPerformed(evt);
+            }
+        });
+        jPanel5.add(m_jButtonPrint, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
@@ -511,6 +525,10 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         dispose();
         
     }//GEN-LAST:event_m_jButtonCancelActionPerformed
+
+    private void m_jButtonPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jButtonPrintActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m_jButtonPrintActionPerformed
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

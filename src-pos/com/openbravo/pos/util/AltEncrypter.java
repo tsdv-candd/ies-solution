@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -43,19 +43,21 @@ public class AltEncrypter {
             
             cipherDecrypt = Cipher.getInstance("DESEDE/ECB/PKCS5Padding");
             cipherDecrypt.init(Cipher.DECRYPT_MODE, key);
-        } catch (UnsupportedEncodingException e) {
-        } catch (NoSuchPaddingException e) {
-        } catch (NoSuchAlgorithmException e) {
-        } catch (InvalidKeyException e) {
+//        } catch (UnsupportedEncodingException e) {  // JG 1 Oct 13 - use multicatch
+//        } catch (NoSuchPaddingException e) {
+//        } catch (NoSuchAlgorithmException e) {
+//        } catch (InvalidKeyException e) {
+        } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
         }
     }
     
     public String encrypt(String str) {
         try {
             return StringUtils.byte2hex(cipherEncrypt.doFinal(str.getBytes("UTF8")));
-        } catch (UnsupportedEncodingException e) {
-        } catch (BadPaddingException e) {
-        } catch (IllegalBlockSizeException e) {
+        } catch (UnsupportedEncodingException | BadPaddingException | IllegalBlockSizeException e) {
+//        } catch (UnsupportedEncodingException e) { // JG 1 Oct 13 - use multicatch
+//        } catch (BadPaddingException e) {
+//        } catch (IllegalBlockSizeException e) {
         }
         return null;
     }
@@ -63,9 +65,10 @@ public class AltEncrypter {
     public String decrypt(String str) {
         try {
             return new String(cipherDecrypt.doFinal(StringUtils.hex2byte(str)), "UTF8");
-        } catch (UnsupportedEncodingException e) {
-        } catch (BadPaddingException e) {
-        } catch (IllegalBlockSizeException e) {
+        } catch (UnsupportedEncodingException | BadPaddingException | IllegalBlockSizeException e) {
+//        } catch (UnsupportedEncodingException e) { // JG 1 Oct 13 - use multicatch
+//        } catch (BadPaddingException e) {
+//        } catch (IllegalBlockSizeException e) {            
         }
         return null;
     }    

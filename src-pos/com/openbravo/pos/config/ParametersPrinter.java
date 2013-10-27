@@ -83,14 +83,14 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
         jPrinters = new javax.swing.JComboBox();
         jReceiptPrinter = new javax.swing.JCheckBox();
 
-        jPrinters.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPrinters.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPrinters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPrintersActionPerformed(evt);
             }
         });
 
-        jReceiptPrinter.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jReceiptPrinter.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jReceiptPrinter.setSelected(true);
         jReceiptPrinter.setText(AppLocal.getIntString("label.receiptprinter")); // NOI18N
 
@@ -100,23 +100,24 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPrinters, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPrinters, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jReceiptPrinter)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPrinters, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jReceiptPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPrintersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPrintersActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jPrintersActionPerformed
 
 

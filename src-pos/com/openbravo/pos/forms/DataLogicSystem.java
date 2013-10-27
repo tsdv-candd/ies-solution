@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -56,6 +56,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     protected SentenceFind m_sequencecash;
     protected SentenceFind m_activecash;
     protected SentenceExec m_insertcash;
+    protected SentenceExec m_draweropened;
     
     private Map<String, byte[]> resourcescache;
     
@@ -86,7 +87,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         };
 
         m_peoplevisible = new StaticSentence(s
-            , "SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE FROM PEOPLE WHERE VISIBLE = " + s.DB.TRUE()
+            , "SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE FROM PEOPLE WHERE VISIBLE = " + s.DB.TRUE() + " ORDER BY NAME"
             , null
             , peopleread);
 
@@ -129,7 +130,12 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
                 , "INSERT INTO CLOSEDCASH(MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND) " +
                   "VALUES (?, ?, ?, ?, ?)"
                 , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
-            
+
+        m_draweropened = new StaticSentence(s
+                , "INSERT INTO DRAWEROPENED (ACDATE, NAME, TICKETID) " +
+                  "VALUES (?, ?, ?)"
+                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.STRING}));
+        
         m_locationfind = new StaticSentence(s
                 , "SELECT NAME FROM LOCATIONS WHERE ID = ?"
                 , SerializerWriteString.INSTANCE
@@ -146,6 +152,13 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public final String findVersion() throws BasicException {
         return (String) m_version.find(AppLocal.APP_ID);
     }
+    
+    public final String getUser() throws BasicException {
+        return ("");
+        
+    }
+    
+    
     
     public final void execDummy() throws BasicException {
         m_dummy.exec();
@@ -270,6 +283,11 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public final void execInsertCash(Object[] cash) throws BasicException {
         m_insertcash.exec(cash);
     } 
+   
+    public final void execDrawerOpened(Object[] drawer) throws BasicException {
+        m_draweropened.exec(drawer);
+    } 
+    
     
     public final String findLocationName(String iLocation) throws BasicException {
         return (String) m_locationfind.find(iLocation);

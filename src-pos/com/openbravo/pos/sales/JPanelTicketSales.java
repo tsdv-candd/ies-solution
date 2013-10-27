@@ -1,5 +1,5 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
 //    http://www.unicenta.net/unicentaopos
 //
 //    This file is part of uniCenta oPOS
@@ -54,8 +54,10 @@ public class JPanelTicketSales extends JPanelTicket {
         m_cat = new JCatalog(dlSales,
                 "true".equals(m_jbtnconfig.getProperty("pricevisible")),
                 "true".equals(m_jbtnconfig.getProperty("taxesincluded")),
-                Integer.parseInt(m_jbtnconfig.getProperty("img-width", "64")),
+                Integer.parseInt(m_jbtnconfig.getProperty("img-width", "64")),                
                 Integer.parseInt(m_jbtnconfig.getProperty("img-height", "54")));
+        //   Integer.parseInt(m_jbtnconfig.getProperty("img-width", "32")),
+               //   Integer.parseInt(m_jbtnconfig.getProperty("img-height", "32")));
         m_cat.addActionListener(new CatalogListener());
         m_cat.getComponent().setPreferredSize(new Dimension(
                 0,
