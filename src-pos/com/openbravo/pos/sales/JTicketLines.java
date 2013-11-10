@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -25,6 +25,7 @@ import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -56,6 +57,7 @@ public class JTicketLines extends javax.swing.JPanel {
     private static SAXParser m_sp = null;
     
     private TicketTableModel m_jTableModel;
+    private Boolean sendStatus;
     
     /** Creates new form JLinesTicket */
     public JTicketLines(String ticketline) {
@@ -97,7 +99,10 @@ public class JTicketLines extends javax.swing.JPanel {
        
         m_jTicketTable.getTableHeader().setReorderingAllowed(false);         
         m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(acolumns));
-        m_jTicketTable.setRowHeight(40);  //JG 20 May 2013 Set line height to 40
+ //       m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRendererSent(acolumns));        
+        
+        
+        m_jTicketTable.setRowHeight(40);
         m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
         
         // reseteo la tabla...
@@ -123,6 +128,7 @@ public class JTicketLines extends javax.swing.JPanel {
     public void addTicketLine(TicketLineInfo oLine) {
 
         m_jTableModel.addRow(oLine);
+        System.out.println(oLine.getProperty("sendstatus"));
         
         
         // Selecciono la que acabamos de anadir.            
@@ -222,6 +228,28 @@ public class JTicketLines extends javax.swing.JPanel {
             return aux;
         }
     }
+    
+    private static class TicketCellRendererSent extends DefaultTableCellRenderer {
+        
+        private ColumnTicket[] m_acolumns;        
+        
+        public TicketCellRendererSent(ColumnTicket[] acolumns) {
+            m_acolumns = acolumns;
+        }
+        
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+            
+           JLabel aux = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+           
+            aux.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+            aux.setHorizontalAlignment(m_acolumns[column].align);
+            Font fName =aux.getFont();
+            aux.setFont(new Font(fName.getName(),Font.PLAIN,12));
+            aux.setBackground(Color.yellow);
+            return aux;
+        }
+    }    
     
     private static class TicketTableModel extends AbstractTableModel {
         
@@ -345,6 +373,11 @@ public class JTicketLines extends javax.swing.JPanel {
         public void endElement(String uri, String localName, String qName) throws SAXException {}
         @Override
         public void characters(char[] ch, int start, int length) throws SAXException {}
+    }
+    
+    
+    public void setSendStatus(Boolean state){
+        sendStatus = state;
     }
     
     private static class ColumnTicket {

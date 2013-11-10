@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -19,29 +19,38 @@
 
 package com.openbravo.pos.sales;
 
-import com.openbravo.pos.ticket.TicketInfo;
-import com.openbravo.pos.ticket.TicketLineInfo;
-import java.awt.*;
-import java.util.ArrayList;
-import javax.swing.*;
-import com.openbravo.data.gui.MessageInf;
-import com.openbravo.pos.forms.AppView; 
-import com.openbravo.pos.forms.AppLocal; 
-import com.openbravo.pos.printer.*;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.ListKeyed;
+import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.customers.DataLogicCustomers;
+import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.forms.DataLogicSystem;
+import com.openbravo.pos.panels.JTicketsFinder;
+import com.openbravo.pos.printer.*;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
-import com.openbravo.pos.forms.DataLogicSystem;
-import com.openbravo.pos.panels.JTicketsFinder;
 import com.openbravo.pos.ticket.FindTicketsInfo;
+import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.ticket.TicketTaxInfo;
+import java.awt.*;
+import java.util.ArrayList;
+import javax.swing.*;
 
 public class JTicketsBagTicket extends JTicketsBag {
     
     private DataLogicSystem m_dlSystem = null;
     protected DataLogicCustomers dlCustomers = null;
+
+    private DataLogicSales m_dlSales; 
+    private TaxesLogic taxeslogic;
+    private ListKeyed taxcollection;
+
+
 
     private DeviceTicket m_TP;    
     private TicketParser m_TTP;    
@@ -60,6 +69,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         super(app, panelticket);
         m_panelticketedit = panelticket; 
         m_dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
+        m_dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
         dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
         
         // Inicializo la impresora...
@@ -77,8 +87,14 @@ public class JTicketsBagTicket extends JTicketsBag {
         
         // Este deviceticket solo tiene una impresora, la de pantalla
         m_jPanelTicket.add(m_TP.getDevicePrinter("1").getPrinterComponent(), BorderLayout.CENTER);
+        
+        try {
+            taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
+        } catch (BasicException ex) {
+    }
     }
     
+    @Override
     public void activate() {
         
         // precondicion es que no tenemos ticket activado ni ticket en el panel
@@ -102,6 +118,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         // postcondicion es que tenemos ticket activado aqui y ticket en el panel
     }
     
+    @Override
     public boolean deactivate() {
         
         // precondicion es que tenemos ticket activado aqui y ticket en el panel        
@@ -111,6 +128,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         // postcondicion es que no tenemos ticket activado ni ticket en el panel
     }
     
+    @Override
     public void deleteTicket() {
         
         if (m_ticketCopy != null) {           
@@ -141,10 +159,12 @@ public class JTicketsBagTicket extends JTicketsBag {
         m_panelticketedit.setActiveTicket(null, null); 
     }
     
+    @Override
     protected JComponent getBagComponent() {
         return m_TicketsBagTicketBag;
     }
     
+    @Override
     protected JComponent getNullComponent() {
         return this;
     }
@@ -171,6 +191,12 @@ public class JTicketsBagTicket extends JTicketsBag {
             } else {
                 m_ticket = ticket;
                 m_ticketCopy = null; // se asigna al pulsar el boton de editar o devolver
+                
+                try {
+                    taxeslogic.calculateTaxes(m_ticket);
+                    TicketTaxInfo[] taxlist = m_ticket.getTaxLines();
+                  //  taxcollection = new ListKeyed<TaxInfo>(taxlist);
+                } catch (TaxesException ex) {}
                 printTicket();
             }
             
@@ -209,17 +235,10 @@ public class JTicketsBagTicket extends JTicketsBag {
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
                 script.put("ticket", m_ticket);
-                script.put("payments",m_ticket.getPayments());
-                //System.out.println("payments",m_ticket.getPayments());
-                
-                
-                
+                script.put("taxes", m_ticket.getTaxLines());                
                 m_TTP.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
-            } catch (ScriptException e) {
+            } catch (    ScriptException | TicketPrinterException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), e);
-                msg.show(this);
-            } catch (TicketPrinterException eTP) {
-                MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), eTP);
                 msg.show(this);
             }
         }
@@ -423,6 +442,8 @@ public class JTicketsBagTicket extends JTicketsBag {
         m_ticketCopy = m_ticket;        
         m_TicketsBagTicketBag.showEdit();
         m_panelticketedit.showCatalog();
+// Indicate that this a ticket in edit mode      
+        m_ticketCopy.setOldTicket(true); 
         m_panelticketedit.setActiveTicket(m_ticket.copyTicket(), null);  
         
     }//GEN-LAST:event_m_jEditActionPerformed
@@ -433,6 +454,7 @@ public class JTicketsBagTicket extends JTicketsBag {
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
                 script.put("ticket", m_ticket);
+                script.put("taxes", m_ticket.getTaxLines());
                 m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
             } catch (ScriptException e) {
                 JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotprint"), e));
@@ -460,6 +482,8 @@ public class JTicketsBagTicket extends JTicketsBag {
         refundticket.setTicketType(TicketInfo.RECEIPT_REFUND);
         refundticket.setCustomer(m_ticket.getCustomer());
         refundticket.setPayments(m_ticket.getPayments());    
+// Indicate that this a ticket in edit mode      
+        refundticket.setOldTicket(true);         
         m_panelticketedit.setActiveTicket(refundticket, null);          
     }//GEN-LAST:event_m_jRefundActionPerformed
 

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -40,6 +40,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     protected String m_sInitScript;
     private SentenceFind m_version;       
     private SentenceExec m_dummy;
+    private String m_dbVersion;
     
     protected SentenceList m_peoplevisible;  
     protected SentenceFind m_peoplebycard;  
@@ -68,6 +69,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public void init(Session s){
 
         m_sInitScript = "/com/openbravo/pos/scripts/" + s.DB.getName();
+        m_dbVersion = s.DB.getName();
 
         m_version = new PreparedSentence(s, "SELECT VERSION FROM APPLICATIONS WHERE ID = ?", SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE);
         m_dummy = new StaticSentence(s, "SELECT * FROM PEOPLE WHERE 1 = 0");
@@ -123,18 +125,28 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
                 SerializerWriteString.INSTANCE,
                 SerializerReadInteger.INSTANCE);
         m_activecash = new StaticSentence(s
-            , "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE MONEY = ?"
+            , "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND, NOSALES FROM CLOSEDCASH WHERE MONEY = ?"
             , SerializerWriteString.INSTANCE
-            , new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));            
+            , new SerializerReadBasic(new Datas[] {
+                Datas.STRING, 
+                Datas.INT, 
+                Datas.TIMESTAMP, 
+                Datas.TIMESTAMP,
+                Datas.INT}));            
         m_insertcash = new StaticSentence(s
                 , "INSERT INTO CLOSEDCASH(MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND) " +
                   "VALUES (?, ?, ?, ?, ?)"
-                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
+                , new SerializerWriteBasic(new Datas[] {
+                    Datas.STRING, 
+                    Datas.STRING, 
+                    Datas.INT, 
+                    Datas.TIMESTAMP, 
+                    Datas.TIMESTAMP}));
 
         m_draweropened = new StaticSentence(s
-                , "INSERT INTO DRAWEROPENED (ACDATE, NAME, TICKETID) " +
-                  "VALUES (?, ?, ?)"
-                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.STRING}));
+                , "INSERT INTO DRAWEROPENED ( NAME, TICKETID) " +
+                  "VALUES (?, ?)"
+                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING}));       
         
         m_locationfind = new StaticSentence(s
                 , "SELECT NAME FROM LOCATIONS WHERE ID = ?"
@@ -148,6 +160,11 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public String getInitScript() {
         return m_sInitScript;
     }
+    
+    public String getDBVersion(){
+        return m_dbVersion;        
+    }
+    
     
     public final String findVersion() throws BasicException {
         return (String) m_version.find(AppLocal.APP_ID);

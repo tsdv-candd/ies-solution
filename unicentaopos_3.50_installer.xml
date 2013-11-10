@@ -6,7 +6,7 @@
     <licenseFile>F:/Development/uniCenta_oPOS/Source/licensing/uniCenta oPOS Notice.txt</licenseFile>
     <leftImage>F:/Development/uniCenta_oPOS/Source/src-beans/com/openbravo/images/v_logo.png</leftImage>
     <logoImage>F:/Development/uniCenta_oPOS/Source/src-beans/com/openbravo/images/unicentaopos.png</logoImage>
-    <splashImage>F:\Development\uniCenta_oPOS\Source\unicenta_splash.png</splashImage>
+    <splashImage>F:/Development/uniCenta_oPOS/Source/unicenta_splash.png</splashImage>
     <allowLanguageSelection>1</allowLanguageSelection>
     <componentList>
         <component>

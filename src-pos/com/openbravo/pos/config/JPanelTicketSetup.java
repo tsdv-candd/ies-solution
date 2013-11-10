@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -21,8 +21,11 @@ package com.openbravo.pos.config;
 
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppConfig;
-import java.awt.Component;
+import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.util.AltEncrypter;
+import com.openbravo.pos.util.DirectoryEvent;
 import javax.swing.SpinnerNumberModel;
+import java.awt.Component;
 
 
 public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig {

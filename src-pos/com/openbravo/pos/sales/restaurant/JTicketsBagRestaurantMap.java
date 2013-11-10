@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -34,6 +34,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 
 public class JTicketsBagRestaurantMap extends JTicketsBag {
 
@@ -41,9 +42,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private static class WaiterCurrent {
+    private static class ServerCurrent {
 
-        public WaiterCurrent() {
+        public ServerCurrent() {
         }
     }
 
@@ -58,7 +59,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
     
     private Place m_PlaceCurrent;
 
-    private WaiterCurrent m_WaiterCurrent;
+// TODO - Add Server JG 03.07.2011
+    private ServerCurrent m_ServerCurrent;
     
     // State vars
     private Place m_PlaceClipboard;  
@@ -355,19 +357,19 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
         m_panelticket.setActiveTicket(null, null); 
     }
 
-// TODO - JG Revision required in line with multi-user etc
-        public void changeWaiter() {
+// Added JG 03.07.2011 - TODO - Change Server Dialog here
+        public void changeServer() {
 
-        if (m_WaiterCurrent != null) {
+        if (m_ServerCurrent != null) {
 
 //          Show list of Users
 //          Allow Users - CurrentUsers select
 //          Compare Users
-//          If newWaiter equal.currentUser
+//          If newServer equal.currentUser
 //              Msg NoChange
 //          else
-//              m_WaiterCurrent.setPeople(newWaiter);
-//              Msg Changed to NewWaiter
+//              m_ServerCurrent.setPeople(newServer);
+//              Msg Changed to NewServer
         }
     }
     
@@ -574,6 +576,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
                         
                         setActivePlace(m_place, ticket);                        
                     } else {
+                        // TODO: msg: The table is now full
                         new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.tablefull")).show(JTicketsBagRestaurantMap.this);       
                         m_place.setPeople(true);                      
                         m_place.getButton().setEnabled(false);

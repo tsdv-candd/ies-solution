@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -83,17 +83,15 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
         m_dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
         m_TP = new DeviceTicket();
         m_TTP2 = new TicketParser(m_App.getDeviceTicket(), m_dlSystem);     
-       // j_btnKitchenPrt.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.PrintKitchen"));
-        j_btnKitchenPrt.setVisible(false);
+        m_KitchenPrint.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.PrintKitchen"));
+        m_KitchenPrint.setVisible(false);
         
     }
-
-
 
     public void activate() {
         
         // Authorization
-        m_jDelTicket.setEnabled(m_App.getAppUserView().getUser().hasPermission("com.openbravo.pos.sales.JPanelTicketEdits"));
+        m_DelTicket.setEnabled(m_App.getAppUserView().getUser().hasPermission("com.openbravo.pos.sales.JPanelTicketEdits"));
   
     }
     
@@ -114,10 +112,6 @@ public void printTicket(String resource) {
             }
         } 
  }
-
-    
-    
-    
     
     
     /** This method is called from within the constructor to
@@ -128,88 +122,88 @@ public void printTicket(String resource) {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        m_jDelTicket = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        j_btnKitchenPrt = new javax.swing.JButton();
+        m_DelTicket = new javax.swing.JButton();
+        m_MoveTable = new javax.swing.JButton();
+        m_TablePlan = new javax.swing.JButton();
+        m_KitchenPrint = new javax.swing.JButton();
 
         setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         setMinimumSize(new java.awt.Dimension(250, 50));
         setPreferredSize(new java.awt.Dimension(250, 50));
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        m_jDelTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/sale_delete.png"))); // NOI18N
-        m_jDelTicket.setToolTipText("Delete Current Order");
-        m_jDelTicket.setFocusPainted(false);
-        m_jDelTicket.setFocusable(false);
-        m_jDelTicket.setMargin(new java.awt.Insets(0, 4, 0, 4));
-        m_jDelTicket.setMaximumSize(new java.awt.Dimension(50, 40));
-        m_jDelTicket.setMinimumSize(new java.awt.Dimension(50, 40));
-        m_jDelTicket.setPreferredSize(new java.awt.Dimension(50, 40));
-        m_jDelTicket.setRequestFocusEnabled(false);
-        m_jDelTicket.addActionListener(new java.awt.event.ActionListener() {
+        m_DelTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/sale_delete.png"))); // NOI18N
+        m_DelTicket.setToolTipText("Delete Current Order");
+        m_DelTicket.setFocusPainted(false);
+        m_DelTicket.setFocusable(false);
+        m_DelTicket.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        m_DelTicket.setMaximumSize(new java.awt.Dimension(50, 40));
+        m_DelTicket.setMinimumSize(new java.awt.Dimension(50, 40));
+        m_DelTicket.setPreferredSize(new java.awt.Dimension(50, 40));
+        m_DelTicket.setRequestFocusEnabled(false);
+        m_DelTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jDelTicketActionPerformed(evt);
+                m_DelTicketActionPerformed(evt);
             }
         });
-        add(m_jDelTicket);
+        add(m_DelTicket);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/movetable.png"))); // NOI18N
-        jButton2.setToolTipText("Move Table");
-        jButton2.setFocusPainted(false);
-        jButton2.setFocusable(false);
-        jButton2.setMargin(new java.awt.Insets(0, 4, 0, 4));
-        jButton2.setMaximumSize(new java.awt.Dimension(50, 40));
-        jButton2.setMinimumSize(new java.awt.Dimension(50, 40));
-        jButton2.setPreferredSize(new java.awt.Dimension(50, 40));
-        jButton2.setRequestFocusEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        m_MoveTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/movetable.png"))); // NOI18N
+        m_MoveTable.setToolTipText("Move Table");
+        m_MoveTable.setFocusPainted(false);
+        m_MoveTable.setFocusable(false);
+        m_MoveTable.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        m_MoveTable.setMaximumSize(new java.awt.Dimension(50, 40));
+        m_MoveTable.setMinimumSize(new java.awt.Dimension(50, 40));
+        m_MoveTable.setPreferredSize(new java.awt.Dimension(50, 40));
+        m_MoveTable.setRequestFocusEnabled(false);
+        m_MoveTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                m_MoveTableActionPerformed(evt);
             }
         });
-        add(jButton2);
+        add(m_MoveTable);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/tables.png"))); // NOI18N
-        jButton1.setToolTipText("Go to Table Plan");
-        jButton1.setFocusPainted(false);
-        jButton1.setFocusable(false);
-        jButton1.setMargin(new java.awt.Insets(0, 4, 0, 4));
-        jButton1.setMaximumSize(new java.awt.Dimension(50, 40));
-        jButton1.setMinimumSize(new java.awt.Dimension(50, 40));
-        jButton1.setPreferredSize(new java.awt.Dimension(50, 40));
-        jButton1.setRequestFocusEnabled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        m_TablePlan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/tables.png"))); // NOI18N
+        m_TablePlan.setToolTipText("Go to Table Plan");
+        m_TablePlan.setFocusPainted(false);
+        m_TablePlan.setFocusable(false);
+        m_TablePlan.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        m_TablePlan.setMaximumSize(new java.awt.Dimension(50, 40));
+        m_TablePlan.setMinimumSize(new java.awt.Dimension(50, 40));
+        m_TablePlan.setPreferredSize(new java.awt.Dimension(50, 40));
+        m_TablePlan.setRequestFocusEnabled(false);
+        m_TablePlan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                m_TablePlanActionPerformed(evt);
             }
         });
-        add(jButton1);
+        add(m_TablePlan);
 
-        j_btnKitchenPrt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/printer24.png"))); // NOI18N
-        j_btnKitchenPrt.setToolTipText("Send to Kichen Printer");
-        j_btnKitchenPrt.setMargin(new java.awt.Insets(0, 4, 0, 4));
-        j_btnKitchenPrt.setMaximumSize(new java.awt.Dimension(50, 40));
-        j_btnKitchenPrt.setMinimumSize(new java.awt.Dimension(50, 40));
-        j_btnKitchenPrt.setPreferredSize(new java.awt.Dimension(50, 40));
-        j_btnKitchenPrt.addActionListener(new java.awt.event.ActionListener() {
+        m_KitchenPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/printer24.png"))); // NOI18N
+        m_KitchenPrint.setToolTipText("Send to Kichen Printer");
+        m_KitchenPrint.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        m_KitchenPrint.setMaximumSize(new java.awt.Dimension(50, 40));
+        m_KitchenPrint.setMinimumSize(new java.awt.Dimension(50, 40));
+        m_KitchenPrint.setPreferredSize(new java.awt.Dimension(50, 40));
+        m_KitchenPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                j_btnKitchenPrtActionPerformed(evt);
+                m_KitchenPrintActionPerformed(evt);
             }
         });
-        add(j_btnKitchenPrt);
+        add(m_KitchenPrint);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void m_MoveTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_MoveTableActionPerformed
 
         restDB.setTableMovedFlag(m_restaurant.getTable());
         m_restaurant.moveTicket();
 
               
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_m_MoveTableActionPerformed
 
     @SuppressWarnings("empty-statement")
-    private void m_jDelTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jDelTicketActionPerformed
+    private void m_DelTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_DelTicketActionPerformed
 
         int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
@@ -220,15 +214,15 @@ public void printTicket(String resource) {
             m_restaurant.deleteTicket();
         }
         
-    }//GEN-LAST:event_m_jDelTicketActionPerformed
+    }//GEN-LAST:event_m_DelTicketActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void m_TablePlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_TablePlanActionPerformed
         m_restaurant.newTicket();
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_m_TablePlanActionPerformed
 
     @SuppressWarnings("empty-statement")
-    private void j_btnKitchenPrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_j_btnKitchenPrtActionPerformed
+    private void m_KitchenPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_KitchenPrintActionPerformed
 // This replaces the code from the buttons script
         
           ticket = m_restaurant.getActiveTicket();
@@ -256,17 +250,17 @@ public void printTicket(String resource) {
                         m_restaurant.newTicket();  
                     }else{
                         ((JRootApp)m_App).closeAppView();
+                    };    
                     }    
                 }
-                }      
-    }//GEN-LAST:event_j_btnKitchenPrtActionPerformed
+    }//GEN-LAST:event_m_KitchenPrintActionPerformed
   
       
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton j_btnKitchenPrt;
-    private javax.swing.JButton m_jDelTicket;
+    private javax.swing.JButton m_DelTicket;
+    private javax.swing.JButton m_KitchenPrint;
+    private javax.swing.JButton m_MoveTable;
+    private javax.swing.JButton m_TablePlan;
     // End of variables declaration//GEN-END:variables
    
     

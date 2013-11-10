@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -62,6 +62,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private List<TicketTaxInfo> taxes;
     private String m_sResponse;
     private String loyaltyCardNumber;
+    private Boolean oldTicket;    
     
     
     /** Creates new TicketModel */
@@ -79,6 +80,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         payments = new ArrayList<>(); // JG June 2102 diamond inference
         taxes = null;
         m_sResponse = null;
+        oldTicket=false;
         
     }
 
@@ -154,7 +156,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         for (PaymentInfo p : payments) {
             t.payments.add(p.copyPayment());
         }
-
+        t.oldTicket=oldTicket;
         // taxes are not copied, must be calculated again.
 
         return t;
@@ -376,6 +378,30 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return sum;
           }
 
+    public String printChange(){
+        Double change = 0.0;
+        for (PaymentInfo p : payments) {
+            if (!"debtpaid".equals(p.getName())) {
+                change = p.getChange();
+            }
+        }
+        return Formats.CURRENCY.formatValue(change);    
+    }
+    
+    public double getChange(){
+        Double change = 0.0;
+        for (PaymentInfo p : payments) {
+            if (!"debtpaid".equals(p.getName())) {
+                change = p.getChange();
+            }
+        }
+        return change;    
+    }    
+    
+    
+    
+    
+    
     public List<TicketLineInfo> getLines() {
         return m_aLines;
     }
@@ -392,6 +418,10 @@ public class TicketInfo implements SerializableRead, Externalizable {
         payments = l;
     }
 
+    public void removePayment(Integer i){
+        payments.remove(i);
+    }
+    
     public void resetPayments() {
         payments = new ArrayList<>(); // JG June 2102 diamond inference
     }
@@ -451,7 +481,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
       String receiptSize =(m_config.getProperty("till.receiptsize"));
       String receiptPrefix =(m_config.getProperty("till.receiptprefix"));
 // we have finished with m_config so unload it      
-      m_config =null;
+      m_config.delete();
       
         
         if (m_iTicketId > 0) {
@@ -522,5 +552,13 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String VoucherReturned(){
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid())- new Double(getTotal()));
     }
+//Added JDl 03.07.13
+public boolean getOldTicket() {
+	return (oldTicket);
 
+}
+public void setOldTicket(Boolean otState) {
+	oldTicket = otState;
+}
+    
 }

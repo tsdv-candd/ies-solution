@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.printer;
 
+import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.LocalRes;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.ticket.TicketInfo;
@@ -32,6 +33,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -136,15 +139,18 @@ public class TicketParser extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{       
         String openDate = df.format(today);
+        Date dNow = new Date();
+        
         switch (m_iOutputType) {
         case OUTPUT_NONE:
             if ("opendrawer".equals(qName)) {
                 m_printer.getDevicePrinter(readString(attributes.getValue("printer"), "1")).openDrawer();
 // Cashdrawer has been activated record the data in the table                
-//            try {
-//                m_system.execDrawerOpened(
-//                        new Object[] {openDate,cUser,ticketId});
-//            } catch (BasicException ex) {}
+            try {
+                m_system.execDrawerOpened(
+                        //new Object[] {df.format(dNow),cUser,ticketId});
+                         new Object[] {cUser,ticketId});
+            } catch (BasicException ex) {}
                 
             } else if ("play".equals(qName)) {
                  text = new StringBuilder();    

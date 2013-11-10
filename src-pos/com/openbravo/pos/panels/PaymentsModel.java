@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -25,9 +25,13 @@ import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.StringUtils;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -40,6 +44,7 @@ public class PaymentsModel {
     private int m_iSeq;
     private Date m_dDateStart;
     private Date m_dDateEnd;       
+    private Date rDate;
             
     private Integer m_iPayments;
     private Double m_dPaymentsTotal;
@@ -77,7 +82,7 @@ public class PaymentsModel {
         p.m_iCategorySalesRows = new Integer(0);
         p.m_dCategorySalesTotalUnits = new Double(0.0);
         p.m_dCategorySalesTotal = new Double(0.0);
-        p.m_lcategorysales = new ArrayList<>();        
+        p.m_lcategorysales = new ArrayList<CategorySalesLine>();        
 // end
         p.m_iSales = null;
         p.m_dSalesBase = null;
@@ -241,6 +246,12 @@ public class PaymentsModel {
     public Date getDateEnd() {
         return m_dDateEnd;
     }
+    
+    public String getDateStartDerby(){
+        SimpleDateFormat ndf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return ndf.format(m_dDateStart);
+    }
+    
     
     public String printHost() {
 //        return m_sHost;

@@ -31,7 +31,7 @@ import javax.swing.event.EventListenerList;
 
 /**
  *
- * @author Jack Gerrard
+ * @author Jack Gerrard - prep for eCommerce connector
  */
 public class OrderCustomerList extends JPanel implements TicketSelector {
 

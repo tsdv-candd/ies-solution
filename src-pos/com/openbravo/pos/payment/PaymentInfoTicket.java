@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -49,6 +49,7 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         m_sName = null;
         m_dTicket = 0.0;
         m_transactionID = null;
+        m_dTendered = 0.00;
      }
     
     @Override
@@ -57,7 +58,7 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         m_dTicket = dr.getDouble(2).doubleValue();
         m_transactionID = dr.getString(3);
         m_dTendered = dr.getDouble(4).doubleValue();
-    }
+     }
     
     @Override
     public PaymentInfo copyPayment(){
@@ -99,8 +100,11 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         return Formats.CURRENCY.formatValue(new Double(m_dTendered - m_dTicket));
     }
 
+    @Override
     public double getChange(){
        return m_dTendered - m_dTicket;
    }
-
+    public double getTendered() {
+        return (0.0); 
+    }
 }

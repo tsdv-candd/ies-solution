@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -59,7 +59,7 @@ public class FindTicketsInfo implements SerializableRead {
         
         String sCustomer = (customer==null) ? "" : customer;
 
-        String sHtml = "<tr><td width=\"30\">"+ "["+ ticketid +"]" +"</td>" +
+        String sHtml = "<tr><td width=\"50\">"+ "["+ ticketid +"]" +"</td>" +
                 "<td width=\"100\">"+ Formats.TIMESTAMP.formatValue(date) +"</td>" +
                 "<td align=\"center\" width=\"100\">"+ sCustomer +"</td>" +
                 "<td align=\"right\" width=\"100\">"+ Formats.CURRENCY.formatValue(total) +"</td>"+

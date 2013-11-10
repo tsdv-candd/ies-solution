@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -88,8 +88,8 @@ public class JFrmConfig extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(500, 500));
         setPreferredSize(new java.awt.Dimension(700, 550));
 
-        setSize(new java.awt.Dimension(758, 534));
-        setLocationRelativeTo(null);
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-758)/2, (screenSize.height-534)/2, 758, 534);
     }// </editor-fold>//GEN-END:initComponents
     
     /**

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -99,8 +99,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         attributes.setProperty("product.verpatrib", product.isVerpatrib() ? "true" : "false");
 //
 
-// Added JDL 09.04.13
-        attributes.setProperty("product.texttip", product.getTextTip());
+// Added JDL 09.04.13 - Amend JG 10 Oct 13
+        if (product.getTextTip() != null) {
+            attributes.setProperty("product.texttip", product.getTextTip());
+        }
+ 
 //
 // Added JDL 25.05.13
         attributes.setProperty("product.warranty", product.getWarranty()? "true" : "false");        
@@ -169,11 +172,17 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         m_iLine = dr.getInt(2).intValue();
         productid = dr.getString(3);
         attsetinstid = dr.getString(4);
-
         multiply = dr.getDouble(5);
         price = dr.getDouble(6);
-
-        tax = new TaxInfo(dr.getString(7), dr.getString(8), dr.getString(9), dr.getString(10), dr.getString(11), dr.getDouble(12), dr.getBoolean(13), dr.getInt(14));
+        tax = new TaxInfo(
+                dr.getString(7), 
+                dr.getString(8), 
+                dr.getString(9), 
+                dr.getString(10), 
+                dr.getString(11), 
+                dr.getDouble(12), 
+                dr.getBoolean(13), 
+                dr.getInt(14));
         attributes = new Properties();
         try {
             byte[] img = dr.getBytes(15);
@@ -246,7 +255,6 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public void setProductTaxCategoryID(String taxID){
         attributes.setProperty("product.taxcategoryid",taxID);
-        return;
     }
     
     public String getProductCategoryID() {
@@ -309,10 +317,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         return price * multiply;
     }
 
- //   public boolean hasTaxIncluded(){
- //       if price
- //   }
-    
+  
     
     public double getTax() {
         return price * multiply * getTaxRate();

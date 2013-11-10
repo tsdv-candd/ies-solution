@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -66,7 +66,8 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         jcboDBDriver.addItem("HSQLDB");
         jcboDBDriver.addItem("MySQL");
         jcboDBDriver.addItem("Oracle 11g Express");
-        jcboDBDriver.addItem("PostgreSQL");                
+        jcboDBDriver.addItem("PostgreSQL");
+        
     }
     
     
@@ -134,9 +135,9 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         jtxtDbUser = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jtxtDbPassword = new javax.swing.JPasswordField();
-        jLabel5 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         jButtonTest = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
 
         setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         setPreferredSize(new java.awt.Dimension(680, 190));
@@ -214,19 +215,9 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         add(jtxtDbPassword);
         jtxtDbPassword.setBounds(100, 170, 180, 25);
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/Window.Logo.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
-        jLabel5.setText(bundle.getString("message.DBDefault")); // NOI18N
-        jLabel5.setToolTipText("");
-        add(jLabel5);
-        jLabel5.setBounds(10, 240, 650, 180);
-        add(jSeparator1);
-        jSeparator1.setBounds(10, 222, 650, 10);
-
         jButtonTest.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButtonTest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/database.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jButtonTest.setText(bundle.getString("Button.Test")); // NOI18N
         jButtonTest.setActionCommand(bundle.getString("Button.Test")); // NOI18N
         jButtonTest.addActionListener(new java.awt.event.ActionListener() {
@@ -236,6 +227,16 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         });
         add(jButtonTest);
         jButtonTest.setBounds(300, 150, 100, 40);
+        add(jSeparator1);
+        jSeparator1.setBounds(10, 222, 650, 10);
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/Window.Logo.png"))); // NOI18N
+        jLabel5.setText(bundle.getString("message.DBDefault")); // NOI18N
+        jLabel5.setToolTipText("");
+        add(jLabel5);
+        jLabel5.setBounds(10, 240, 650, 180);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtDbDriverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDbDriverActionPerformed
@@ -247,7 +248,7 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         if ("Apache Derby Embedded".equals(jcboDBDriver.getSelectedItem())) {
             jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/derby.jar");
             jtxtDbDriver.setText("org.apache.derby.jdbc.EmbeddedDriver");
-            jtxtDbURL.setText("jdbc:derby:C:/Documents and Settings/yourUserName/unicentaopos-database;create=true");
+            jtxtDbURL.setText("jdbc:derby:C:/Documents and Settings/*yourUserName*/unicentaopos-database;create=true");
             
         } else if ("Apache Derby Client/Server".equals(jcboDBDriver.getSelectedItem())) {
             jtxtDbDriverLib.setText("C:/Program Files/unicentaopos/lib/derbyclient.jar");

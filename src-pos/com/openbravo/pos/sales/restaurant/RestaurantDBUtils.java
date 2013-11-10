@@ -6,7 +6,9 @@ package com.openbravo.pos.sales.restaurant;
 
 import com.openbravo.data.loader.Session;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.forms.DataLogicSystem;
+import com.openbravo.pos.ticket.TicketInfo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

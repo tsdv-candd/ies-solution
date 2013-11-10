@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -28,6 +28,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import com.openbravo.pos.util.OSValidator;
 
 /**
  *
@@ -41,6 +42,8 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
     private JRootApp m_rootapp;
     private AppProperties m_props;
     
+    private OSValidator m_OS;
+    
     /** Creates new form JRootFrame */
     public JRootFrame() {
         
@@ -49,6 +52,7 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
     
     public void initFrame(AppProperties props) {
         
+        m_OS = new OSValidator();
         m_props = props;
         
         m_rootapp = new JRootApp();

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -899,13 +899,14 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jScrollPane2 = new javax.swing.JScrollPane();
         m_jDisplay = new javax.swing.JTextPane();
         jButtonHTML = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAttributes = new javax.swing.JTextArea();
 
         setLayout(null);
 
-        m_jTitle.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        m_jTitle.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         m_jTitle.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         add(m_jTitle);
         m_jTitle.setBounds(310, 0, 240, 20);
@@ -1085,32 +1086,32 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
 
         jPanel2.setLayout(null);
 
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText(AppLocal.getIntString("label.prodstockcost")); // NOI18N
         jPanel2.add(jLabel9);
         jLabel9.setBounds(250, 60, 120, 25);
 
-        m_jstockcost.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jstockcost.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         m_jstockcost.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel2.add(m_jstockcost);
         m_jstockcost.setBounds(370, 60, 80, 25);
 
-        jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel10.setText(AppLocal.getIntString("label.prodstockvol")); // NOI18N
         jPanel2.add(jLabel10);
         jLabel10.setBounds(250, 100, 120, 25);
 
-        m_jstockvolume.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jstockvolume.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         m_jstockvolume.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel2.add(m_jstockvolume);
         m_jstockvolume.setBounds(370, 100, 80, 25);
 
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("label.prodincatalog")); // NOI18N
         jPanel2.add(jLabel8);
         jLabel8.setBounds(10, 60, 150, 25);
 
-        m_jInCatalog.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jInCatalog.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         m_jInCatalog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jInCatalogActionPerformed(evt);
@@ -1119,81 +1120,81 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jPanel2.add(m_jInCatalog);
         m_jInCatalog.setBounds(160, 60, 30, 25);
 
-        jLabel18.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel18.setText(AppLocal.getIntString("label.prodorder")); // NOI18N
         jPanel2.add(jLabel18);
         jLabel18.setBounds(250, 140, 120, 25);
 
-        m_jCatalogOrder.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jCatalogOrder.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         m_jCatalogOrder.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel2.add(m_jCatalogOrder);
         m_jCatalogOrder.setBounds(370, 140, 80, 25);
 
-        jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel15.setText("Service Item");
         jPanel2.add(jLabel15);
         jLabel15.setBounds(10, 90, 150, 25);
 
-        m_jService.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jService.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         m_jService.setToolTipText("A Service Item will not be deducted from the Inventory");
         jPanel2.add(m_jService);
         m_jService.setBounds(160, 90, 30, 25);
         m_jService.getAccessibleContext().setAccessibleDescription(null);
 
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setText(AppLocal.getIntString("label.prodaux")); // NOI18N
         jPanel2.add(jLabel11);
         jLabel11.setBounds(10, 120, 150, 25);
 
-        m_jComment.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jComment.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel2.add(m_jComment);
         m_jComment.setBounds(160, 120, 30, 25);
 
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel12.setText(AppLocal.getIntString("label.prodscale")); // NOI18N
         jPanel2.add(jLabel12);
         jLabel12.setBounds(10, 150, 150, 25);
 
-        m_jScale.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jScale.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel2.add(m_jScale);
         m_jScale.setBounds(160, 150, 30, 25);
 
-        m_jKitchen.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jKitchen.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel2.add(m_jKitchen);
         m_jKitchen.setBounds(160, 180, 30, 25);
 
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel14.setText("Print to Remote Printer");
         jPanel2.add(jLabel14);
         jLabel14.setBounds(10, 180, 150, 25);
 
-        jLabel20.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel20.setText(bundle.getString("label.variableprice")); // NOI18N
         jPanel2.add(jLabel20);
         jLabel20.setBounds(10, 210, 130, 25);
 
-        m_jVprice.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jVprice.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel2.add(m_jVprice);
         m_jVprice.setBounds(160, 210, 30, 25);
 
         jTabbedPane1.addTab(AppLocal.getIntString("label.prodstock"), jPanel2); // NOI18N
         jTabbedPane1.addTab("Image", m_jImage);
 
-        jPanel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jPanel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel4.setLayout(null);
 
-        jLabel28.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel28.setText(AppLocal.getIntString("label.btndisplay"));
         jPanel4.add(jLabel28);
         jLabel28.setBounds(10, 10, 270, 20);
 
-        m_jDisplay.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jDisplay.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(m_jDisplay);
 
         jPanel4.add(jScrollPane2);
         jScrollPane2.setBounds(10, 40, 480, 40);
 
-        jButtonHTML.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButtonHTML.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButtonHTML.setText("Test Button");
         jButtonHTML.setMargin(new java.awt.Insets(1, 1, 1, 1));
         jButtonHTML.setMaximumSize(new java.awt.Dimension(96, 72));
@@ -1211,6 +1212,13 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         });
         jPanel4.add(jButtonHTML);
         jButtonHTML.setBounds(205, 90, 110, 70);
+
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel17.setText(bundle.getString("label.producthtmlguide")); // NOI18N
+        jLabel17.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel4.add(jLabel17);
+        jLabel17.setBounds(10, 170, 540, 160);
 
         jTabbedPane1.addTab("Button", jPanel4);
 
@@ -1284,6 +1292,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -145,6 +145,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private String tableDetails;
     private RestaurantDBUtils restDB;
     private KitchenDisplay kitchenDisplay;
+    private String ticketPrintType;
     
 // added 25.05.13 JDl warranty receipt
     private Boolean warrantyPrint=false;
@@ -287,7 +288,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }catch (Exception e){
             delay=0;
             }
-            delay = delay *1000;
+            delay *= 1000;
         }}
 // if the delay period is not zero create a inactivitylistener instance        
         if (delay != 0){
@@ -386,7 +387,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_oTicket.setDate(new Date()); // Set the edition date.
             
 // Set some of the table details here if in restaurant mode
-        if ("restaurant".equals(m_App.getProperties().getProperty("machine.ticketsbag"))&& m_oTicket.getTicketType()!=1){
+//      if ("restaurant".equals(m_App.getProperties().getProperty("machine.ticketsbag"))&& m_oTicket.getTicketType()!=1){
+        if ("restaurant".equals(m_App.getProperties().getProperty("machine.ticketsbag"))&& !oTicket.getOldTicket()){            
 // Check if there is a customer name in the database for this table
 
                 if (restDB.getCustomerNameInTable(oTicketExt.toString())== null ){
@@ -528,7 +530,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 // modified 22.06.13 to allow mulitplier to be used with variable price           
 //        oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());      
         TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
-        dPrice =dPrice /(1 + tax.getRate());
+            dPrice /= (1 + tax.getRate());
         addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone())));         
         } else {        
         TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
@@ -1178,8 +1180,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             executeEvent(ticket, ticketext, "ticket.close", new ScriptArg("print", paymentdialog.isPrintSelected()));
 
                             // Print receipt.
-                            printTicket(paymentdialog.isPrintSelected() || warrantyPrint
+                            printTicket(paymentdialog.isPrintSelected() 
+                                    //|| warrantyPrint
                                     ? "Printer.Ticket"
+//                                    ? ticketPrintType
                                     : "Printer.Ticket2", ticket, ticketext);  
                             
 //                            if (m_oTicket.getLoyaltyCardNumber() != null){
@@ -1191,7 +1195,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 //                            }
                             resultok = true;
 // if restaurant clear any customer name in table for this table once receipt is printed
-                            if ("restaurant".equals(m_App.getProperties().getProperty("machine.ticketsbag"))&&  m_oTicket.getTicketType() !=1) {  
+//                            if ("restaurant".equals(m_App.getProperties().getProperty("machine.ticketsbag"))&&  m_oTicket.getTicketType() !=1) {  
+                            if ("restaurant".equals(m_App.getProperties().getProperty("machine.ticketsbag"))&&  !ticket.getOldTicket()) { 
                                 restDB.clearCustomerNameInTable(ticketext.toString());
                                 restDB.clearWaiterNameInTable(ticketext.toString());
                                 restDB.clearTicketIdInTable(ticketext.toString());
@@ -1262,7 +1267,11 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
             }
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+                if (Boolean.valueOf(m_App.getProperties().getProperty("receipt.newlayout")).booleanValue()){
+                        script.put("taxes",ticket.getTaxLines());                       
+                } else {
                 script.put("taxes", taxcollection);
+                }                
                 script.put("taxeslogic", taxeslogic);
                 script.put("ticket", ticket);
                 script.put("place", ticketext);
@@ -2224,43 +2233,9 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     }//GEN-LAST:event_jbtnMooringActionPerformed
 
     private void j_btnKitchenPrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_j_btnKitchenPrtActionPerformed
- // This replaces the code from the buttons script  
- // insert send to kitchen display table
+// John L - replace older SendOrder script
         
-        
-        
-//       kitchenDisplay = new KitchenDisplay(m_App);    
-    
- // Create id for this kichen ticket       
-//       String id = UUID.randomUUID().toString();
-       
-//       kitchenDisplay.addRecord(id, (String)m_oTicketExt, Integer.toString(m_oTicket.getPickupId()));
-        
-       //System.out.println(m_oTicket.getPickupId());
-       
-       
-       
-// add lines to the database table if for the kitchen and not already printed
-       /*for (TicketLineInfo line : m_oTicket.getLines()) {
-           String sendStatus=line.getProperty("sendstatus");
-            if ((line.isProductKitchen())  && (sendStatus == null) || "No".equals(sendStatus)){
-                kitchenDisplay.addRecord(id, (String)m_oTicketExt, Integer.toString(m_oTicket.getPickupId()), line.printMultiply(), line.printName(),line.getProductAttSetInstDesc() );  
-            }
-       } 
-      
-       
-      */ 
-// line.getProductAttSetInstDesc() = get attributes for line       
-// line.getProperty("sendstatus") = null if not sent to kitchen       
-// line.isProductKitchen() = true if for kitchen       
-// line.printName() = product name
-// printMultiply() = number of products       
-
-       
-       
-       
-        
-       String rScript = (dlSystem.getResourceAsText("script.SendOrder"));
+        String rScript = (dlSystem.getResourceAsText("script.SendOrder"));
 
             Interpreter i = new Interpreter(); 
         try {                       
@@ -2269,7 +2244,8 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
             i.set("user", m_App.getAppUserView().getUser());
             i.set("sales", this);
             i.set("pickupid", m_oTicket.getPickupId());
-            Object result = i.eval(rScript);
+            Object result;
+            result = i.eval(rScript);
         } catch (EvalError ex) {
             Logger.getLogger(JPanelTicket.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2282,7 +2258,6 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
                     ((JRootApp)m_App).closeAppView();    
                       }
                 }    
-   
 
     }//GEN-LAST:event_j_btnKitchenPrtActionPerformed
 

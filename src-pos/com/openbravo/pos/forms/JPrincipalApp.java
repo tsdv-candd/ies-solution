@@ -20,7 +20,6 @@
 package com.openbravo.pos.forms;
 
 import com.openbravo.basic.BasicException;
-import com.openbravo.beans.RoundedBorder;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.scripting.ScriptEngine;
@@ -29,7 +28,6 @@ import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.util.Hashcypher;
 import com.openbravo.pos.util.StringUtils;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -87,7 +85,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         jPanel2.add(Box.createVerticalStrut(50), 0);        
         
         applyComponentOrientation(appview.getComponentOrientation());
-        
+       
         m_principalnotificator = new JLabel();
         m_principalnotificator.applyComponentOrientation(getComponentOrientation());
         m_principalnotificator.setText(m_appuser.getName());

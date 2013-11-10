@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -90,10 +90,15 @@ public class JPanelResetPickupId extends JPanel implements JPanelView {
                     stmt.executeUpdate(SQL);
                 } catch (Exception e){System.out.println(e.getMessage());}
         } else if ("Apache Derby".equals(sdbmanager)) {
-                SQL = "UPDATE PICKUP_NUMBER SET ID=0";
+                SQL = "ALTER TABLE PICKUP_NUMBER ALTER COLUMN ID RESTART WITH 1";
                 try {
                     stmt.executeUpdate(SQL);
                 } catch (Exception e){System.out.println(e.getMessage());}                
+        } else if ("Derby".equals(sdbmanager)) {
+                SQL =  "UPDATE PICKUP_NUMBER SET ID=0";
+                try {
+                    stmt.executeUpdate(SQL);
+                } catch (Exception e){System.out.println(e.getMessage());} 
         } else {
                 SQL = "ALTER SEQUENCE PICKUP_NUMBER RESTART WITH 1";
                 try {
@@ -192,8 +197,8 @@ public class JPanelResetPickupId extends JPanel implements JPanelView {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jbtnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jbtnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addComponent(jbtnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

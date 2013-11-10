@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -65,7 +65,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
     public final List<SharedTicketInfo> getSharedTicketList() throws BasicException {
         
         return (List<SharedTicketInfo>) new StaticSentence(s
-// JG 20 Aug 13 Bug Fix: invlaid SQL string
+// JG 20 Aug 13 Bug Fix: invalid SQL string
 //                , "SELECT ID, NAME, CONTENT PICKUPID FROM SHAREDTICKETS ORDER BY ID"                
                 , "SELECT ID, NAME, CONTENT, PICKUPID FROM SHAREDTICKETS ORDER BY ID"
                 , null

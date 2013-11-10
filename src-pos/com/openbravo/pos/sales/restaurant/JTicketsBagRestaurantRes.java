@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -19,22 +19,23 @@
 
 package com.openbravo.pos.sales.restaurant;
 
-import com.openbravo.basic.BasicException;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.beans.*;
+import java.util.*;
 
 import com.openbravo.beans.*;
 import com.openbravo.data.gui.*;
 import com.openbravo.data.loader.*;
 import com.openbravo.data.user.*;
-import com.openbravo.format.Formats;
-import com.openbravo.pos.customers.CustomerInfo;
-import com.openbravo.pos.customers.DataLogicCustomers;
-import com.openbravo.pos.customers.JCustomerFinder;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.beans.*;
-import java.util.*;
+import com.openbravo.format.Formats;
+import com.openbravo.basic.BasicException;
+import com.openbravo.pos.customers.DataLogicCustomers;
+import com.openbravo.pos.customers.JCustomerFinder;
+import com.openbravo.pos.customers.CustomerInfo;
 
 public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements EditorRecord {
 

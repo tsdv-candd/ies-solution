@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -22,6 +22,7 @@ package com.openbravo.pos.forms;
 import com.openbravo.pos.config.JFrmConfig;
 import com.openbravo.pos.instance.AppMessage;
 import com.openbravo.pos.instance.InstanceManager;
+import com.openbravo.pos.util.OSValidator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -39,6 +40,7 @@ public class JRootKiosk extends javax.swing.JFrame implements AppMessage {
     
     private JRootApp m_rootapp;
     private AppProperties m_props;
+    private OSValidator m_OS;    
     
     /** Creates new form JRootKiosk */
     public JRootKiosk() {
@@ -52,6 +54,7 @@ public class JRootKiosk extends javax.swing.JFrame implements AppMessage {
     
     public void initFrame(AppProperties props) {
         
+        m_OS = new OSValidator();
         m_props = props;
         
         m_rootapp = new JRootApp();

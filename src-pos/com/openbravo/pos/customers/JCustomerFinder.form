@@ -89,35 +89,32 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLblTaxID" pref="134" max="32767" attributes="0"/>
-                                      <Component id="jLblPostal" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLblSearchKey" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLblSearchKey" alignment="0" pref="110" max="32767" attributes="0"/>
+                                      <Component id="jLblTaxID" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLblPostal" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="m_jtxtTaxID" alignment="0" pref="220" max="32767" attributes="0"/>
                                       <Component id="m_jtxtSearchKey" max="32767" attributes="0"/>
                                       <Component id="m_jtxtPostal" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLblPhone" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLblName" alignment="0" pref="134" max="32767" attributes="0"/>
+                                      <Component id="jLblEmail" max="32767" attributes="0"/>
+                                      <Component id="jLblName" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLblPhone" alignment="0" pref="110" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="m_jtxtName" min="-2" pref="220" max="-2" attributes="0"/>
                                       <Component id="m_jtxtPhone" min="-2" pref="220" max="-2" attributes="0"/>
+                                      <Component id="m_jtxtName2" alignment="1" min="-2" pref="220" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jLblEmail" min="-2" pref="134" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="m_jtxtName2" min="-2" pref="220" max="-2" attributes="0"/>
-                              </Group>
                           </Group>
-                          <EmptySpace pref="21" max="32767" attributes="0"/>
+                          <EmptySpace pref="41" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

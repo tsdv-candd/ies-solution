@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -30,22 +30,23 @@ public class PaymentInfoCash extends PaymentInfo {
     /**
      * Creates a new instance of PaymentInfoCash
      */
-    public PaymentInfoCash(double dTotal, double dPaid) {
+    public PaymentInfoCash(double dTotal, double dPaid, double dTendered) {
         m_dTotal = dTotal;
         m_dPaid = dPaid;
+        m_dTendered = dTendered;
     }
 
     /**
      * Creates a new instance of PaymentInfoCash
      */
-    public PaymentInfoCash(double dTotal, double dPaid, double prePayAmount) {
-        this(dTotal, dPaid);
+    public PaymentInfoCash(double dTotal, double dPaid, double dTendered, double prePayAmount) {
+        this(dTotal, dTendered, dPaid);
         this.prePayAmount = prePayAmount;
     }
 
     @Override
     public PaymentInfo copyPayment() {
-        return new PaymentInfoCash(m_dTotal, m_dPaid, prePayAmount);
+        return new PaymentInfoCash(m_dTotal, m_dPaid, m_dTendered, prePayAmount);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class PaymentInfoCash extends PaymentInfo {
     }
 
     
+    @Override
     public double getPaid() {
         return m_dPaid;
     }
@@ -89,10 +91,10 @@ public class PaymentInfoCash extends PaymentInfo {
         return Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal));
     }
 
+    @Override
    public double getChange(){
        return m_dPaid - m_dTotal;
    }
-
 
 
 }

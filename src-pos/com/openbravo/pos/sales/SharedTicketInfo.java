@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -34,7 +34,7 @@ public class SharedTicketInfo implements SerializableRead, SerializableWrite {
     private static final long serialVersionUID = 7640633837719L;
     private String id;
     private String name;
-//    private String UserName;
+    private String UserName;
     
     /** Creates a new instance of SharedTicketInfo */
     public SharedTicketInfo() {
@@ -44,13 +44,13 @@ public class SharedTicketInfo implements SerializableRead, SerializableWrite {
     public void readValues(DataRead dr) throws BasicException {
         id = dr.getString(1);
         name = dr.getString(2);
-//        UserName = dr.getString(3);
+        UserName = dr.getString(3);
     }   
     @Override
     public void writeValues(DataWrite dp) throws BasicException {
         dp.setString(1, id);
         dp.setString(2, name);
-//        dp.setString(3, UserName);
+        dp.setString(3, UserName);
     }
     
     public String getId() {
@@ -62,7 +62,7 @@ public class SharedTicketInfo implements SerializableRead, SerializableWrite {
     }
 
 // JG Testing SharedTicket.content display in Dialog
-//    public String getAppUser() {
-//        return UserName;
-//    }
+    public String getAppUser() {
+        return UserName;
+    }
 }

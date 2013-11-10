@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -102,7 +102,7 @@ public class ProductInfoExt {
 // ADDED JDL 09.02.13 
         m_bVerpatrib = false;
 // ADDED JDL 10.04.13 
-        m_sTextTip="";
+        m_sTextTip=null;
 // ADDED JDL 25.05.13         
         m_bWarranty=false;
         
@@ -290,7 +290,8 @@ public class ProductInfoExt {
     }
 
     public static SerializerRead getSerializerRead() {
-        return new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
+        return new SerializerRead() {@Override
+ public Object readValues(DataRead dr) throws BasicException {
             ProductInfoExt product = new ProductInfoExt();
             product.m_ID = dr.getString(1);
             product.m_sRef = dr.getString(2);

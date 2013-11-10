@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -55,6 +55,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     protected Datas[] stockdatas;
 
     protected Row productsRow;
+    
+ // John L addition
+    private String pName;
+    private Double getTotal;
+    private Double getTendered;
+    private String getRetMsg;    
 
 // JG 3 Oct 2013
     public static final String DEBT = "debt";
@@ -841,7 +847,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 , SerializerWriteString.INSTANCE
                 , new SerializerReadClass(TicketLineInfo.class)).list(ticket.getId()));
             ticket.setPayments(new PreparedSentence(s
-                , "SELECT PAYMENT, TOTAL, TRANSID FROM PAYMENTS WHERE RECEIPT = ?"
+// JG 10 Oct 13 Bug Fix   
+//                    , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED FROM PAYMENTS WHERE RECEIPT = ?" 
+                    , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED FROM PAYMENTS WHERE RECEIPT = ?"
                 , SerializerWriteString.INSTANCE
                 , new SerializerReadClass(PaymentInfoTicket.class)).list(ticket.getId()));
         }
@@ -850,145 +858,153 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
     public final void saveTicket(final TicketInfo ticket, final String location) throws BasicException {
 
-        Transaction t = new Transaction(s) {
+        Transaction t;
+        t = new Transaction(s) {
+@Override
+public Object transact() throws BasicException {
+
+    // Set Receipt Id
+    if (ticket.getTicketId() == 0) {
+        switch (ticket.getTicketType()) {
+            case TicketInfo.RECEIPT_NORMAL:
+                ticket.setTicketId(getNextTicketIndex().intValue());
+                break;
+            case TicketInfo.RECEIPT_REFUND:
+                ticket.setTicketId(getNextTicketRefundIndex().intValue());
+                break;
+            case TicketInfo.RECEIPT_PAYMENT:
+                ticket.setTicketId(getNextTicketPaymentIndex().intValue());
+                break;
+            default:
+                throw new BasicException();
+        }
+    }
+
+    // new receipt
+    // Modified JG Aug 2011 - person
+    new PreparedSentence(s
+       , "INSERT INTO RECEIPTS (ID, MONEY, DATENEW, ATTRIBUTES, PERSON) VALUES (?, ?, ?, ?, ?)"
+        , SerializerWriteParams.INSTANCE
+        ).exec(new DataParams() {
             @Override
-            public Object transact() throws BasicException {
-
-                // Set Receipt Id
-                if (ticket.getTicketId() == 0) {
-                    switch (ticket.getTicketType()) {
-                        case TicketInfo.RECEIPT_NORMAL:
-                            ticket.setTicketId(getNextTicketIndex().intValue());
-                            break;
-                        case TicketInfo.RECEIPT_REFUND:
-                            ticket.setTicketId(getNextTicketRefundIndex().intValue());
-                            break;
-                        case TicketInfo.RECEIPT_PAYMENT:
-                            ticket.setTicketId(getNextTicketPaymentIndex().intValue());
-                            break;
-                        default:
-                            throw new BasicException();
-                    }
-                }
-
-                // new receipt
-                // Modified JG Aug 2011 - person
-                new PreparedSentence(s
-                   , "INSERT INTO RECEIPTS (ID, MONEY, DATENEW, ATTRIBUTES, PERSON) VALUES (?, ?, ?, ?, ?)"
-                    , SerializerWriteParams.INSTANCE
-                    ).exec(new DataParams() {
-                        @Override
-                public void writeValues() throws BasicException {
-                        setString(1, ticket.getId());
-                        setString(2, ticket.getActiveCash());
-                        setTimestamp(3, ticket.getDate());
-                        try {
-                            ByteArrayOutputStream o = new ByteArrayOutputStream();
-                            ticket.getProperties().storeToXML(o, AppLocal.APP_NAME, "UTF-8");
-                            setBytes(4, o.toByteArray());
-                        } catch (IOException e) {
-                            setBytes(4, null);
-                        }
-                        setString(5, ticket.getProperty("person"));
-                    }
-               }
-                        );
-
-                // new ticket
-                new PreparedSentence(s
-                    , "INSERT INTO TICKETS (ID, TICKETTYPE, TICKETID, PERSON, CUSTOMER) VALUES (?, ?, ?, ?, ?)"
-                    , SerializerWriteParams.INSTANCE
-                    ).exec(new DataParams() {
-                        @Override
-                public void writeValues() throws BasicException {
-                        setString(1, ticket.getId());
-                        setInt(2, ticket.getTicketType());
-                        setInt(3, ticket.getTicketId());
-                        setString(4, ticket.getUser().getId());
-                        setString(5, ticket.getCustomerId());
-                    }
-                }
-                        );
-
-                SentenceExec ticketlineinsert = new PreparedSentence(s
-                    , "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-                    , SerializerWriteBuilder.INSTANCE);
-              
-                for (TicketLineInfo l : ticket.getLines()) {
-                    ticketlineinsert.exec(l);
-// JG 25.06.2011 if (l.getProductID() != null) //
-                    if (l.getProductID() != null && l.isProductService() != true)  {
-                        // update the stock
-                        getStockDiaryInsert().exec(new Object[] {
-                            UUID.randomUUID().toString(),
-                            ticket.getDate(),
-                            l.getMultiply() < 0.0
-                                ? MovementReason.IN_REFUND.getKey()
-                                : MovementReason.OUT_SALE.getKey(),
-                            location,
-                            l.getProductID(),
-                            l.getProductAttSetInstId(),
-                            new Double(-l.getMultiply()),
-                            new Double(l.getPrice()),
-                            ticket.getUser().getName()                         
-                        });
-                    }
-                }
-                SentenceExec paymentinsert = new PreparedSentence(s
-                    , "INSERT INTO PAYMENTS (ID, RECEIPT, PAYMENT, TOTAL, TRANSID, RETURNMSG) VALUES (?, ?, ?, ?, ?, ?)"
-                    , SerializerWriteParams.INSTANCE);
-                for (final PaymentInfo p : ticket.getPayments()) {
-                    paymentinsert.exec(new DataParams() {
-                        @Override
-                    public void writeValues() throws BasicException {
-                        setString(1, UUID.randomUUID().toString());
-                        setString(2, ticket.getId());
-                        setString(3, p.getName());
-                        setDouble(4, p.getTotal());
-                        //setDouble(4, p.getPaid());
-                        setString(5, ticket.getTransactionID());
-                        setBytes(6, (byte[]) Formats.BYTEA.parseValue(ticket.getReturnMessage()));
-                    }
-               }
-                            );
-
-                    if ("debt".equals(p.getName()) || "debtpaid".equals(p.getName())) {
-
-                        // udate customer fields...
-                        ticket.getCustomer().updateCurDebt(p.getTotal(), ticket.getDate());
-
-                        // save customer fields...
-                        getDebtUpdate().exec(new DataParams() {
-                            @Override
-                        public void writeValues() throws BasicException {
-                            setDouble(1, ticket.getCustomer().getCurdebt());
-                            setTimestamp(2, ticket.getCustomer().getCurdate());
-                            setString(3, ticket.getCustomer().getId());
-                        }
-                      }
-                                );
-                    }
-                }
-
-                SentenceExec taxlinesinsert = new PreparedSentence(s
-                        , "INSERT INTO TAXLINES (ID, RECEIPT, TAXID, BASE, AMOUNT)  VALUES (?, ?, ?, ?, ?)"
-                        , SerializerWriteParams.INSTANCE);
-                if (ticket.getTaxes() != null) {
-                    for (final TicketTaxInfo tickettax: ticket.getTaxes()) {
-                        taxlinesinsert.exec(new DataParams() {@Override
- public void writeValues() throws BasicException {
-                            setString(1, UUID.randomUUID().toString());
-                            setString(2, ticket.getId());
-                            setString(3, tickettax.getTaxInfo().getId());
-                            setDouble(4, tickettax.getSubTotal());
-                            setDouble(5, tickettax.getTax());
-                        }});
-                    }
-                }
-
-                return null;
+    public void writeValues() throws BasicException {
+            setString(1, ticket.getId());
+            setString(2, ticket.getActiveCash());
+            setTimestamp(3, ticket.getDate());
+            try {
+                ByteArrayOutputStream o = new ByteArrayOutputStream();
+                ticket.getProperties().storeToXML(o, AppLocal.APP_NAME, "UTF-8");
+                setBytes(4, o.toByteArray());
+            } catch (IOException e) {
+                setBytes(4, null);
             }
-        };
+            setString(5, ticket.getProperty("person"));
+        }
+   }
+            );
+
+    // new ticket
+    new PreparedSentence(s
+        , "INSERT INTO TICKETS (ID, TICKETTYPE, TICKETID, PERSON, CUSTOMER) VALUES (?, ?, ?, ?, ?)"
+        , SerializerWriteParams.INSTANCE
+        ).exec(new DataParams() {
+            @Override
+    public void writeValues() throws BasicException {
+            setString(1, ticket.getId());
+            setInt(2, ticket.getTicketType());
+            setInt(3, ticket.getTicketId());
+            setString(4, ticket.getUser().getId());
+            setString(5, ticket.getCustomerId());
+        }
+    }
+            );
+
+    SentenceExec ticketlineinsert = new PreparedSentence(s
+        , "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        , SerializerWriteBuilder.INSTANCE);
+  
+    for (TicketLineInfo l : ticket.getLines()) {
+        ticketlineinsert.exec(l);
+// JG 25.06.2011 if (l.getProductID() != null) //
+        if (l.getProductID() != null && l.isProductService() != true)  {
+            // update the stock
+            getStockDiaryInsert().exec(new Object[] {
+                UUID.randomUUID().toString(),
+                ticket.getDate(),
+                l.getMultiply() < 0.0
+                    ? MovementReason.IN_REFUND.getKey()
+                    : MovementReason.OUT_SALE.getKey(),
+                location,
+                l.getProductID(),
+                l.getProductAttSetInstId(),
+                new Double(-l.getMultiply()),
+                new Double(l.getPrice()),
+                ticket.getUser().getName()                         
+            });
+        }
+    }
+    final Payments payments = new Payments();
+    SentenceExec paymentinsert = new PreparedSentence(s
+        , "INSERT INTO PAYMENTS (ID, RECEIPT, PAYMENT, TOTAL, TRANSID, RETURNMSG, TENDERED) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        , SerializerWriteParams.INSTANCE);
+                
+                for (final PaymentInfo p : ticket.getPayments()) {
+                    payments.addPayment(p.getName(),p.getTotal(), p.getPaid(),ticket.getReturnMessage());  
+                }
+
+    //for (final PaymentInfo p : ticket.getPayments()) {
+    while (payments.getSize()>=1){
+        paymentinsert.exec(new DataParams() {@Override
+        public void writeValues() throws BasicException {
+            pName = payments.getFirstElement();
+            getTotal = payments.getPaidAmount(pName);
+            getTendered =payments.getTendered(pName);
+            getRetMsg = payments.getRtnMessage(pName);
+            payments.removeFirst(pName);                        
+            
+            setString(1, UUID.randomUUID().toString());
+            setString(2, ticket.getId());
+            setString(3, pName);
+            setDouble(4, getTotal);
+            setString(5, ticket.getTransactionID());
+            setBytes(6, (byte[]) Formats.BYTEA.parseValue(getRetMsg));
+            setDouble(7, getTendered);
+            payments.removeFirst(pName);
+        }});
+            
+        
+        if ("debt".equals(pName) || "debtpaid".equals(pName)) {                                     
+            // udate customer fields...
+            ticket.getCustomer().updateCurDebt(getTotal, ticket.getDate());                        
+            // save customer fields...
+            getDebtUpdate().exec(new DataParams() {@Override
+public void writeValues() throws BasicException {
+                setDouble(1, ticket.getCustomer().getCurdebt());
+                setTimestamp(2, ticket.getCustomer().getCurdate());
+                setString(3, ticket.getCustomer().getId());
+            }});
+        }
+    }
+
+    SentenceExec taxlinesinsert = new PreparedSentence(s
+            , "INSERT INTO TAXLINES (ID, RECEIPT, TAXID, BASE, AMOUNT)  VALUES (?, ?, ?, ?, ?)"
+            , SerializerWriteParams.INSTANCE);
+    if (ticket.getTaxes() != null) {
+        for (final TicketTaxInfo tickettax: ticket.getTaxes()) {
+            taxlinesinsert.exec(new DataParams() {@Override
+public void writeValues() throws BasicException {
+                setString(1, UUID.randomUUID().toString());
+                setString(2, ticket.getId());
+                setString(3, tickettax.getTaxInfo().getId());
+                setDouble(4, tickettax.getSubTotal());
+                setDouble(5, tickettax.getTax());
+            }});
+        }
+    }
+
+    return null;
+}
+};
         t.execute();
     }
 
