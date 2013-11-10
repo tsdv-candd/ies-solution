@@ -88,8 +88,8 @@ public class JFrmConfig extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(500, 500));
         setPreferredSize(new java.awt.Dimension(700, 550));
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-758)/2, (screenSize.height-534)/2, 758, 534);
+        setSize(new java.awt.Dimension(758, 534));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     
     /**
