@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -77,6 +77,7 @@ public class StockManagement extends JPanel implements JPanelView {
     private static int DEFAULT = 0;
     private static int ACTIVE = 1;
     private static int DECIMAL = 2;
+    private String user;
     
     /** Creates new form StockManagement */
     public StockManagement(AppView app) {
@@ -87,6 +88,9 @@ public class StockManagement extends JPanel implements JPanelView {
         m_TTP = new TicketParser(m_App.getDeviceTicket(), m_dlSystem);
 
         initComponents();
+        
+        user = m_App.getAppUserView().getUser().getName();
+
         
         btnDownloadProducts.setEnabled(m_App.getDeviceScanner() != null);
 
@@ -309,11 +313,13 @@ public class StockManagement extends JPanel implements JPanelView {
                 saveData(new InventoryRecord(
                         d, MovementReason.OUT_MOVEMENT,
                         (LocationInfo) m_LocationsModel.getSelectedItem(),
+                        m_App.getAppUserView().getUser().getName(),
                         m_invlines.getLines()
                     ));
                 saveData(new InventoryRecord(
                         d, MovementReason.IN_MOVEMENT,
                         (LocationInfo) m_LocationsModelDes.getSelectedItem(),
+                        m_App.getAppUserView().getUser().getName(),
                         m_invlines.getLines()
                     ));                
             } else {  
@@ -321,6 +327,7 @@ public class StockManagement extends JPanel implements JPanelView {
                 saveData(new InventoryRecord(
                         d, reason,
                         (LocationInfo) m_LocationsModel.getSelectedItem(),
+                        m_App.getAppUserView().getUser().getName(),
                         m_invlines.getLines()
                     ));
             }
@@ -348,7 +355,9 @@ public class StockManagement extends JPanel implements JPanelView {
                 inv.getProductID(),
                 inv.getProductAttSetInstId(),
                 rec.getReason().samesignum(inv.getMultiply()),
-                inv.getPrice()
+                inv.getPrice(),
+                rec.getUser()
+                
             });
         }
 
@@ -367,7 +376,7 @@ public class StockManagement extends JPanel implements JPanelView {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
                 script.put("inventoryrecord", invrec);
                 m_TTP.printTicket(script.eval(sresource).toString());
-// JG 16 May 2012 use multicatch
+// JG 16 May 2013 use multicatch
             } catch (    ScriptException | TicketPrinterException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), e);
                 msg.show(this);
@@ -499,13 +508,14 @@ public class StockManagement extends JPanel implements JPanelView {
 
         add(jPanel1, java.awt.BorderLayout.EAST);
 
+        jPanel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("label.stockdate")); // NOI18N
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, 25));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 120, 25));
 
-        m_jdate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jdate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel3.add(m_jdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 200, 25));
 
         m_jbtndate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
@@ -515,13 +525,13 @@ public class StockManagement extends JPanel implements JPanelView {
                 m_jbtndateActionPerformed(evt);
             }
         });
-        jPanel3.add(m_jbtndate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 25, 40, 30));
+        jPanel3.add(m_jbtndate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 40, 30));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("label.stockreason")); // NOI18N
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 80, 25));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 100, 25));
 
-        m_jreason.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jreason.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         m_jreason.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jreasonActionPerformed(evt);
@@ -529,14 +539,14 @@ public class StockManagement extends JPanel implements JPanelView {
         });
         jPanel3.add(m_jreason, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 200, 25));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("label.warehouse")); // NOI18N
         jLabel8.setMaximumSize(new java.awt.Dimension(40, 20));
         jLabel8.setMinimumSize(new java.awt.Dimension(40, 20));
         jLabel8.setPreferredSize(new java.awt.Dimension(40, 20));
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 80, 25));
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 120, 25));
 
-        m_jLocation.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jLocation.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel3.add(m_jLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 200, 25));
 
         m_jDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete.png"))); // NOI18N
@@ -578,7 +588,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel5.setLayout(new java.awt.BorderLayout());
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 410, 140));
 
-        m_jLocationDes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jLocationDes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel3.add(m_jLocationDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 200, 25));
 
         jEditAttributes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/attributes.png"))); // NOI18N
@@ -596,6 +606,7 @@ public class StockManagement extends JPanel implements JPanelView {
         });
         jPanel3.add(jEditAttributes, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
 
+        btnDownloadProducts.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnDownloadProducts.setText("ScanPal");
         btnDownloadProducts.setToolTipText("Download from Mobile Device");
         btnDownloadProducts.setPreferredSize(new java.awt.Dimension(69, 33));
@@ -604,11 +615,12 @@ public class StockManagement extends JPanel implements JPanelView {
                 btnDownloadProductsActionPerformed(evt);
             }
         });
-        jPanel3.add(btnDownloadProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 250, -1, 40));
+        jPanel3.add(btnDownloadProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, 110, 40));
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
 
         catcontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        catcontainer.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         catcontainer.setMinimumSize(new java.awt.Dimension(100, 100));
         catcontainer.setPreferredSize(new java.awt.Dimension(470, 170));
         catcontainer.setRequestFocusEnabled(false);

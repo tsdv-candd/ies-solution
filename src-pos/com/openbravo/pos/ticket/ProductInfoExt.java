@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -57,8 +57,19 @@ public class ProductInfoExt {
     protected Properties attributes;
 
 // ADDED JG 13 Nov 12 - Display    
-    protected String m_sDisplay;    
-
+    protected String m_sDisplay; 
+   
+// ADDED JDL 19.12.12 - Variable price product
+    protected boolean m_bVprice;
+  
+// ADDED JDL 09.02.13 
+    protected boolean m_bVerpatrib;  
+   
+// ADDED JDL 10.04.13 
+    protected String m_sTextTip;
+// ADDED JDL 25.05.13
+    protected boolean m_bWarranty;
+    
     
     /** Creates new ProductInfo */
     public ProductInfoExt() {
@@ -84,6 +95,18 @@ public class ProductInfoExt {
         m_sDisplay=null;
         
         attributes = new Properties();
+
+// ADDED JDL 19.12.12 - Variable price product
+        m_bVprice = false;
+//        
+// ADDED JDL 09.02.13 
+        m_bVerpatrib = false;
+// ADDED JDL 10.04.13 
+        m_sTextTip=null;
+// ADDED JDL 25.05.13         
+        m_bWarranty=false;
+        
+        
     }
 
     public final String getID() {
@@ -164,6 +187,31 @@ public class ProductInfoExt {
 }
 // **
 
+
+// ADDED JDL 19.12.12 - Variable price product
+  public final boolean isVprice() {
+	return m_bVprice;
+}
+
+
+ // ADDED JDL 09.02.13 - for Chris
+  public final boolean isVerpatrib() {
+	return m_bVerpatrib;
+} 
+  
+  public final String getTextTip(){
+      return m_sTextTip;
+  }
+  
+  public final boolean getWarranty(){
+      return m_bWarranty;
+  }
+  
+  public final void setWarranty(boolean bValue) {
+       m_bWarranty = bValue;
+  }
+  
+  
     public final String getCategoryID() {
         return categoryid;
     }
@@ -203,6 +251,12 @@ public class ProductInfoExt {
         m_dPriceSell = dPrice;
     }
 
+    public final void setTextTip(String value){
+      m_sTextTip = value;
+  }
+     
+    
+    
     public final double getPriceSellTax(TaxInfo tax) {
         return m_dPriceSell * (1.0 + tax.getRate());
     }
@@ -236,7 +290,8 @@ public class ProductInfoExt {
     }
 
     public static SerializerRead getSerializerRead() {
-        return new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
+        return new SerializerRead() {@Override
+ public Object readValues(DataRead dr) throws BasicException {
             ProductInfoExt product = new ProductInfoExt();
             product.m_ID = dr.getString(1);
             product.m_sRef = dr.getString(2);
@@ -254,8 +309,16 @@ public class ProductInfoExt {
             product.m_bKitchen = dr.getBoolean(14).booleanValue();
             product.m_bService=dr.getBoolean(15).booleanValue();
 // ADDED JG 13 Nov 12 - Display
-            product.m_sDisplay = dr.getString(16);            
-
+            product.m_sDisplay = dr.getString(16); 
+// ADDED JDL 19.12.12   
+          product.m_bVprice=dr.getBoolean(17).booleanValue();        
+// ADDED JDL 09.0.2.13 for Chris
+          product.m_bVerpatrib=dr.getBoolean(18).booleanValue(); 
+// ADDED JDL 09.04.13
+          product.m_sTextTip = dr.getString(19);
+          
+// ADDED JDL 25.04.13
+          product.m_bWarranty = dr.getBoolean(20).booleanValue();
             return product;
         }};
     }

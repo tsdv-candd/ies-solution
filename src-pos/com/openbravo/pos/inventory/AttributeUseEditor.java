@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -165,15 +165,17 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
         jLabel4 = new javax.swing.JLabel();
         jAttribute = new javax.swing.JComboBox();
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("label.order")); // NOI18N
 
-        jLineno.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLineno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText(AppLocal.getIntString("label.attribute")); // NOI18N
 
-        jAttribute.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jAttribute.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -203,7 +205,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jAttribute, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

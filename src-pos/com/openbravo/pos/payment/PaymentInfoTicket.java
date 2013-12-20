@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
 //    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -30,6 +30,9 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     private double m_dTicket;
     private String m_sName;
     private String m_transactionID;
+    private double m_dTendered;
+    private double m_change;
+    private String m_dCardName =null;    
     
     /** Creates a new instance of PaymentInfoCash */
     public PaymentInfoTicket(double dTicket, String sName) {
@@ -47,6 +50,7 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         m_sName = null;
         m_dTicket = 0.0;
         m_transactionID = null;
+        m_dTendered = 0.00;
      }
     
     @Override
@@ -54,7 +58,9 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         m_sName = dr.getString(1);
         m_dTicket = dr.getDouble(2).doubleValue();
         m_transactionID = dr.getString(3);
-    }
+        m_dTendered = dr.getDouble(4).doubleValue();
+        m_dCardName = dr.getString(5);        
+     }
     
     @Override
     public PaymentInfo copyPayment(){
@@ -68,10 +74,36 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     public double getTotal() {
         return m_dTicket;
     }
+
     @Override
     public String getTransactionID(){
         return m_transactionID;
+    }   
+
+    @Override
+    public double getPaid() {
+        return (0.0); 
     }
+    @Override
+    public double getChange(){
+       return m_dTendered - m_dTicket;
+   }
+    
+    @Override
+    public double getTendered() {
+        return (0.0); 
+    }
+  
+   @Override
+    public String getCardName() {
+       return m_dCardName;
+   } 
+   
+    /**
+     *
+     * @return
+     */
+        
     public String printPaid() {
         return Formats.CURRENCY.formatValue(new Double(m_dTicket));
     }
@@ -81,4 +113,14 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
         // En una devolucion hay que cambiar el signo al total
         return Formats.CURRENCY.formatValue(new Double(-m_dTicket));
     }          
+     
+    public String printChange() {
+        return Formats.CURRENCY.formatValue(new Double(m_dTendered - m_dTicket));
+    }
+
+    public String printTendered() {
+        return Formats.CURRENCY.formatValue(new Double(m_dTendered));
+    }  
+    
 }
+

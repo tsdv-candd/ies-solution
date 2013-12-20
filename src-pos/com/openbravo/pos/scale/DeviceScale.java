@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -35,6 +35,9 @@ public class DeviceScale {
         String sScaleParam1 = sd.nextToken(',');
         // String sScaleParam2 = sd.nextToken(',');
         switch (sScaleType) {
+            case "casiopd1":
+                m_scale = new ScaleCasioPD1(sScaleParam1);
+                break;
             case "dialog1":
                 m_scale = new ScaleComm(sScaleParam1);
                 break;

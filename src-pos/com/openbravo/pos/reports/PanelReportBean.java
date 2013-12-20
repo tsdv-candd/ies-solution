@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -40,6 +40,7 @@ public class PanelReportBean extends JPanelReport {
     private String resourcebundle = null;
     
     private String sentence;
+
     
 // JG 16 May 12 use diamond inference
     private List<Datas> fielddatas = new ArrayList<>();
@@ -50,7 +51,7 @@ public class PanelReportBean extends JPanelReport {
     private JParamsComposed qbffilter = new JParamsComposed();
     
     @Override
-    public void init(AppView app) throws BeanFactoryException {   
+    public void init(AppView app) throws BeanFactoryException {        
         
         qbffilter.init(app);       
         super.init(app);
@@ -81,10 +82,11 @@ public class PanelReportBean extends JPanelReport {
     public void setTitleKey(String titlekey) {
         title = AppLocal.getIntString(titlekey);
     }
-    
+   
     public String getTitle() {
         return title;
     } 
+    
     
     public void setReport(String report) {
         this.report = report;
@@ -124,6 +126,7 @@ public class PanelReportBean extends JPanelReport {
             , new SerializerReadBasic(fielddatas.toArray(new Datas[fielddatas.size()])));
     }
     
+   
     protected ReportFields getReportFields() {
         return new ReportFieldsArray(fieldnames.toArray(new String[fieldnames.size()]));
     }       

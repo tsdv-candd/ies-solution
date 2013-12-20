@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -62,6 +62,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
     private String attsetid;
     private String attsetinstid;
     private String attsetinstdesc;
+    private String sAppUser;
     
     private ComboBoxValModel m_ReasonModel;
     
@@ -238,15 +239,16 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         m_ReasonModel.setSelectedKey(diary[2]);
         m_LocationsModel.setSelectedKey(diary[3]);
         productid = (String) diary[4];
-        productref = (String) diary[8];
-        productcode = (String) diary[9];
-        productname =(String) diary[10];
+        sAppUser = (String) diary[8];
+        productref = (String) diary[9];
+        productcode = (String) diary[10];
+        productname =(String) diary[11];
         m_jreference.setText(productref);
         m_jcodebar.setText(productcode);
         jproduct.setText(productname);
-        attsetid = (String) diary[11];
+        attsetid = (String) diary[12];
         attsetinstid = (String) diary[5];
-        attsetinstdesc = (String) diary[12];
+        attsetinstdesc = (String) diary[13];
         jattributes.setText(attsetinstdesc);
         m_junits.setText(Formats.DOUBLE.formatValue(signum((Double) diary[6], (Integer) diary[2])));
         m_jprice.setText(Formats.CURRENCY.formatValue(diary[7]));
@@ -278,11 +280,13 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
             attsetinstid,
             samesignum((Double) Formats.DOUBLE.parseValue(m_junits.getText()), (Integer) m_ReasonModel.getSelectedKey()),
             Formats.CURRENCY.parseValue(m_jprice.getText()),
+            m_App.getAppUserView().getUser().getName(),
             productref,
             productcode,
             productname,
             attsetid,
             attsetinstdesc
+
         };
     }
     
@@ -433,7 +437,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
 
         jPanel1.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("label.stockdate")); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(23, 20));
         jLabel1.setMinimumSize(new java.awt.Dimension(23, 20));
@@ -441,7 +445,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jLabel1);
         jLabel1.setBounds(10, 10, 80, 25);
 
-        m_jdate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jdate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jdate.setMinimumSize(new java.awt.Dimension(40, 20));
         m_jdate.setPreferredSize(new java.awt.Dimension(40, 20));
         jPanel1.add(m_jdate);
@@ -457,7 +461,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(m_jbtndate);
         m_jbtndate.setBounds(310, 3, 40, 33);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("label.stockreason")); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(36, 20));
         jLabel2.setMinimumSize(new java.awt.Dimension(36, 20));
@@ -465,11 +469,11 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jLabel2);
         jLabel2.setBounds(370, 10, 70, 25);
 
-        m_jreason.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jreason.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel1.add(m_jreason);
         m_jreason.setBounds(440, 10, 200, 25);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("label.warehouse")); // NOI18N
         jLabel8.setMaximumSize(new java.awt.Dimension(40, 20));
         jLabel8.setMinimumSize(new java.awt.Dimension(40, 20));
@@ -478,7 +482,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jLabel8.setBounds(10, 45, 80, 25);
 
         jproduct.setEditable(false);
-        jproduct.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jproduct.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel1.add(jproduct);
         jproduct.setBounds(100, 45, 200, 25);
 
@@ -492,16 +496,16 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jEditProduct);
         jEditProduct.setBounds(310, 38, 40, 33);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setText("Location");
         jPanel1.add(jLabel6);
         jLabel6.setBounds(370, 45, 70, 25);
 
-        m_jLocation.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        m_jLocation.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel1.add(m_jLocation);
         m_jLocation.setBounds(440, 45, 200, 25);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel7.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(40, 20));
         jLabel7.setMinimumSize(new java.awt.Dimension(40, 20));
@@ -509,7 +513,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jLabel7);
         jLabel7.setBounds(10, 80, 80, 25);
 
-        m_jcodebar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jcodebar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jcodebar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jcodebarActionPerformed(evt);
@@ -534,7 +538,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(m_jEnter);
         m_jEnter.setBounds(310, 73, 40, 33);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("label.stockproduct")); // NOI18N
         jLabel3.setMaximumSize(new java.awt.Dimension(40, 20));
         jLabel3.setMinimumSize(new java.awt.Dimension(40, 20));
@@ -542,7 +546,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jLabel3);
         jLabel3.setBounds(10, 120, 80, 25);
 
-        m_jreference.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jreference.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jreference.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jreferenceActionPerformed(evt);
@@ -567,7 +571,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(m_jEnter1);
         m_jEnter1.setBounds(310, 109, 40, 33);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel9.setText(AppLocal.getIntString("label.attributes")); // NOI18N
         jLabel9.setMaximumSize(new java.awt.Dimension(48, 20));
         jLabel9.setMinimumSize(new java.awt.Dimension(48, 20));
@@ -576,7 +580,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jLabel9.setBounds(370, 115, 70, 25);
 
         jattributes.setEditable(false);
-        jattributes.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jattributes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel1.add(jattributes);
         jattributes.setBounds(440, 115, 200, 25);
 
@@ -593,7 +597,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jEditAttributes);
         jEditAttributes.setBounds(650, 109, 40, 33);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText(AppLocal.getIntString("label.units")); // NOI18N
         jLabel4.setMaximumSize(new java.awt.Dimension(40, 20));
         jLabel4.setMinimumSize(new java.awt.Dimension(40, 20));
@@ -601,17 +605,17 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jPanel1.add(jLabel4);
         jLabel4.setBounds(10, 145, 80, 25);
 
-        m_junits.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_junits.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_junits.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_junits);
         m_junits.setBounds(100, 145, 70, 25);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText(AppLocal.getIntString("label.price")); // NOI18N
         jPanel1.add(jLabel5);
         jLabel5.setBounds(190, 145, 40, 25);
 
-        m_jprice.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jprice.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jprice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jprice);
         m_jprice.setBounds(230, 145, 70, 25);

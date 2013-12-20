@@ -1,8 +1,7 @@
 // script.linediscount
-// This script applies UsersInput% Discount for the Item Line value
 //
 //    uniCenta oPOS - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://sourceforge.net/projects/unicentaopos
 //
 //    This file is part of uniCenta oPOS.
@@ -20,7 +19,9 @@
 //    You should have received a copy of the GNU General Public License
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
 // **************************************************************************
-
+// This script applies UsersInput %Discount for the Item Line value
+// To use in the sales screen: Highlight the line you want to discount
+// Then Tap in the %Discount amount and touch the % button
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.ticket.TicketLineInfo;
@@ -39,7 +40,7 @@ if (index >= 0) {
                     "Discount " + sdiscount,
                     line.getProductTaxCategoryID(),
                     line.getMultiply(),
-                    -line.getPrice () * discountrate,
+                    -(double)Math.round(line.getPrice() * discountrate * 100) / 100,
                     line.getTaxInfo()));
         sales.setSelectedIndex(index + 1);
     } else {

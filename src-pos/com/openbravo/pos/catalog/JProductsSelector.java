@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -47,7 +47,7 @@ public class JProductsSelector extends javax.swing.JPanel {
     }
     
     //public void addProduct(Image img, String name, ActionListener al) {
-    public void addProduct(Image img, String display, ActionListener al) {        
+    public void addProduct(Image img, String display, ActionListener al,String textTip) {        
         JButton btn = new JButton();
         btn.applyComponentOrientation(getComponentOrientation());
 // Added JG 13 Nov 12 - Render Display text
@@ -55,6 +55,9 @@ public class JProductsSelector extends javax.swing.JPanel {
 //        btn.setText(name);
         btn.setIcon(new ImageIcon(img));
         btn.setFocusPainted(false);
+        if (textTip != null){
+        btn.setToolTipText(textTip);
+        }
         btn.setFocusable(false);
         btn.setRequestFocusEnabled(false);
         btn.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -75,7 +78,7 @@ public class JProductsSelector extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
     

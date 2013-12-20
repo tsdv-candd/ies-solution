@@ -2,7 +2,7 @@
 // This script applies UsersInput% Service for the Total Receipt value
 //
 //    uniCenta oPOS - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://sourceforge.net/projects/unicentaopos
 //
 //    This file is part of uniCenta oPOS.
@@ -24,14 +24,14 @@
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.ticket.TicketLineInfo;
-import com.openbravo.pos.ticket.TicketProductInfo;
+import com.openbravo.pos.ticket.TicketProductInfo; 
 
 scrate = 1 + (sales.getInputValue() / 100.0);
 
 index = sales.getSelectedIndex();
 if (index >= 0) {
     if (ticket.getTotal() > 0.0 && scrate > 0.0) {
-
+ 
         scharge = Formats.PERCENT.formatValue((1 + scrate));
 formats
 for (int number= 0; number < ticket.getLinesCount(); number++) {
@@ -45,10 +45,10 @@ for (int number= 0; number < ticket.getLinesCount(); number++) {
                     line.getMultiply(),
                     line.getPrice () * scrate,
                     line.getTaxInfo()));
+    }  
+} else {  
+    java.awt.Toolkit.getDefaultToolkit().beep();  
 }
-    } else {
-         java.awt.Toolkit.getDefaultToolkit().beep();
-    }
 } else {
     java.awt.Toolkit.getDefaultToolkit().beep();
 }

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -23,6 +23,7 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.BaseSentence;
 import com.openbravo.data.loader.SentenceList;
+import com.openbravo.data.loader.Session;
 import com.openbravo.data.user.EditorCreator;
 import com.openbravo.pos.forms.*;
 import com.openbravo.pos.sales.TaxesLogic;
@@ -31,6 +32,7 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -48,8 +50,12 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
     private EditorCreator editor = null;
             
     protected AppView m_App;
+    private Session s;
+    private Connection con;
+    
     
     protected SentenceList taxsent;
+  
     protected TaxesLogic taxeslogic;
 
     /** Creates new form JPanelReport */
@@ -62,6 +68,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
     public void init(AppView app) throws BeanFactoryException {   
         
         m_App = app;
+        
         DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
         taxsent = dlSales.getTaxList();
         
@@ -194,6 +201,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         jButton1 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
         jPanelHeader.setLayout(new java.awt.BorderLayout());
@@ -214,6 +222,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         });
         jPanel1.add(jToggleFilter);
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ok.png"))); // NOI18N
         jButton1.setText(AppLocal.getIntString("Button.ExecuteReport")); // NOI18N
         jButton1.setToolTipText("Execute Report");

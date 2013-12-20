@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -309,7 +309,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
    
     // Variables declaration - do not modify//GEN-BEGIN:variables

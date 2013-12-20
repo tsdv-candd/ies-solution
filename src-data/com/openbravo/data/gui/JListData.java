@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -114,7 +114,7 @@ public class JListData extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-        m_jData.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jData.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jData.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(m_jData);
 
@@ -135,13 +135,14 @@ public class JListData extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jCancelActionPerformed
-        // TODO add your handling code here:
+        
         dispose();
     }//GEN-LAST:event_m_jCancelActionPerformed
 
     private void m_jOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jOKActionPerformed
-        // TODO add your handling code here:
+
         m_selected = m_jData.getSelectedValue();
+        
         dispose();
     }//GEN-LAST:event_m_jOKActionPerformed
     

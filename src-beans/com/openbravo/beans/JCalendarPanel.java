@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -323,6 +323,7 @@ public class JCalendarPanel extends javax.swing.JPanel {
         m_jMonth.add(m_jWeekDays, java.awt.BorderLayout.NORTH);
 
         m_jDates.setBackground(javax.swing.UIManager.getDefaults().getColor("TextPane.background"));
+        m_jDates.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jDates.setLayout(new java.awt.GridLayout(6, 7));
         m_jMonth.add(m_jDates, java.awt.BorderLayout.CENTER);
 

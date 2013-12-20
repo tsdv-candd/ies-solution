@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -104,12 +104,12 @@ public final class TaxCustCategoriesEditor extends JPanel implements EditorRecor
 
         setLayout(null);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
         add(jLabel2);
         jLabel2.setBounds(20, 20, 80, 25);
 
-        m_jName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         add(m_jName);
         m_jName.setBounds(100, 20, 200, 25);
     }// </editor-fold>//GEN-END:initComponents

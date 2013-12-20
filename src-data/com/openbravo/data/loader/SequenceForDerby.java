@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -36,15 +36,19 @@ public class SequenceForDerby extends BaseSentence {
         sent3 = new StaticSentence(s, "SELECT IDENTITY_VAL_LOCAL() FROM " + sSeqTable, null, SerializerReadInteger.INSTANCE);
     }
 
+       
     // Funciones de bajo nivel
+    @Override
     public DataResultSet openExec(Object params) throws BasicException {
         sent1.exec();
         sent2.exec();
         return sent3.openExec(null);
     }
+    @Override
     public DataResultSet moreResults() throws BasicException {
         return sent3.moreResults();
     }
+    @Override
     public void closeExec() throws BasicException {
         sent3.closeExec();
     }

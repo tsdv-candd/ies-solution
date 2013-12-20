@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
     uniCenta oPOS - Touch friendly Point Of Sale
-    Copyright (c) 2009-2012 uniCenta.
+    Copyright (c) 2009-2013 uniCenta.
     http://sourceforge.net/projects/unicentaopos
 
     This file is part of uniCenta oPOS.
@@ -39,13 +39,14 @@
     <class name="refund.paper"/>
     <class name="refund.magcard"/>
     <class name="Menu.ChangePassword"/>
+    <class name="sales.PrintKitchen"/>
     
 <!-- EPM -->
   <class name="com.openbravo.pos.epm.JPanelEmployeePresence" />    
 
   <!-- Section for Additional button scripts -->    
 <!--    <class name="button.refundit"/> -->
-    <class name="button.sendorder"/>
+<!--<class name="button.sendorder"/>-->
     <class name="button.print"/>
     <class name="button.opendrawer"/>
     <class name="button.linediscount"/>

@@ -1,5 +1,5 @@
 //    uniCenta oPOS - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://sourceforge.net/projects/unicentaopos
 //
 //    This file is part of uniCenta oPOS.
@@ -24,21 +24,24 @@ import com.openbravo.pos.payment.PaymentInfo;
 import javax.swing.JOptionPane;
 
 boolean isCash = false;
+String paid = "";
 String change = "";
 PaymentInfo p = ticket.payments.getFirst();
 
 JLabel FontText = new JLabel();
-FontText.setFont (new Font ( "Arial", Font.BOLD, 20) );
+
+FontText.setFont (new Font ( "Arial", Font.BOLD, 32) );
 
 if ("cash".equals(p.getName())) {
 	isCash = true;
+        paid = p.printPaid();
 	change = p.printChange();
 }
-	
+
 if(isCash) {
 	FontText.setText("Return: " + change);
 	JOptionPane.showMessageDialog (null,
-					FontText,
-					"Change", 
-					JOptionPane.WARNING_MESSAGE);
+	FontText,
+	"Change", 
+	JOptionPane.WARNING_MESSAGE);
 }

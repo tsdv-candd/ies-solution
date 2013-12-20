@@ -13,7 +13,7 @@
 		<![CDATA[SELECT categories.NAME, 
 Sum(ticketlines.UNITS) AS QTY, 
 Sum(ticketlines.PRICE * ticketlines.UNITS) AS CATPRICE, 
-Sum((products.PRICESELL * ticketlines.UNITS)-(ticketlines.PRICE * ticketlines.UNITS)) AS DISC, 
+Sum((products.PRICESELL * ticketlines.UNITS)-((products.isvprice ) * (ticketlines.PRICE * ticketlines.UNITS))) AS DISC, 
 Sum((ticketlines.PRICE * taxes.RATE)* ticketlines.UNITS) AS CATTAX, 
 Sum((ticketlines.PRICE * ticketlines.UNITS)- ((products.PRICESELL * ticketlines.UNITS)-(ticketlines.PRICE * ticketlines.UNITS)) + ((ticketlines.PRICE * taxes.RATE)* ticketlines.UNITS)) AS CATTOTAL
 FROM (tickets INNER JOIN receipts ON tickets.ID = receipts.ID) INNER JOIN ((categories INNER JOIN products ON categories.ID = products.CATEGORY) INNER JOIN (taxes INNER JOIN ticketlines ON taxes.ID = ticketlines.TAXID) ON products.ID = ticketlines.PRODUCT) ON tickets.ID = ticketlines.TICKET

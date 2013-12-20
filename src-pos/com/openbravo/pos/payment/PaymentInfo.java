@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (C) 2008-2013 Openbravo, S.L.
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -27,6 +27,10 @@ public abstract class PaymentInfo {
     public abstract double getTotal();
     public abstract PaymentInfo copyPayment();
     public abstract String getTransactionID();
+    public abstract double getPaid();
+    public abstract double getChange();
+    public abstract double getTendered();
+    public abstract String getCardName();
     
     public String printTotal() {
         return Formats.CURRENCY.formatValue(new Double(getTotal()));

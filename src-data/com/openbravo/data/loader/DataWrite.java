@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -28,6 +28,12 @@ import com.openbravo.basic.BasicException;
 public interface DataWrite {
  
     public void setInt(int paramIndex, Integer iValue) throws BasicException;
+    /**
+     *
+     * @param paramIndex
+     * @param sValue
+     * @throws BasicException
+     */
     public void setString(int paramIndex, String sValue) throws BasicException;
     public void setDouble(int paramIndex, Double dValue) throws BasicException;
     public void setBoolean(int paramIndex, Boolean bValue) throws BasicException;

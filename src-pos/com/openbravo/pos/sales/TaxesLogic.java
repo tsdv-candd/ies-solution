@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (C) 2008-2009 Openbravo, S.L.
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -45,11 +45,11 @@ public class TaxesLogic {
     public TaxesLogic(List<TaxInfo> taxlist) {
         this.taxlist = taxlist;
       
-// JG June 2012 use diamond inference
+// JG June 2013 use diamond inference
         taxtrees = new HashMap<>();
                 
         // Order the taxlist by Application Order...
-        // JG June 2012 use diamond inference        
+        // JG June 2013 use diamond inference        
         List<TaxInfo> taxlistordered = new ArrayList<>();
         taxlistordered.addAll(taxlist);
         Collections.sort(taxlistordered, new Comparator<TaxInfo>() {
@@ -66,7 +66,7 @@ public class TaxesLogic {
         });
         
         // Generate the taxtrees
-        // JG June 2012 use diamond inference        
+        // JG June 2013 use diamond inference        
         HashMap<String, TaxesLogicElement> taxorphans = new HashMap<>();
         
         for (TaxInfo t : taxlistordered) {
@@ -102,7 +102,7 @@ public class TaxesLogic {
     
     public void calculateTaxes(TicketInfo ticket) throws TaxesException {
   
-        // JG June 2012 use diamond inference
+        // JG June 2013 use diamond inference
         List<TicketTaxInfo> tickettaxes = new ArrayList<>(); 
         
         for (TicketLineInfo line: ticket.getLines()) {
@@ -120,7 +120,7 @@ public class TaxesLogic {
     
     private List<TicketTaxInfo> calculateLineTaxes(double base, TaxesLogicElement taxesapplied) {
  
-        // JG June 2012 use diamond inference
+        // JG June 2013 use diamond inference
         List<TicketTaxInfo> linetaxes = new ArrayList<>();
         
         if (taxesapplied.getSons().isEmpty()) {           

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -25,6 +25,7 @@ import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.StringUtils;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,7 @@ public class PaymentsModel {
     private int m_iSeq;
     private Date m_dDateStart;
     private Date m_dDateEnd;       
+    private Date rDate;
             
     private Integer m_iPayments;
     private Double m_dPaymentsTotal;
@@ -70,23 +72,21 @@ public class PaymentsModel {
         
         p.m_iPayments = new Integer(0);
         p.m_dPaymentsTotal = new Double(0.0);
-// JG 16 May 2012 use diamond inference
+// JG 16 May 2013 use diamond inference
         p.m_lpayments = new ArrayList<>();
 
 // JG 9 Nov 12
         p.m_iCategorySalesRows = new Integer(0);
         p.m_dCategorySalesTotalUnits = new Double(0.0);
         p.m_dCategorySalesTotal = new Double(0.0);
-        p.m_lcategorysales = new ArrayList<CategorySalesLine>();        
+        p.m_lcategorysales = new ArrayList<>();        
 // end
         p.m_iSales = null;
         p.m_dSalesBase = null;
         p.m_dSalesTaxes = null;
-// JG 16 May 2012 use diamond inference
+// JG 16 May 2013 use diamond inference
         p.m_lsales = new ArrayList<>();
 
-      
-        
         return p;
     }
     
@@ -159,11 +159,12 @@ public class PaymentsModel {
             p.m_dPaymentsTotal = (Double) valtickets[1];
         }  
         
+// JG 16 Oct 13 - Added. Shaun Cains ADD REASON
         List l = new StaticSentence(app.getSession()            
-            , "SELECT PAYMENTS.PAYMENT, SUM(PAYMENTS.TOTAL) " +
+            , "SELECT PAYMENTS.PAYMENT, SUM(PAYMENTS.TOTAL), PAYMENTS.NOTES " +
               "FROM PAYMENTS, RECEIPTS " +
               "WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND RECEIPTS.MONEY = ? " +
-              "GROUP BY PAYMENTS.PAYMENT"
+              "GROUP BY PAYMENTS.PAYMENT, PAYMENTS.NOTES"
             , SerializerWriteString.INSTANCE
             , new SerializerReadClass(PaymentsModel.PaymentsLine.class)) //new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.DOUBLE}))
             .list(app.getActiveCashIndex()); 
@@ -211,7 +212,7 @@ public class PaymentsModel {
                 , new SerializerReadClass(PaymentsModel.SalesLine.class))
                 .list(app.getActiveCashIndex());
         if (asales == null) {
-// JG 16 May 2012 use diamond inference
+// JG 16 May 2013 use diamond inference
             p.m_lsales = new ArrayList<>();
         } else {
             p.m_lsales = asales;
@@ -241,6 +242,12 @@ public class PaymentsModel {
     public Date getDateEnd() {
         return m_dDateEnd;
     }
+    
+    public String getDateStartDerby(){
+        SimpleDateFormat ndf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return ndf.format(m_dDateStart);
+    }
+    
     
     public String printHost() {
 //        return m_sHost;
@@ -353,6 +360,7 @@ public class PaymentsModel {
         private Double m_CategoryUnits;
         private Double m_CategorySum;
 
+        @Override
         public void readValues(DataRead dr) throws BasicException {
             m_CategoryName = dr.getString(1);
             m_CategoryUnits = dr.getDouble(2);
@@ -435,11 +443,14 @@ public class PaymentsModel {
         
         private String m_PaymentType;
         private Double m_PaymentValue;
+// JG 1 Oct 13 - Add Payment Reason for Partial Cash - thanks Shaun Cains
+        private String s_PaymentReason;
         
         @Override
         public void readValues(DataRead dr) throws BasicException {
             m_PaymentType = dr.getString(1);
             m_PaymentValue = dr.getDouble(2);
+            s_PaymentReason=dr.getString(3) == null ? "": dr.getString(3);            
         }
         
         public String printType() {
@@ -453,6 +464,12 @@ public class PaymentsModel {
         }
         public Double getValue() {
             return m_PaymentValue;
-        }        
+        }
+        public String printReason() {
+            return s_PaymentReason;
+        }
+        public String getReason() {
+            return s_PaymentReason;        
     }
-}    
+  }
+}

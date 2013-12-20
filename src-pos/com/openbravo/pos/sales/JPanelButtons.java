@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -20,12 +20,20 @@
 package com.openbravo.pos.sales;
 
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppUser;
+import com.openbravo.pos.util.ThumbNailBuilder;
 import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,19 +43,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import com.openbravo.pos.forms.AppLocal;
-import com.openbravo.pos.forms.AppUser;
-import com.openbravo.pos.util.ThumbNailBuilder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class JPanelButtons extends javax.swing.JPanel {
 
-    private static Logger logger = Logger.getLogger("com.openbravo.pos.sales.JPanelButtons");
+    private static final Logger logger = Logger.getLogger("com.openbravo.pos.sales.JPanelButtons");
 
     private static SAXParser m_sp = null;
     
@@ -121,47 +121,49 @@ public class JPanelButtons extends javax.swing.JPanel {
         public void endDocument() throws SAXException {}    
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
-            if ("button".equals(qName)){             
-                
-                // The button title text
-                String titlekey = attributes.getValue("titlekey");
-                if (titlekey == null) {
-                    titlekey = attributes.getValue("name");
-                }
-                String title = titlekey == null
-                        ? attributes.getValue("title")
-                        : AppLocal.getIntString(titlekey);
-                
-                // adding the button to the panel
-                JButton btn = new JButtonFunc(attributes.getValue("key"), 
-                        attributes.getValue("image"), 
-                        title);
-                
-                 // The template resource or the code resource
-                final String template = attributes.getValue("template");
-                if (template == null) {
-                    final String code = attributes.getValue("code");
-                    btn.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            panelticket.evalScriptAndRefresh(code);
-                        }
-                    });
-                } else {
-                    btn.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            panelticket.printTicket(template);
-                        }
-                    });     
-                }
-                add(btn);
-                
-            } else if ("event".equals(qName)) {
-                events.put(attributes.getValue("key"), attributes.getValue("code"));
-            } else {
-                String value = attributes.getValue("value");
-                if (value != null) {                  
-                    props.setProperty(qName, attributes.getValue("value"));
-                }
+            switch (qName) {
+                case "button":
+                    // The button title text
+                    String titlekey = attributes.getValue("titlekey");
+                    if (titlekey == null) {
+                        titlekey = attributes.getValue("name");
+                    }
+                    String title = titlekey == null
+                            ? attributes.getValue("title")
+                            : AppLocal.getIntString(titlekey);
+                    // adding the button to the panel
+                    JButton btn = new JButtonFunc(attributes.getValue("key"), 
+                            attributes.getValue("image"), 
+                            title);
+                    // The template resource or the code resource
+                    final String template = attributes.getValue("template");
+                    if (template == null) {
+                        final String code = attributes.getValue("code");
+                        btn.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                panelticket.evalScriptAndRefresh(code);
+                            }
+                        });
+                    } else {
+                        btn.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                panelticket.printTicket(template);
+                            }
+                        });     
+                    }
+                    add(btn);
+                    break;
+                case "event":
+                    events.put(attributes.getValue("key"), attributes.getValue("code"));
+                    break;
+                default:
+                    String value = attributes.getValue("value");
+                    if (value != null) {                  
+                        props.setProperty(qName, attributes.getValue("value"));
+                    }
+                    break;
             }
         }      
         @Override
@@ -189,9 +191,10 @@ public class JPanelButtons extends javax.swing.JPanel {
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
     
     

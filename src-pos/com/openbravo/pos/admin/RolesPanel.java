@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -38,7 +38,9 @@ import javax.swing.ListCellRenderer;
 public class RolesPanel extends JPanelTable {
     
     private TableDefinition troles;
+    private TableDefinition trolesmenu;
     private RolesView jeditor;
+
     
     /** Creates a new instance of RolesPanel */
     public RolesPanel() {
@@ -47,8 +49,8 @@ public class RolesPanel extends JPanelTable {
     @Override
     protected void init() {
         DataLogicAdmin dlAdmin  = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin");        
-        troles = dlAdmin.getTableRoles();                 
-        jeditor = new RolesView(dirty);
+        troles = dlAdmin.getTableRoles();         
+        jeditor = new RolesView(dirty);    
     }
     
     @Override

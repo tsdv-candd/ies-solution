@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -216,7 +216,7 @@ public final class LeavesView extends javax.swing.JPanel implements EditorRecord
         m_jEndDate = new javax.swing.JTextField();
 
         m_jEmployeeName.setEditable(false);
-        m_jEmployeeName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jEmployeeName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         m_jLeaveNote.setColumns(20);
         m_jLeaveNote.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
@@ -224,19 +224,19 @@ public final class LeavesView extends javax.swing.JPanel implements EditorRecord
         m_jLeaveNote.setRows(5);
         jScrollPane1.setViewportView(m_jLeaveNote);
 
-        m_Name.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         m_Name.setText(bundle.getString("label.epm.employee")); // NOI18N
 
-        m_StartDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_StartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_StartDate.setText(AppLocal.getIntString("label.epm.startdate")); // NOI18N
 
-        m_EndDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_EndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_EndDate.setText(AppLocal.getIntString("label.epm.enddate")); // NOI18N
 
-        m_jStartDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jStartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        m_Notes.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_Notes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_Notes.setText(AppLocal.getIntString("label.epm.notes")); // NOI18N
 
         btnEmployee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/user_sml.png"))); // NOI18N
@@ -267,7 +267,7 @@ public final class LeavesView extends javax.swing.JPanel implements EditorRecord
             }
         });
 
-        m_jEndDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

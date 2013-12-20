@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -62,7 +62,8 @@ public class JPaymentFree extends javax.swing.JPanel implements JPaymentInterfac
 
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText(AppLocal.getIntString("message.paymentfree")); // NOI18N
         add(jLabel1);
     }// </editor-fold>//GEN-END:initComponents

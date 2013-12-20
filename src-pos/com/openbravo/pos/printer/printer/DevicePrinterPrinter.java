@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -171,6 +171,13 @@ public class DevicePrinterPrinter implements DevicePrinter {
      * @param position coordinates of a barcode on a receipt
      * @param code the code of a productmiale
      */
+    
+    
+    @Override
+    public void printLogo(){   
+    }
+    
+    
     @Override
     public void printBarCode(String type, String position, String code) {
         m_ticketcurrent.printBarCode(type, position, code);

@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -19,8 +19,9 @@
 
 package com.openbravo.data.loader;
 
-import java.sql.*;
 import com.openbravo.basic.BasicException;
+import java.sql.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -61,6 +62,7 @@ public class PreparedSentence extends JDBCSentence {
             m_ps = ps;
         }
 
+        @Override
         public void setInt(int paramIndex, Integer iValue) throws BasicException {
             try {
                 m_ps.setObject(paramIndex, iValue, Types.INTEGER);
@@ -68,6 +70,7 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }
+        @Override
         public void setString(int paramIndex, String sValue) throws BasicException {
             try {
                 m_ps.setString(paramIndex, sValue);
@@ -75,6 +78,7 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }
+        @Override
         public void setDouble(int paramIndex, Double dValue) throws BasicException {
             try {
                 m_ps.setObject(paramIndex, dValue, Types.DOUBLE);
@@ -82,6 +86,7 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }   
+        @Override
         public void setBoolean(int paramIndex, Boolean bValue) throws BasicException {
             try {
                 if (bValue == null) {
@@ -94,6 +99,7 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }   
+        @Override
         public void setTimestamp(int paramIndex, java.util.Date dValue) throws BasicException {        
             try {
                 m_ps.setObject(paramIndex, dValue == null ? null : new Timestamp(dValue.getTime()), Types.TIMESTAMP);
@@ -108,6 +114,7 @@ public class PreparedSentence extends JDBCSentence {
 //                throw new DataException(eSQL);
 //            }
 //        }
+        @Override
         public void setBytes(int paramIndex, byte[] value) throws BasicException {
             try {
                 m_ps.setBytes(paramIndex, value);
@@ -115,6 +122,7 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }
+        @Override
         public void setObject(int paramIndex, Object value) throws BasicException {
             try {
                 m_ps.setObject(paramIndex, value);
@@ -133,7 +141,7 @@ public class PreparedSentence extends JDBCSentence {
 
         try {
 
-            logger.info("Executing prepared SQL: " + m_sentence);
+            logger.log(Level.INFO, "Executing prepared SQL: {0}", m_sentence);
 
             m_Stmt = m_s.getConnection().prepareStatement(m_sentence);
  
@@ -157,6 +165,7 @@ public class PreparedSentence extends JDBCSentence {
         }
     }
     
+    @Override
     public final DataResultSet moreResults() throws BasicException {
         // true -> un resultset
         // false -> un updatecount (si -1 entonces se acabo)
@@ -179,6 +188,7 @@ public class PreparedSentence extends JDBCSentence {
         }
     }
 
+    @Override
     public final void closeExec() throws BasicException {
         
         if (m_Stmt != null) {

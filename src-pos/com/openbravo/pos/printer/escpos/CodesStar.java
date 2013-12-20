@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -44,7 +44,9 @@ public class CodesStar extends Codes {
     private static final byte[] IMAGE_BEGIN = {0x1B, 0x30};
     private static final byte[] IMAGE_END = {0x1B, 0x7A, 0x01};
     private static final byte[] IMAGE_HEADER = {0x1B, 0x4B};
+    private static final byte[] IMAGE_LOGO = {0x1B, 0x1C, 0x70,0x01, 0x00};
     private static final byte[] NEW_LINE = {0x0D, 0x0A}; // Print and carriage return
+
     
     /** Creates a new instance of CodesStar */
     public CodesStar() {
@@ -81,6 +83,10 @@ public class CodesStar extends Codes {
     public byte[] getImageHeader() { return IMAGE_HEADER; }     
     @Override
     public int getImageWidth() { return 192; }
+    
+    @Override
+    public byte[] getImageLogo(){ return IMAGE_LOGO; }
+    
     
     @Override
     public byte[] transImage(BufferedImage image) {

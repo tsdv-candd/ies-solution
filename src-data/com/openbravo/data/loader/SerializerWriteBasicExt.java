@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -32,6 +32,7 @@ public class SerializerWriteBasicExt implements SerializerWrite<Object[]> {
         m_index = index;
     }
     
+    @Override
     public void writeValues(DataWrite dp, Object[] obj) throws BasicException {
 
         for (int i = 0; i < m_index.length; i++) {

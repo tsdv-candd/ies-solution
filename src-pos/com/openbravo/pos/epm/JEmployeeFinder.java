@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -179,10 +179,10 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText(AppLocal.getIntString("label.epm.employee")); // NOI18N
 
-        m_jtxtName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        m_jtxtName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -193,7 +193,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,6 +207,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
 
         jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reload.png"))); // NOI18N
         jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -216,6 +217,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         });
         jPanel6.add(jButton1);
 
+        jButton3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ok.png"))); // NOI18N
         jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
         jButton3.setFocusPainted(false);
@@ -235,6 +237,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
+        jListEmployees.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jListEmployees.setFocusable(false);
         jListEmployees.setRequestFocusEnabled(false);
         jListEmployees.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -255,6 +258,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
 
         jPanel8.setLayout(new java.awt.BorderLayout());
 
+        jcmdOK.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ok.png"))); // NOI18N
         jcmdOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
         jcmdOK.setEnabled(false);
@@ -269,6 +273,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         });
         jPanel1.add(jcmdOK);
 
+        jcmdCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jcmdCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/cancel.png"))); // NOI18N
         jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         jcmdCancel.setFocusPainted(false);

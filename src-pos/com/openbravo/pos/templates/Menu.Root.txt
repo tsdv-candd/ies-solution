@@ -2,7 +2,7 @@
 //  This file controls all Menu Items in uniCenta oPOS
 //
 //    uniCenta oPOS - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://sourceforge.net/projects/unicentaopos
 //
 //    This file is part of uniCenta oPOS.
@@ -49,9 +49,6 @@
         submenu.addPanel("/com/openbravo/images/attributes.png", "Menu.AttributeValues", "com.openbravo.pos.inventory.AttributeValuesPanel");
         submenu.addPanel("/com/openbravo/images/attributes.png", "Menu.AttributeSets", "com.openbravo.pos.inventory.AttributeSetsPanel");
         submenu.addPanel("/com/openbravo/images/attributes.png", "Menu.AttributeUse", "com.openbravo.pos.inventory.AttributeUsePanel");
-        submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.Taxes", "com.openbravo.pos.inventory.TaxPanel");
-        submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.TaxCategories", "com.openbravo.pos.inventory.TaxCategoriesPanel");
-        submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.TaxCustCategories", "com.openbravo.pos.inventory.TaxCustCategoriesPanel");
         submenu.addPanel("/com/openbravo/images/stockdiary.png", "Menu.StockDiary", "com.openbravo.pos.inventory.StockDiaryPanel");
         submenu.addPanel("/com/openbravo/images/stockmaint.png", "Menu.StockMovement", "com.openbravo.pos.inventory.StockManagement");
 
@@ -80,6 +77,7 @@
         submenu.addPanel("/com/openbravo/images/reports.png", "Menu.PaymentReport", "/com/openbravo/reports/paymentreport.bs");
         submenu.addPanel("/com/openbravo/images/reports.png", "Menu.CashFlow", "/com/openbravo/reports/cashflow.bs");
 
+
 //*** These reports will report an error with Derby DB's due to SQL limitations ***
 //*** You can remove the "//" at the beginning of the line if you are using MySQL, HSQLDB, PostgreSQL, Oracle databases ***
 //*** You will also need to enable in Administration>Resources>Roles>Administrator/Manager & etc ***
@@ -89,16 +87,21 @@
 //        submenu.addPanel("/com/openbravo/images/reports.png", "Menu.SalesProfit", "/com/openbravo/reports/productsalesprofit.bs");
 //        submenu.addPanel("/com/openbravo/images/reports.png", "Menu.ExtendedByProducts", "/com/openbravo/reports/extproducts.bs");
 
+
     submenu = group.addSubmenu("/com/openbravo/images/maintain.png", "Menu.Maintenance", "com.openbravo.pos.forms.MenuMaintenance");
         submenu.addTitle("Menu.Maintenance.POS");        
         submenu.addPanel("/com/openbravo/images/user.png", "Menu.Users", "com.openbravo.pos.admin.PeoplePanel");
         submenu.addPanel("/com/openbravo/images/roles.png", "Menu.Roles", "com.openbravo.pos.admin.RolesPanel");
+        submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.Taxes", "com.openbravo.pos.inventory.TaxPanel");
+        submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.TaxCategories", "com.openbravo.pos.inventory.TaxCategoriesPanel");
+        submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.TaxCustCategories", "com.openbravo.pos.inventory.TaxCustCategoriesPanel");
         submenu.addPanel("/com/openbravo/images/resources.png", "Menu.Resources", "com.openbravo.pos.admin.ResourcesPanel");
         submenu.addPanel("/com/openbravo/images/location.png", "Menu.Locations", "com.openbravo.pos.inventory.LocationsPanel");
         submenu.addPanel("/com/openbravo/images/floors.png", "Menu.Floors", "com.openbravo.pos.mant.JPanelFloors");
         submenu.addPanel("/com/openbravo/images/tables.png", "Menu.Tables", "com.openbravo.pos.mant.JPanelPlaces");
         submenu.addTitle("Menu.Maintenance.Reports");
         submenu.addPanel("/com/openbravo/images/reports.png", "Menu.UsersReport", "/com/openbravo/reports/people.bs");
+
 
 // EPM
 //** Reporting only tested with MySQL.  Using with Derby (Default) DB will result in errors
@@ -111,15 +114,29 @@
         submenu.addPanel("/com/openbravo/images/reports.png", "Menu.DailyScheduleReport", "/com/openbravo/reports/dailyschedulereport.bs");
 //        submenu.addPanel("/com/openbravo/images/reports.png", "Menu.PerformanceReport", "/com/openbravo/reports/performancereport.bs");
 
+
+ 
+   group = menu.addGroup("Menu.Utilities");
+	submenu = group.addSubmenu("/com/openbravo/images/utilities.png", "Menu.Tools", "com.openbravo.pos.imports.JPanelCSV");	
+	submenu.addTitle("Menu.Import");
+    	submenu.addPanel("/com/openbravo/images/import.png", "Menu.CSVImport", "com.openbravo.pos.imports.JPanelCSVImport");
+    	submenu.addPanel("/com/openbravo/images/database.png", "Menu.CSVReset", "com.openbravo.pos.imports.JPanelCSVCleardb");
+	submenu.addTitle("Menu.Import.Reports");
+	submenu.addPanel("/com/openbravo/images/reports.png", "Menu.UpdatedPrices", "/com/openbravo/reports/updatedprices.bs");
+	submenu.addPanel("/com/openbravo/images/reports.png", "Menu.NewProducts", "/com/openbravo/reports/newproducts.bs");
+	submenu.addPanel("/com/openbravo/images/reports.png", "Menu.MissingData", "/com/openbravo/reports/missingdata.bs");
+	submenu.addPanel("/com/openbravo/images/reports.png", "Menu.InvalidData", "/com/openbravo/reports/invaliddata.bs");
+
+
     group = menu.addGroup("Menu.System");
     group.addChangePasswordAction();
     group.addPanel("/com/openbravo/images/configuration.png", "Menu.Configuration", "com.openbravo.pos.config.JPanelConfiguration");
     group.addPanel("/com/openbravo/images/printer.png", "Menu.Printer", "com.openbravo.pos.panels.JPanelPrinter");
     group.addPanel("/com/openbravo/images/timer.png", "Menu.CheckInCheckOut", "com.openbravo.pos.epm.JPanelEmployeePresence");
 
-// Deprecated options.
-//        submenu.addTitle("Menu.Maintenance.ERP");
-//        submenu.addExecution("/com/openbravo/images/openbravo.png", "Menu.ERPProducts", "com.openbravo.possync.ProductsSyncCreate");
-//        submenu.addExecution("/com/openbravo/images/openbravo.png", "Menu.ERPOrders", "com.openbravo.possync.OrdersSyncCreate");
+// Deprecated options. Only required with Openbravo ERP software
+//       submenu.addTitle("Menu.Maintenance.ERP");
+//       submenu.addExecution("/com/openbravo/images/openbravo.png", "Menu.ERPProducts", "com.openbravo.possync.ProductsSyncCreate");
+//       submenu.addExecution("/com/openbravo/images/openbravo.png", "Menu.ERPOrders", "com.openbravo.possync.OrdersSyncCreate");
 
     group.addExitAction();

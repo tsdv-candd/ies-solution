@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -19,8 +19,9 @@
 
 package com.openbravo.data.loader;
 
-import java.sql.*;
 import com.openbravo.basic.BasicException;
+import java.sql.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -79,7 +80,7 @@ public class StaticSentence extends JDBCSentence {
 
             String sentence = m_sentence.getSQL(m_SerWrite, params);
             
-            logger.info("Executing static SQL: " + sentence);
+           logger.log(Level.INFO, "Executing static SQL: {0}", sentence);
 
             if (m_Stmt.execute(sentence)) {
                 return new JDBCDataResultSet(m_Stmt.getResultSet(), m_SerRead);
@@ -96,6 +97,7 @@ public class StaticSentence extends JDBCSentence {
         }
     }
     
+    @Override
     public void closeExec() throws BasicException {
         
         if (m_Stmt != null) {
@@ -109,6 +111,7 @@ public class StaticSentence extends JDBCSentence {
         }
     }
     
+    @Override
     public DataResultSet moreResults() throws BasicException {
 
         try {

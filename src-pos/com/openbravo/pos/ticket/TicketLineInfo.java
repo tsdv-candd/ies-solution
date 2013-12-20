@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -82,14 +82,33 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             pid = null;
         } else {
             pid = product.getID();
+// JDL 20.12.20 set product name to a default rather than blank    TO DO        
             attributes.setProperty("product.name", product.getName());
-            attributes.setProperty("product.com", product.isCom() ? "true" : "false");
+               attributes.setProperty("product.com", product.isCom() ? "true" : "false");
 // ADDED JG 20.12.10 - Kitchen Print
 	attributes.setProperty("product.kitchen", product.isKitchen() ? "true" : "false");
 // ***
 // ADDED JG 25.06.11 - IsService
 	attributes.setProperty("product.service", product.isService() ? "true" : "false");
-// ***        
+// ***      
+// Added JDL 19.12.12 Variable Price Product
+        attributes.setProperty("product.vprice", product.isVprice() ? "true" : "false");
+//     
+ 
+// Added JDL 09.02.132 
+        attributes.setProperty("product.verpatrib", product.isVerpatrib() ? "true" : "false");
+//
+
+// Added JDL 09.04.13 - Amend JG 10 Oct 13
+        if (product.getTextTip() != null) {
+            attributes.setProperty("product.texttip", product.getTextTip());
+        }
+ 
+//
+// Added JDL 25.05.13
+        attributes.setProperty("product.warranty", product.getWarranty()? "true" : "false");        
+//        
+        
             if (product.getAttributeSetID() != null) {
                 attributes.setProperty("product.attsetid", product.getAttributeSetID());
             }
@@ -153,11 +172,17 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         m_iLine = dr.getInt(2).intValue();
         productid = dr.getString(3);
         attsetinstid = dr.getString(4);
-
         multiply = dr.getDouble(5);
         price = dr.getDouble(6);
-
-        tax = new TaxInfo(dr.getString(7), dr.getString(8), dr.getString(9), dr.getString(10), dr.getString(11), dr.getDouble(12), dr.getBoolean(13), dr.getInt(14));
+        tax = new TaxInfo(
+                dr.getString(7), 
+                dr.getString(8), 
+                dr.getString(9), 
+                dr.getString(10), 
+                dr.getString(11), 
+                dr.getDouble(12), 
+                dr.getBoolean(13), 
+                dr.getInt(14));
         attributes = new Properties();
         try {
             byte[] img = dr.getBytes(15);
@@ -208,6 +233,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             attributes.setProperty("product.attsetdesc", value);
         }
     }
+    
 
     public String getProductAttSetInstId() {
         return attsetinstid;
@@ -225,6 +251,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         return (attributes.getProperty("product.taxcategoryid"));
     }
 
+    public void setProductTaxCategoryID(String taxID){
+        attributes.setProperty("product.taxcategoryid",taxID);
+    }
+    
     public String getProductCategoryID() {
         return (attributes.getProperty("product.categoryid"));
     }
@@ -285,6 +315,8 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         return price * multiply;
     }
 
+  
+    
     public double getTax() {
         return price * multiply * getTaxRate();
     }
@@ -333,4 +365,33 @@ public boolean isProductKitchen() {
 public boolean isProductService() {
 	return "true".equals(attributes.getProperty("product.service"));
 }
+// Added JDL 19.12.12 - Variable price product
+public boolean isProductVprice() {
+	return "true".equals(attributes.getProperty("product.vprice"));
+//
+
+}
+
+// Added JDL 09.02.13 for Chris
+public boolean isProductVerpatrib() {
+	return "true".equals(attributes.getProperty("product.verpatrib"));
+//
+
+}
+
+// Added JDL 09.04.12 - Variable price product
+public String printTextTip() {
+	return attributes.getProperty("product.texttip");
+//
+
+}
+
+// Added JDL 09.02.13 
+public boolean isProductWarranty() {
+	return "true".equals(attributes.getProperty("product.warranty"));
+//
+
+}
+
+
 }

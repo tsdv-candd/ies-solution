@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -36,18 +36,26 @@ public class InventoryRecord {
     private MovementReason m_reason;
     private LocationInfo m_locationOri;   
     private List<InventoryLine> m_invlines;
+    private String user;
     
     /** Creates a new instance of InventoryRecord */
-    public InventoryRecord(Date d, MovementReason reason, LocationInfo location, List<InventoryLine> invlines) {
+    public InventoryRecord(Date d, MovementReason reason, LocationInfo location, String currentUser, List<InventoryLine> invlines) {
         m_dDate = d;
         m_reason = reason;
         m_locationOri = location;
         m_invlines = invlines;
+        user = currentUser;
+        
     }
     
     public Date getDate() {
         return m_dDate;
     }   
+    public String getUser() {
+        return user;
+    }    
+    
+    
     public MovementReason getReason() {
         return m_reason;
     }    

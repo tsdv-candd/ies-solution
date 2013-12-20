@@ -2,7 +2,7 @@
 // This script applies UsersInput% Discount for the Total Receipt value
 //
 //    uniCenta oPOS - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
+//    Copyright (c) 2009-2013 uniCenta
 //    http://sourceforge.net/projects/unicentaopos
 //
 //    This file is part of uniCenta oPOS.
@@ -24,14 +24,14 @@
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.ticket.TicketLineInfo;
-import com.openbravo.pos.ticket.TicketProductInfo;
+import com.openbravo.pos.ticket.TicketProductInfo; 
 
 discountrate = 1 - (sales.getInputValue() / 100.0);
 
 index = sales.getSelectedIndex();
 if (index >= 0) {
     if (ticket.getTotal() > 0.0 && discountrate > 0.0) {
-
+ 
         sdiscount = Formats.PERCENT.formatValue((1-discountrate));
 
 for (int number= 0; number < ticket.getLinesCount(); number++) {
@@ -43,12 +43,12 @@ for (int number= 0; number < ticket.getLinesCount(); number++) {
                     line.getProductName() + " -" + sdiscount,
                     line.getProductTaxCategoryID(),
                     line.getMultiply(),
-                    line.getPrice () * discountrate,
+                    (double)Math.round(line.getPrice() * discountrate * 100) / 100,
                     line.getTaxInfo()));
+    }  
+} else {  
+    java.awt.Toolkit.getDefaultToolkit().beep();  
 }
-    } else {
-         java.awt.Toolkit.getDefaultToolkit().beep();
-    }
 } else {
     java.awt.Toolkit.getDefaultToolkit().beep();
 }

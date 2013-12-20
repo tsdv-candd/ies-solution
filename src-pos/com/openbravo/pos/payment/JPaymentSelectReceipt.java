@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -55,7 +55,9 @@ public class JPaymentSelectReceipt extends JPaymentSelect {
         addTabPayment(new JPaymentSelect.JPaymentPaperCreator());            
         addTabPayment(new JPaymentSelect.JPaymentMagcardCreator());                
         addTabPayment(new JPaymentSelect.JPaymentFreeCreator());                
-        addTabPayment(new JPaymentSelect.JPaymentDebtCreator());                
+        addTabPayment(new JPaymentSelect.JPaymentDebtCreator());
+// JG Added 1 Dec 13 
+        addTabPayment(new JPaymentSelect.JPaymentBankCreator());        
         setHeaderVisible(true);
     }
     

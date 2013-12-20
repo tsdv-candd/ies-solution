@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     uniCenta oPOS - Touch friendly Point Of Sale
-    Copyright (c) 2009-2012 uniCenta.
+    Copyright (c) 2009-2013 uniCenta.
     http://sourceforge.net/projects/unicentaopos
 
     This file is part of uniCenta oPOS.
@@ -24,7 +24,7 @@
 
     <display>
         <line>
-            <text align="left" length="10">Order sent to Kitchen</text>
+            <text align="left" length="10">Order sent to Remote Printer</text>
             <text align="right" length="10">${ticket.printTotal()}</text>
         </line>
         <line>
@@ -36,7 +36,7 @@
         <line></line>
         <line></line>
         <line size = "1">
-            <text bold = "true" align="center" length="42">Kitchen Order</text>
+            <text bold = "true" align="center" length="42">Remote Print Order</text>
         </line>
         <line></line>
         <line>
@@ -60,12 +60,12 @@
         </line>
     #end
 
-       #if (${tickettext.place} != ${place})
+    #if (${tickettext.place} != ${place})
         <line>
            <text align="left" length="15">Table:</text>
            <text>${place}</text>
         </line>
-       #end
+    #end
         
         <line></line>
         <line>

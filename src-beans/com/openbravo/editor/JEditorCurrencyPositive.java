@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (c) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -27,8 +27,10 @@ public class JEditorCurrencyPositive extends JEditorNumber {
     public JEditorCurrencyPositive() {
     }
     
+    @Override
     protected Formats getFormat() {
         return Formats.CURRENCY;
+
     }
     protected int getMode() {
         return EditorKeys.MODE_DOUBLE_POSITIVE;

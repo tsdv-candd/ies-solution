@@ -1,6 +1,6 @@
 //    uniCenta oPOS  - Touch Friendly Point Of Sale
-//    Copyright (C) 2009-2012 uniCenta
-//    http://www.unicenta.net/unicentaopos
+//    Copyright (c) 2009-2013 uniCenta & previous Openbravo POS works
+//    http://www.unicenta.com
 //
 //    This file is part of uniCenta oPOS
 //
@@ -33,6 +33,7 @@ public class AppConfig implements AppProperties {
 
     private static final Logger logger = Logger.getLogger("com.openbravo.pos.forms.AppConfig");
      
+    private static AppConfig m_instance = null;
     private Properties m_propsconfig;
     private File configfile;
       
@@ -94,6 +95,7 @@ public class AppConfig implements AppProperties {
         loadDefault();
         return configfile.delete();
     }
+  
     
     public void load() {
 
@@ -110,6 +112,15 @@ public class AppConfig implements AppProperties {
         }
     
     }
+    public Boolean isPriceWith00() {
+        String prop = getProperty("pricewith00");
+        if (prop == null) {
+            return false;
+        } else {
+            return prop.equals("true") ? true : false;
+        }
+    }
+    
     
     public void save() throws IOException {
         
@@ -189,5 +200,7 @@ public class AppConfig implements AppProperties {
         m_propsconfig.setProperty("paper.standard.mediasizename", "A4");
 
         m_propsconfig.setProperty("machine.uniqueinstance", "false");
+        
+
     }
 }
