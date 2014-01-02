@@ -771,8 +771,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         if ((cTrans == '\n') || (cTrans == '?')) {
             // Codigo de barras introducido
             if (m_sBarcode.length() > 0) { 
-// added JDL 23.05.13                 
-                String sCode = m_sBarcode.toString();
+// added JDL 23.05.13        
+                //CanDD Start edit for remove 1st string from readed barcode
+                //String sCode = m_sBarcode.toString();
+                String tmp = m_sBarcode.toString();
+                String sCode = tmp.substring(1); 
+                //CanDD End
+    
  // added JDL 23.05.13 if stirng is longer than 10 remove the
  //               if ((sCode.length() > 10) && priceWith00) {
  //                   sCode = sCode.replace(".","");
