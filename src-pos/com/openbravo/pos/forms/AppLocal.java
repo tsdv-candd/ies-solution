@@ -27,8 +27,10 @@ import com.openbravo.beans.LocaleResources;
  */
 public class AppLocal {
     
-    public static final String APP_NAME = "uniCenta oPOS";
-    public static final String APP_ID = "unicentaopos";
+//    public static final String APP_NAME = "uniCenta oPOS";
+    public static final String APP_NAME = "iES Solution";
+//    public static final String APP_ID = "unicentaopos";
+    public static final String APP_ID = "ieSolution";
     public static final String APP_VERSION = "3.56";
 
 //    public static final String APP_IDJL = "Unicenta John L's changes";    
