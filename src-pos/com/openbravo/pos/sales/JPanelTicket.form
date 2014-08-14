@@ -119,7 +119,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/openbravo/images/customer_add_sml.png"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="Add New Customer"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m kh&#xe1;ch h&#xe0;ng"/>
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -145,7 +145,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/openbravo/images/customer_sml.png"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="Show Customers"/>
+                    <Property name="toolTipText" type="java.lang.String" value="G&#x1eaf;n &#x111;&#x1a1;n h&#xe0;ng t&#x1edb;i m&#x1ed9;t Kh&#xe1;ch h&#xe0;ng &#x111;&#xe3; c&#xf3; trong h&#x1ec7; th&#x1ed1;ng"/>
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -171,7 +171,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/openbravo/images/sale_split_sml.png"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="Split Sale"/>
+                    <Property name="toolTipText" type="java.lang.String" value="T&#xe1;ch h&#xf3;a &#x111;&#x1a1;n"/>
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -232,7 +232,7 @@
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                               <ResourceString bundle="pos_messages.properties" key="button.scale" replaceFormat="AppLocal.getIntString(&quot;{key}&quot;)"/>
                             </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="Scale"/>
+                            <Property name="toolTipText" type="java.lang.String" value="C&#xe2;n"/>
                             <Property name="focusPainted" type="boolean" value="false"/>
                             <Property name="focusable" type="boolean" value="false"/>
                             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -284,7 +284,7 @@
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                               <ResourceString bundle="pos_messages.properties" key="button.sendorder" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                             </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="Send to Kichen Printer"/>
+                            <Property name="toolTipText" type="java.lang.String" value="G&#x1eed;i t&#x1edb;i m&#xe1;y in b&#x1ebf;p"/>
                             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                               <Insets value="[0, 4, 0, 4]"/>
                             </Property>
@@ -383,7 +383,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/1uparrow.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Scroll Up a Line"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Cu&#x1ed9;n l&#xea;n d&#xf2;ng tr&#xea;n"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -409,7 +409,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/1downarrow.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Scroll Down a Line"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Cu&#x1ed9;n xu&#x1ed1;ng d&#xf2;ng d&#x1b0;&#x1edb;i"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -435,7 +435,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/editdelete.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Remove Line"/>
+                        <Property name="toolTipText" type="java.lang.String" value="H&#x1ee7;y d&#xf2;ng b&#xf4;i &#x111;&#x1ead;m"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -461,7 +461,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/search32.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Product Search"/>
+                        <Property name="toolTipText" type="java.lang.String" value="T&#xec;m h&#xe0;ng"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -487,7 +487,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/sale_editline.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Edit Line"/>
+                        <Property name="toolTipText" type="java.lang.String" value="S&#x1eed;a d&#xf2;ng b&#xf4;i &#x111;&#x1ead;m"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -513,7 +513,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/attributes.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Choose Attributes"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Ch&#x1ecd;n thu&#x1ed9;c t&#xed;nh"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -864,7 +864,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/com/openbravo/images/barcode.png"/>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Get Barcode"/>
+                        <Property name="toolTipText" type="java.lang.String" value="L&#x1ea5;y m&#xe3; v&#x1ea1;ch"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="requestFocusEnabled" type="boolean" value="false"/>

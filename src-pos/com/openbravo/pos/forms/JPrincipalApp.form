@@ -42,7 +42,7 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="Open/Close Menu"/>
+                <Property name="toolTipText" type="java.lang.String" value="M&#x1edf;/&#x110;&#xf3;ng thanh Menu"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="iconTextGap" type="int" value="0"/>

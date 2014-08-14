@@ -443,7 +443,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         jPanel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jButton1.setToolTipText("Open/Close Menu");
+        jButton1.setToolTipText("Mở/Đóng thanh Menu");
         jButton1.setFocusPainted(false);
         jButton1.setFocusable(false);
         jButton1.setIconTextGap(0);
