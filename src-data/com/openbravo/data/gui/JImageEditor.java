@@ -301,7 +301,7 @@ public class JImageEditor extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
         m_jbtnopen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/camera.png"))); // NOI18N
-        m_jbtnopen.setToolTipText("Open Folder");
+        m_jbtnopen.setToolTipText("Mở thư mục ảnh");
         m_jbtnopen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtnopenActionPerformed(evt);
@@ -310,7 +310,7 @@ public class JImageEditor extends javax.swing.JPanel {
         jPanel2.add(m_jbtnopen);
 
         m_jbtnclose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
-        m_jbtnclose.setToolTipText("Remove Picture");
+        m_jbtnclose.setToolTipText("Hủy ảnh");
         m_jbtnclose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtncloseActionPerformed(evt);
@@ -319,7 +319,7 @@ public class JImageEditor extends javax.swing.JPanel {
         jPanel2.add(m_jbtnclose);
 
         m_jbtnzoomin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/viewmag+.png"))); // NOI18N
-        m_jbtnzoomin.setToolTipText("Zoom In");
+        m_jbtnzoomin.setToolTipText("Phóng to");
         m_jbtnzoomin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtnzoominActionPerformed(evt);
@@ -333,7 +333,7 @@ public class JImageEditor extends javax.swing.JPanel {
         jPanel2.add(m_jPercent);
 
         m_jbtnzoomout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/viewmag-.png"))); // NOI18N
-        m_jbtnzoomout.setToolTipText("Zoom Out");
+        m_jbtnzoomout.setToolTipText("Thu nhỏ");
         m_jbtnzoomout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtnzoomoutActionPerformed(evt);

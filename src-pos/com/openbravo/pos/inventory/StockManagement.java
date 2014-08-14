@@ -519,7 +519,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 200, 25));
 
         m_jbtndate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
-        m_jbtndate.setToolTipText("Open Calendar");
+        m_jbtndate.setToolTipText("Mở lịch");
         m_jbtndate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtndateActionPerformed(evt);
@@ -550,7 +550,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 200, 25));
 
         m_jDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete.png"))); // NOI18N
-        m_jDelete.setToolTipText("Remove Line");
+        m_jDelete.setToolTipText("Hủy dòng bôi đậm");
         m_jDelete.setFocusPainted(false);
         m_jDelete.setFocusable(false);
         m_jDelete.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -563,7 +563,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, -1, -1));
 
         m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow.png"))); // NOI18N
-        m_jUp.setToolTipText("Scroll Up a Line");
+        m_jUp.setToolTipText("Cuộn lên dòng trên");
         m_jUp.setFocusPainted(false);
         m_jUp.setFocusable(false);
         m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -576,7 +576,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, -1, -1));
 
         m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow.png"))); // NOI18N
-        m_jDown.setToolTipText("Scroll Down a Line");
+        m_jDown.setToolTipText("Cuộn xuống dòng dưới");
         m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
         m_jDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -592,7 +592,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jLocationDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 200, 25));
 
         jEditAttributes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/attributes.png"))); // NOI18N
-        jEditAttributes.setToolTipText("Attrubutes");
+        jEditAttributes.setToolTipText("Thuộc tính");
         jEditAttributes.setFocusPainted(false);
         jEditAttributes.setFocusable(false);
         jEditAttributes.setMaximumSize(new java.awt.Dimension(56, 44));
@@ -608,7 +608,7 @@ public class StockManagement extends JPanel implements JPanelView {
 
         btnDownloadProducts.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnDownloadProducts.setText("ScanPal");
-        btnDownloadProducts.setToolTipText("Download from Mobile Device");
+        btnDownloadProducts.setToolTipText("Tải từ thiết bị di động");
         btnDownloadProducts.setPreferredSize(new java.awt.Dimension(69, 33));
         btnDownloadProducts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

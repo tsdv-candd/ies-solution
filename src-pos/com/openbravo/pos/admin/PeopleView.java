@@ -201,7 +201,7 @@ public class PeopleView extends JPanel implements EditorRecord {
         setPreferredSize(new java.awt.Dimension(531, 400));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
-        jButton3.setToolTipText("Clear Key");
+        jButton3.setToolTipText("Hủy mã");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -241,7 +241,7 @@ public class PeopleView extends JPanel implements EditorRecord {
         jcard.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/encrypted.png"))); // NOI18N
-        jButton2.setToolTipText("Create Key");
+        jButton2.setToolTipText("Tạo mã");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

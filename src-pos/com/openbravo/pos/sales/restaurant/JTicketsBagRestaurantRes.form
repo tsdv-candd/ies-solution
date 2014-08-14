@@ -87,7 +87,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="pos_messages.properties" key="button.tables" replaceFormat="AppLocal.getIntString(&quot;{key}&quot;)"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="Go to Table Plan"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Quay v&#x1ec1; m&#xe0;n h&#xec;nh hi&#x1ec3;n th&#x1ecb; b&#xe0;n"/>
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="requestFocusEnabled" type="boolean" value="false"/>
@@ -107,7 +107,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="pos_messages.properties" key="button.receive" replaceFormat="AppLocal.getIntString(&quot;{key}&quot;)"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="Receive pre-Booked Customer"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Nh&#x1ead;n kh&#xe1;ch &#x111;&#x1eb7;t tr&#x1b0;&#x1edb;c"/>
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="requestFocusEnabled" type="boolean" value="false"/>
@@ -287,7 +287,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/openbravo/images/customer_add_sml.png"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Show Customers"/>
+                <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m kh&#xe1;ch h&#xe0;ng"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

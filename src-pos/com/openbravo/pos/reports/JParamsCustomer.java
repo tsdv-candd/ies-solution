@@ -125,7 +125,7 @@ public class JParamsCustomer extends javax.swing.JPanel implements ReportEditorC
         jTextField1.setBounds(140, 20, 200, 25);
 
         btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer_sml.png"))); // NOI18N
-        btnCustomer.setToolTipText("Get Customers");
+        btnCustomer.setToolTipText("Tìm khách hàng");
         btnCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCustomerActionPerformed(evt);

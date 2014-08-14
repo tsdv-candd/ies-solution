@@ -74,7 +74,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/openbravo/images/date.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Open Calendar"/>
+            <Property name="toolTipText" type="java.lang.String" value="M&#x1edf; l&#x1ecb;ch"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_jbtndateActionPerformed"/>
@@ -163,7 +163,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/openbravo/images/search24.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Search Product List"/>
+            <Property name="toolTipText" type="java.lang.String" value="T&#xec;m danh s&#xe1;ch h&#xe0;ng"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jEditProductActionPerformed"/>
@@ -243,7 +243,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/openbravo/images/barcode.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Get Barcode"/>
+            <Property name="toolTipText" type="java.lang.String" value="L&#x1ea5;y m&#xe3; v&#x1ea1;ch"/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -310,7 +310,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/openbravo/images/products.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Enter Product ID"/>
+            <Property name="toolTipText" type="java.lang.String" value="Nh&#x1ead;p m&#xe3; h&#xe0;ng (Product ID)"/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -375,7 +375,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/openbravo/images/attributes.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Product Attributes"/>
+            <Property name="toolTipText" type="java.lang.String" value="Thu&#x1ed9;c t&#xed;nh h&#xe0;ng"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[65, 33]"/>
             </Property>

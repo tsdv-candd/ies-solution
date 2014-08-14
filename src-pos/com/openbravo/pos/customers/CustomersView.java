@@ -587,7 +587,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
         jcard.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/encrypted.png"))); // NOI18N
-        jButton2.setToolTipText("Create Key");
+        jButton2.setToolTipText("Tạo mã");
         jButton2.setMaximumSize(new java.awt.Dimension(64, 32));
         jButton2.setMinimumSize(new java.awt.Dimension(64, 32));
         jButton2.setPreferredSize(new java.awt.Dimension(64, 32));
@@ -598,7 +598,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
-        jButton3.setToolTipText("Clear Key");
+        jButton3.setToolTipText("Hủy mã");
         jButton3.setMaximumSize(new java.awt.Dimension(64, 32));
         jButton3.setMinimumSize(new java.awt.Dimension(64, 32));
         jButton3.setPreferredSize(new java.awt.Dimension(64, 32));
@@ -887,7 +887,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -910,7 +910,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(bundle.getString("label.photo"), jPanel5); // NOI18N
@@ -931,7 +931,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

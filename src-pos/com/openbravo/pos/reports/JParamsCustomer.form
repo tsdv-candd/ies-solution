@@ -62,7 +62,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/com/openbravo/images/customer_sml.png"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Get Customers"/>
+        <Property name="toolTipText" type="java.lang.String" value="T&#xec;m kh&#xe1;ch h&#xe0;ng"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCustomerActionPerformed"/>

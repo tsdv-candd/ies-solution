@@ -168,7 +168,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jBtnToRightAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2rightarrow.png"))); // NOI18N
-        jBtnToRightAll.setToolTipText("Split All Line Items");
+        jBtnToRightAll.setToolTipText("Tách cả dòng bôi đậm");
         jBtnToRightAll.setFocusPainted(false);
         jBtnToRightAll.setFocusable(false);
         jBtnToRightAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -183,7 +183,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jPanel4.add(jBtnToRightAll, gridBagConstraints);
 
         jBtnToRightOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1rightarrow.png"))); // NOI18N
-        jBtnToRightOne.setToolTipText("Split only one of the Line Items");
+        jBtnToRightOne.setToolTipText("Tách một món trong dòng bôi đậm");
         jBtnToRightOne.setFocusPainted(false);
         jBtnToRightOne.setFocusable(false);
         jBtnToRightOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -199,7 +199,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jPanel4.add(jBtnToRightOne, gridBagConstraints);
 
         jBtnToLeftOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow.png"))); // NOI18N
-        jBtnToLeftOne.setToolTipText("Un-Split only one of the Line Items");
+        jBtnToLeftOne.setToolTipText("Hủy việc tách một món trong dòng bôi đậm");
         jBtnToLeftOne.setFocusPainted(false);
         jBtnToLeftOne.setFocusable(false);
         jBtnToLeftOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -215,7 +215,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jPanel4.add(jBtnToLeftOne, gridBagConstraints);
 
         jBtnToLeftAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2leftarrow.png"))); // NOI18N
-        jBtnToLeftAll.setToolTipText("Un-Split All Line Items");
+        jBtnToLeftAll.setToolTipText("Hủy việc tách cả dòng bôi đậm");
         jBtnToLeftAll.setFocusPainted(false);
         jBtnToLeftAll.setFocusable(false);
         jBtnToLeftAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -238,8 +238,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-730)/2, (screenSize.height-470)/2, 730, 470);
+        setSize(new java.awt.Dimension(730, 470));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jButtonOKActionPerformed

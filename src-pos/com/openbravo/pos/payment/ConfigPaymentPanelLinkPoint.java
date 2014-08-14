@@ -145,7 +145,7 @@ public class ConfigPaymentPanelLinkPoint extends javax.swing.JPanel implements P
         jtxtCertificatePath.setPreferredSize(new java.awt.Dimension(6, 30));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileopen.png"))); // NOI18N
-        jButton1.setToolTipText("Open Folder");
+        jButton1.setToolTipText("Mở thư mục");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

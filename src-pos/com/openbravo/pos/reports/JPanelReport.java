@@ -213,7 +213,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 
         jToggleFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow.png"))); // NOI18N
         jToggleFilter.setSelected(true);
-        jToggleFilter.setToolTipText("Hide/Show Filter");
+        jToggleFilter.setToolTipText("Ẩn/Hiện bộ lọc");
         jToggleFilter.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow.png"))); // NOI18N
         jToggleFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,7 +225,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ok.png"))); // NOI18N
         jButton1.setText(AppLocal.getIntString("Button.ExecuteReport")); // NOI18N
-        jButton1.setToolTipText("Execute Report");
+        jButton1.setToolTipText("Xuất báo cáo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

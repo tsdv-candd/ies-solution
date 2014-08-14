@@ -60,7 +60,7 @@
                   <Image iconType="3" name="/com/openbravo/images/1downarrow.png"/>
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="toolTipText" type="java.lang.String" value="Hide/Show Filter"/>
+                <Property name="toolTipText" type="java.lang.String" value="&#x1ea8;n/Hi&#x1ec7;n b&#x1ed9; l&#x1ecd;c"/>
                 <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/openbravo/images/1uparrow.png"/>
                 </Property>
@@ -80,7 +80,7 @@
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="pos_messages.properties" key="Button.ExecuteReport" replaceFormat="AppLocal.getIntString(&quot;{key}&quot;)"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Execute Report"/>
+                <Property name="toolTipText" type="java.lang.String" value="Xu&#x1ea5;t b&#xe1;o c&#xe1;o"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>

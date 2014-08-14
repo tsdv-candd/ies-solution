@@ -452,7 +452,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         m_jdate.setBounds(100, 10, 200, 25);
 
         m_jbtndate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
-        m_jbtndate.setToolTipText("Open Calendar");
+        m_jbtndate.setToolTipText("Mở lịch");
         m_jbtndate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtndateActionPerformed(evt);
@@ -487,7 +487,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jproduct.setBounds(100, 45, 200, 25);
 
         jEditProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search24.png"))); // NOI18N
-        jEditProduct.setToolTipText("Search Product List");
+        jEditProduct.setToolTipText("Tìm danh sách hàng");
         jEditProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jEditProductActionPerformed(evt);
@@ -523,7 +523,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         m_jcodebar.setBounds(100, 80, 200, 25);
 
         m_jEnter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/barcode.png"))); // NOI18N
-        m_jEnter.setToolTipText("Get Barcode");
+        m_jEnter.setToolTipText("Lấy mã vạch");
         m_jEnter.setFocusPainted(false);
         m_jEnter.setFocusable(false);
         m_jEnter.setMaximumSize(new java.awt.Dimension(54, 33));
@@ -556,7 +556,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         m_jreference.setBounds(100, 115, 200, 25);
 
         m_jEnter1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/products.png"))); // NOI18N
-        m_jEnter1.setToolTipText("Enter Product ID");
+        m_jEnter1.setToolTipText("Nhập mã hàng (Product ID)");
         m_jEnter1.setFocusPainted(false);
         m_jEnter1.setFocusable(false);
         m_jEnter1.setMaximumSize(new java.awt.Dimension(64, 33));
@@ -585,7 +585,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
         jattributes.setBounds(440, 115, 200, 25);
 
         jEditAttributes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/attributes.png"))); // NOI18N
-        jEditAttributes.setToolTipText("Product Attributes");
+        jEditAttributes.setToolTipText("Thuộc tính hàng");
         jEditAttributes.setMaximumSize(new java.awt.Dimension(65, 33));
         jEditAttributes.setMinimumSize(new java.awt.Dimension(65, 33));
         jEditAttributes.setPreferredSize(new java.awt.Dimension(65, 33));

@@ -114,7 +114,7 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
         jTxtEndDate.setBounds(380, 20, 140, 25);
 
         btnDateStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
-        btnDateStart.setToolTipText("Open Calendar");
+        btnDateStart.setToolTipText("Mở lịch");
         btnDateStart.setMaximumSize(new java.awt.Dimension(40, 33));
         btnDateStart.setMinimumSize(new java.awt.Dimension(40, 33));
         btnDateStart.setPreferredSize(new java.awt.Dimension(40, 33));
@@ -127,7 +127,7 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
         btnDateStart.setBounds(240, 20, 40, 33);
 
         btnDateEnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
-        btnDateEnd.setToolTipText("Open Calendar");
+        btnDateEnd.setToolTipText("Mở lịch");
         btnDateEnd.setMaximumSize(new java.awt.Dimension(40, 33));
         btnDateEnd.setMinimumSize(new java.awt.Dimension(40, 33));
         btnDateEnd.setPreferredSize(new java.awt.Dimension(40, 33));
