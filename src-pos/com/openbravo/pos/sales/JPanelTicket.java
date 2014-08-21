@@ -112,8 +112,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     // private ComboBoxValModel m_TaxModel;
     
     private SentenceList senttaxcategories;
+    private SentenceList salecategories;
+    
     private ListKeyed taxcategoriescollection;
     private ComboBoxValModel taxcategoriesmodel;
+    
+    //Added CanDD for whole sale
+    private ComboBoxValModel salemodel;
     
     private TaxesLogic taxeslogic;
     
@@ -212,6 +217,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         senttaxcategories = dlSales.getTaxCategoriesList();
         
         taxcategoriesmodel = new ComboBoxValModel();    
+        
+        salemodel = new ComboBoxValModel();  
               
         // ponemos a cero el estado
         stateToZero();  
@@ -306,10 +313,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         taxcollection = new ListKeyed<>(taxlist);
         java.util.List<TaxCategoryInfo> taxcategorieslist = senttaxcategories.list();
         taxcategoriescollection = new ListKeyed<>(taxcategorieslist);
-        
+
         taxcategoriesmodel = new ComboBoxValModel(taxcategorieslist);
         m_jTax.setModel(taxcategoriesmodel);
 
+        java.util.List<String> saletype = new ArrayList<String>();
+        saletype.add("Bán buôn");
+        saletype.add("Bán lẻ");
+        salemodel = new ComboBoxValModel(saletype);
+        m_jSaleType.setModel(salemodel);
+        
         String taxesid = m_jbtnconfig.getProperty("taxcategoryid");
         if (taxesid == null) {
             if (m_jTax.getItemCount() > 0) {
@@ -330,9 +343,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         if (m_App.getAppUserView().getUser().hasPermission("sales.ChangeTaxOptions")) {
             m_jTax.setVisible(true);
             m_jaddtax.setVisible(true);
+            m_jSaleType.setVisible(true);
         } else {
             m_jTax.setVisible(false);
             m_jaddtax.setVisible(false);
+            m_jSaleType.setVisible(false);
         }
 
         // Authorization for buttons
@@ -1620,6 +1635,7 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jTax = new javax.swing.JComboBox();
         m_jaddtax = new javax.swing.JToggleButton();
         m_jKeyFactory = new javax.swing.JTextField();
+        m_jSaleType = new javax.swing.JComboBox();
         catcontainer = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 204, 153));
@@ -2074,6 +2090,19 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
 
         m_jContEntries.add(m_jPanEntries, java.awt.BorderLayout.NORTH);
 
+        m_jSaleType.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        m_jSaleType.setForeground(new java.awt.Color(255, 0, 0));
+        m_jSaleType.setFocusable(false);
+        m_jSaleType.setPreferredSize(new java.awt.Dimension(28, 25));
+        m_jSaleType.setRequestFocusEnabled(false);
+        m_jSaleType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jSaleTypeActionPerformed(evt);
+            }
+        });
+        m_jContEntries.add(m_jSaleType, java.awt.BorderLayout.CENTER);
+        m_jSaleType.getAccessibleContext().setAccessibleParent(jPanel9);
+
         m_jPanContainer.add(m_jContEntries, java.awt.BorderLayout.LINE_END);
 
         catcontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -2317,6 +2346,15 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
 
     }//GEN-LAST:event_j_btnKitchenPrtActionPerformed
 
+    private void m_jSaleTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jSaleTypeActionPerformed
+        int i = m_jSaleType.getSelectedIndex();  
+        String str = m_jSaleType.getSelectedItem().toString();
+        if(str.equalsIgnoreCase("Bán Buôn")) {
+            isWholeSale = true;
+        } else {
+            isWholeSale = false;
+        }      
+    }//GEN-LAST:event_m_jSaleTypeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCustomer;
@@ -2354,6 +2392,7 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JPanel m_jPanelScripts;
     private javax.swing.JLabel m_jPor;
     private javax.swing.JLabel m_jPrice;
+    private javax.swing.JComboBox m_jSaleType;
     private javax.swing.JLabel m_jSubtotalEuros;
     private javax.swing.JComboBox m_jTax;
     private javax.swing.JLabel m_jTaxesEuros;

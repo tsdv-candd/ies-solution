@@ -219,9 +219,9 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
                 java.util.List<ProductInfoExt> products = m_dlSales.getProductCatalog(catid);
                 for (ProductInfoExt prod : products) {
 // These are the products selection panel                   
-                   jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod),prod.getTextTip());
+                    jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod), prod.getTextTip());
                 }
-                }
+            }
             
             // Show categories panel
             CardLayout cl = (CardLayout)(m_jProducts.getLayout());

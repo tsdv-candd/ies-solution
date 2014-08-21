@@ -316,7 +316,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISVPRICE, "
                 + "P.ISVERPATRIB, "
                 + "P.TEXTTIP, "
-                + "P.WARRANTY  "
+                + "P.WARRANTY,  "
                 + "P.PRICEWHOLESELL  "
 		+ "FROM PRODUCTS P, PRODUCTS_CAT O WHERE P.ID = O.PRODUCT AND P.CATEGORY = ? " +
 //		  "ORDER BY O.CATORDER, P.NAME " +
@@ -354,7 +354,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISVPRICE, "
                 + "P.ISVERPATRIB, "
                 + "P.TEXTTIP, "
-                + "P.WARRANTY  "
+                + "P.WARRANTY,  "
+                + "P.PRICEWHOLESELL  "
                 + "FROM PRODUCTS P, "
                 + "PRODUCTS_CAT O, PRODUCTS_COM M "
                 + "WHERE P.ID = O.PRODUCT AND P.ID = M.PRODUCT2 AND M.PRODUCT = ? "
@@ -466,7 +467,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVPRICE, "
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
-                + "WARRANTY " 
+                + "WARRANTY,  "
+                + "P.PRICEWHOLESELL  "
                 + "FROM PRODUCTS "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY REFERENCE", 
@@ -511,7 +513,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVPRICE, "
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
-                + "WARRANTY "
+                + "WARRANTY,  "
+                + "P.PRICEWHOLESELL  "
 		+ "FROM PRODUCTS "
                 + "WHERE ISCOM = " + s.DB.FALSE() + " AND ?(QBF_FILTER) ORDER BY REFERENCE",
                 new String[] {"NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE"})
@@ -555,7 +558,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                  + "ISVPRICE, "
                  + "ISVERPATRIB, "
                  + "TEXTTIP, "
-                 + "WARRANTY "
+                 + "WARRANTY,  "
+                 + "P.PRICEWHOLESELL  "
 		 + "FROM PRODUCTS "
                  + "WHERE ISCOM = " + s.DB.TRUE() + " AND ?(QBF_FILTER) "
                  + "ORDER BY REFERENCE", new String[] {"NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE"})
