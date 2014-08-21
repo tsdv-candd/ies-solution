@@ -47,6 +47,8 @@ public class ProductInfoExt {
     protected String attributesetid;
     protected double m_dPriceBuy;
     protected double m_dPriceSell;
+//ADDED whole sale price 20.08.14 by CanDD
+    protected double m_dPriceWholeSell; 
     protected BufferedImage m_Image;
 // ADDED JG 20.12.10 - Kitchen Print
     protected boolean m_bKitchen;
@@ -69,8 +71,8 @@ public class ProductInfoExt {
     protected String m_sTextTip;
 // ADDED JDL 25.05.13
     protected boolean m_bWarranty;
-    
-    
+
+     
     /** Creates new ProductInfo */
     public ProductInfoExt() {
         m_ID = null;
@@ -84,6 +86,8 @@ public class ProductInfoExt {
         attributesetid = null;
         m_dPriceBuy = 0.0;
         m_dPriceSell = 0.0;
+//ADDED whole sale price 20.08.14 by CanDD
+        m_dPriceWholeSell = 0.0;
         m_Image = null;
 // ADDED JG 20.12.10 - Kitchen Print
         m_bKitchen=false;
@@ -105,7 +109,7 @@ public class ProductInfoExt {
         m_sTextTip=null;
 // ADDED JDL 25.05.13         
         m_bWarranty=false;
-        
+
         
     }
 
@@ -246,28 +250,53 @@ public class ProductInfoExt {
     public final double getPriceSell() {
         return m_dPriceSell;
     }
-
+    
+    //Add WholeSale Price 20.08.14 CanDD
+    public final double getPriceWholeSell() {
+        return m_dPriceWholeSell;
+    }
+    
     public final void setPriceSell(double dPrice) {
         m_dPriceSell = dPrice;
     }
 
+    //Add WholeSale Price 20.08.14 CanDD
+    public final void setPriceWholeSell(double dwPrice) {
+        m_dPriceWholeSell = dwPrice;
+    }
+    
+    
     public final void setTextTip(String value){
       m_sTextTip = value;
-  }
+    }
      
-    
-    
     public final double getPriceSellTax(TaxInfo tax) {
         return m_dPriceSell * (1.0 + tax.getRate());
+    }
+    
+    //Add WholeSale Price 20.08.14 CanDD
+    public final double getPriceWholeSellTax(TaxInfo tax) {
+        return m_dPriceWholeSell * (1.0 + tax.getRate());
     }
 
     public String printPriceSell() {
         return Formats.CURRENCY.formatValue(new Double(getPriceSell()));
     }
-
+    
+    //Add WholeSale Price 20.08.14 CanDD
+    public String printPriceWholeSell() {
+        return Formats.CURRENCY.formatValue(new Double(getPriceWholeSell()));
+    }
+    
     public String printPriceSellTax(TaxInfo tax) {
         return Formats.CURRENCY.formatValue(new Double(getPriceSellTax(tax)));
     }
+    
+    //Add WholeSale Price 20.08.14 CanDD
+    public String printPriceWholeSellTax(TaxInfo tax) {
+        return Formats.CURRENCY.formatValue(new Double(getPriceWholeSellTax(tax)));
+    }
+    
     
     public BufferedImage getImage() {
         return m_Image;
@@ -319,6 +348,9 @@ public class ProductInfoExt {
           
 // ADDED JDL 25.04.13
           product.m_bWarranty = dr.getBoolean(20).booleanValue();
+
+// ADDED WholeSale Price
+          product.m_dPriceWholeSell = dr.getDouble(21).doubleValue();
             return product;
         }};
     }

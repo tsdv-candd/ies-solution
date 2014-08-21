@@ -317,6 +317,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISVERPATRIB, "
                 + "P.TEXTTIP, "
                 + "P.WARRANTY  "
+                + "P.PRICEWHOLESELL  "
 		+ "FROM PRODUCTS P, PRODUCTS_CAT O WHERE P.ID = O.PRODUCT AND P.CATEGORY = ? " +
 //		  "ORDER BY O.CATORDER, P.NAME " +
 //                  "LIMIT 3000 "

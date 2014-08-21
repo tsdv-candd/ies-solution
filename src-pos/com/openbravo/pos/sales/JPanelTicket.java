@@ -151,7 +151,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private Boolean warrantyPrint=false;
 //   private String loyaltyCardNumber=null;
     
-    
+// Added 20.08.14 Whole Sale Price CanDD
+    private Boolean isWholeSale = false;
+
     /** Creates new form JTicketView */
     public JPanelTicket() {
         
@@ -744,8 +746,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         // precondicion: prod != null
         if (prod.isVprice()){
             addTicketLine(prod, getPorValue(), getInputValue());    
-        }else {        
-            addTicketLine(prod, dPor, prod.getPriceSell());
+        }else {    
+            //Added 20.08.14 whole sale by CanDD
+            if(isWholeSale) {
+                addTicketLine(prod, dPor, prod.getPriceWholeSell());
+            } else {
+                addTicketLine(prod, dPor, prod.getPriceSell());
+            }
         }
         
         
@@ -812,7 +819,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     oProduct.setPriceSell(Double.parseDouble(sCode.substring(7, 12)) / 100);   
                     oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
                     // Se anade directamente una unidad con el precio y todo
-                    addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
+                    //Addded 20.08.14 whole sale by CanDD
+                    if(isWholeSale) {
+                        addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceWholeSell()));
+                    } else {
+                        addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
+                    }
                 } else if (sCode.length() == 13 && sCode.startsWith("210")) {
                     // barcode of a weigth product
                     incProductByCodePrice(sCode.substring(0, 7), Double.parseDouble(sCode.substring(7, 12)) / 100);
@@ -938,7 +950,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         Double value = m_App.getDeviceScale().readWeight();
                         if (value != null) {
                             ProductInfoExt product = getInputProduct();
-                            addTicketLine(product, value.doubleValue(), product.getPriceSell());
+                            //Addded 20.08.14 whole sale by CanDD
+                            if(isWholeSale) {
+                                addTicketLine(product, value.doubleValue(), product.getPriceWholeSell());
+                            } else {
+                                addTicketLine(product, value.doubleValue(), product.getPriceSell());
+                            }
                         }
                     } catch (ScaleException e) {
                         Toolkit.getDefaultToolkit().beep();
@@ -1067,28 +1084,48 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, 1.0, product.getPriceSell());
+               //Added 20.08.14 whole sale by CanDD
+                if(isWholeSale) {
+                    addTicketLine(product, 1.0, product.getPriceWholeSell());
+                } else {
+                    addTicketLine(product, 1.0, product.getPriceSell());
+                }
                 
             // Anadimos 1 producto con precio negativo
             } else if (cTrans == '-' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, 1.0, -product.getPriceSell());
+                //Added 20.08.14 whole sale by CanDD
+                if(isWholeSale) {
+                    addTicketLine(product, 1.0, -product.getPriceWholeSell());
+                } else {
+                    addTicketLine(product, 1.0, -product.getPriceSell());
+                }
 
             // Anadimos n productos
             } else if (cTrans == '+' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, getPorValue(), product.getPriceSell());
+                //Added 20.08.14 whole sale by CanDD
+                if(isWholeSale) {
+                    addTicketLine(product, getPorValue(), product.getPriceWholeSell());
+                } else {
+                    addTicketLine(product, getPorValue(), product.getPriceSell());
+                }
 
             // Anadimos n productos con precio negativo ?
             } else if (cTrans == '-' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, getPorValue(), -product.getPriceSell());
+                //Added 20.08.14 whole sale by CanDD
+                if(isWholeSale) {
+                    addTicketLine(product, getPorValue(), -product.getPriceWholeSell());
+                } else {
+                    addTicketLine(product, getPorValue(), -product.getPriceSell());
+                }
 
             // Totals() Igual;
             } else if (cTrans == ' ' || cTrans == '=') {
@@ -2209,30 +2246,46 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
 
     private void jbtnMooringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMooringActionPerformed
 // Display vessel selection box on screen if reply is good add to the ticket
-       if (listener  != null) {
+        if (listener != null) {
             listener.stop();
-        } 
-       JMooringDetails mooring = JMooringDetails.getMooringDetails(this, m_App.getSession());
-       mooring.setVisible(true);
-       if (mooring.isCreate()){ 
-           if (((mooring.getVesselDays()>0 )) &&  ((mooring.getVesselSize()>1))){          
-           try{
-           ProductInfoExt vProduct = dlSales.getProductInfoByCode("BFeesDay1");
-           vProduct.setName("Berth Fees 1st Day " + mooring.getVesselName());
-           addTicketLine(vProduct, mooring.getVesselSize(), vProduct.getPriceSell());
-           if (mooring.getVesselDays()>1){
-           vProduct = dlSales.getProductInfoByCode("BFeesDay2");
-           vProduct.setName("Additional Days " +(mooring.getVesselDays()-1));
-           addTicketLine(vProduct, mooring.getVesselSize() * (mooring.getVesselDays()-1), vProduct.getPriceSell());               
-           }
-           if (mooring.getVesselPower()){
-           vProduct = dlSales.getProductInfoByCode("PowerSupplied");
-           addTicketLine(vProduct, mooring.getVesselDays(), vProduct.getPriceSell());               
-           }         
-           }catch (Exception e){}
-       }
-       }
-               refreshTicket(); 
+        }
+        JMooringDetails mooring = JMooringDetails.getMooringDetails(this, m_App.getSession());
+        mooring.setVisible(true);
+        if (mooring.isCreate()) {
+            if (((mooring.getVesselDays() > 0)) && ((mooring.getVesselSize() > 1))) {
+                try {
+                    ProductInfoExt vProduct = dlSales.getProductInfoByCode("BFeesDay1");
+                    vProduct.setName("Berth Fees 1st Day " + mooring.getVesselName());
+                    // Added 20.08.14 Whole Sale Price CanDD
+                    if (isWholeSale) {
+                        addTicketLine(vProduct, mooring.getVesselSize(), vProduct.getPriceWholeSell());
+                    } else {
+                        addTicketLine(vProduct, mooring.getVesselSize(), vProduct.getPriceSell());
+                    }
+                    if (mooring.getVesselDays() > 1) {
+                        vProduct = dlSales.getProductInfoByCode("BFeesDay2");
+                        vProduct.setName("Additional Days " + (mooring.getVesselDays() - 1));
+                        // Added 20.08.14 Whole Sale Price CanDD
+                        if (isWholeSale) {
+                            addTicketLine(vProduct, mooring.getVesselSize() * (mooring.getVesselDays() - 1), vProduct.getPriceWholeSell());
+                        } else {
+                            addTicketLine(vProduct, mooring.getVesselSize() * (mooring.getVesselDays() - 1), vProduct.getPriceSell());
+                        }
+                    }
+                    if (mooring.getVesselPower()) {
+                        vProduct = dlSales.getProductInfoByCode("PowerSupplied");
+                        // Added 20.08.14 Whole Sale Price CanDD
+                        if (isWholeSale) {
+                            addTicketLine(vProduct, mooring.getVesselDays(), vProduct.getPriceWholeSell());
+                        } else {
+                            addTicketLine(vProduct, mooring.getVesselDays(), vProduct.getPriceSell());
+                        }
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }
+        refreshTicket();
     }//GEN-LAST:event_jbtnMooringActionPerformed
 
     private void j_btnKitchenPrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_j_btnKitchenPrtActionPerformed
