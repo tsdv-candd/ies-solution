@@ -354,7 +354,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel implements Editor
 
                 // calculo el precio sugerido para la entrada.
                 MovementReason reason = (MovementReason)  m_ReasonModel.getSelectedItem();
-                Double dPrice = reason.getPrice(prod.getPriceBuy(), prod.getPriceSell());
+                Double dPrice = reason.getPrice(prod.getPriceBuy(), prod.getPriceSell(false));
                 m_jprice.setText(Formats.CURRENCY.formatValue(dPrice));
             }
         }

@@ -44,7 +44,8 @@ public class ProductRenderer extends DefaultListCellRenderer {
         
         ProductInfoExt prod = (ProductInfoExt) value;
         if (prod != null) {
-            setText("<html>" + prod.getReference() + " - " + prod.getName() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + Formats.CURRENCY.formatValue(new Double(prod.getPriceSell())));
+            //22.08.14 CanDD temporary add wholesale TODO: Fix bug if any
+            setText("<html>" + prod.getReference() + " - " + prod.getName() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + Formats.CURRENCY.formatValue(new Double(prod.getPriceSell(false))));
             Image img = tnbprod.getThumbNail(prod.getImage());
             setIcon(img == null ? null :new ImageIcon(img));
         }

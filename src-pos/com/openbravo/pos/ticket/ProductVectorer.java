@@ -51,7 +51,8 @@ public class ProductVectorer implements Vectorer {
         m_sValues[1] = Formats.STRING.formatValue(myprod.getCode());
         m_sValues[2] = Formats.STRING.formatValue(myprod.getName());
         m_sValues[3] = Formats.CURRENCY.formatValue(new Double(myprod.getPriceBuy()));
-        m_sValues[4] = Formats.CURRENCY.formatValue(new Double(myprod.getPriceSell()));     
+        //22.08.14 CanDD temporary get WholeSale price TODO: Fix bug if it happen
+        m_sValues[4] = Formats.CURRENCY.formatValue(new Double(myprod.getPriceSell(false)));     
         return m_sValues;
     }
 }

@@ -69,8 +69,9 @@ public class ProductInfoExt {
     protected String m_sTextTip;
 // ADDED JDL 25.05.13
     protected boolean m_bWarranty;
-    
-    
+
+// Added wholeSell 22.08.14 by CanDD
+    protected double m_dPriceWholeSell;
     /** Creates new ProductInfo */
     public ProductInfoExt() {
         m_ID = null;
@@ -105,7 +106,9 @@ public class ProductInfoExt {
         m_sTextTip=null;
 // ADDED JDL 25.05.13         
         m_bWarranty=false;
-        
+
+// Added WholeSell 22.08.14 by CanDD
+        m_dPriceWholeSell = 0.0;
         
     }
 
@@ -243,30 +246,44 @@ public class ProductInfoExt {
         m_dPriceBuy = dPrice;
     }
 
-    public final double getPriceSell() {
-        return m_dPriceSell;
+    //Change 22.08.14 Added WholeSell by 
+    public final double getPriceSell(boolean isWholeSale) {
+        if (isWholeSale) {
+            return m_dPriceWholeSell;
+        } else {
+            return m_dPriceSell;
+        }
     }
 
     public final void setPriceSell(double dPrice) {
         m_dPriceSell = dPrice;
     }
 
-    public final void setTextTip(String value){
-      m_sTextTip = value;
-  }
-     
-    
-    
-    public final double getPriceSellTax(TaxInfo tax) {
-        return m_dPriceSell * (1.0 + tax.getRate());
+    //Added 22.08.14 Added WholeSell by 
+    public final void setPriceWholeSell(double dPrice) {
+        m_dPriceWholeSell = dPrice;
+    }
+
+    public final void setTextTip(String value) {
+        m_sTextTip = value;
+    }
+
+    public final double getPriceSellTax(TaxInfo tax, boolean isWholeSale) {
+        if (isWholeSale) {
+            return m_dPriceWholeSell * (1.0 + tax.getRate());
+        } else {
+            return m_dPriceSell * (1.0 + tax.getRate());
+        }
     }
 
     public String printPriceSell() {
-        return Formats.CURRENCY.formatValue(new Double(getPriceSell()));
+        //Print only normal Price Sell, not wholesale CanDD
+        return Formats.CURRENCY.formatValue(new Double(getPriceSell(false)));
     }
 
     public String printPriceSellTax(TaxInfo tax) {
-        return Formats.CURRENCY.formatValue(new Double(getPriceSellTax(tax)));
+        //Print only normal Price Sell, not wholesale CanDD
+        return Formats.CURRENCY.formatValue(new Double(getPriceSellTax(tax, false)));
     }
     
     public BufferedImage getImage() {
@@ -301,24 +318,26 @@ public class ProductInfoExt {
             product.m_bScale = dr.getBoolean(6).booleanValue();
             product.m_dPriceBuy = dr.getDouble(7).doubleValue();
             product.m_dPriceSell = dr.getDouble(8).doubleValue();
-            product.taxcategoryid = dr.getString(9);
-            product.categoryid = dr.getString(10);
-            product.attributesetid = dr.getString(11);
-            product.m_Image = ImageUtils.readImage(dr.getBytes(12));
-            product.attributes = ImageUtils.readProperties(dr.getBytes(13));
-            product.m_bKitchen = dr.getBoolean(14).booleanValue();
-            product.m_bService=dr.getBoolean(15).booleanValue();
+//ADDED 22.08.14 WholeSell Price add by CanDD
+            product.m_dPriceWholeSell = dr.getDouble(9).doubleValue();
+            product.taxcategoryid = dr.getString(10);
+            product.categoryid = dr.getString(11);
+            product.attributesetid = dr.getString(12);
+            product.m_Image = ImageUtils.readImage(dr.getBytes(13));
+            product.attributes = ImageUtils.readProperties(dr.getBytes(14));
+            product.m_bKitchen = dr.getBoolean(15).booleanValue();
+            product.m_bService=dr.getBoolean(16).booleanValue();
 // ADDED JG 13 Nov 12 - Display
-            product.m_sDisplay = dr.getString(16); 
+            product.m_sDisplay = dr.getString(17); 
 // ADDED JDL 19.12.12   
-          product.m_bVprice=dr.getBoolean(17).booleanValue();        
+          product.m_bVprice=dr.getBoolean(18).booleanValue();        
 // ADDED JDL 09.0.2.13 for Chris
-          product.m_bVerpatrib=dr.getBoolean(18).booleanValue(); 
+          product.m_bVerpatrib=dr.getBoolean(19).booleanValue(); 
 // ADDED JDL 09.04.13
-          product.m_sTextTip = dr.getString(19);
+          product.m_sTextTip = dr.getString(20);
           
 // ADDED JDL 25.04.13
-          product.m_bWarranty = dr.getBoolean(20).booleanValue();
+          product.m_bWarranty = dr.getBoolean(21).booleanValue();
             return product;
         }};
     }

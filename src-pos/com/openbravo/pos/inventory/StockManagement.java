@@ -199,7 +199,7 @@ public class StockManagement extends JPanel implements JPanelView {
         MovementReason reason = (MovementReason) m_ReasonModel.getSelectedItem();
         addLine(product, units, reason.isInput() 
                 ? product.getPriceBuy()
-                : product.getPriceSell());
+                : product.getPriceSell(false)); //CanDD 22.08.14 temprorary get normal sale price
     }
     
     private void incProductByCode(String sCode) {

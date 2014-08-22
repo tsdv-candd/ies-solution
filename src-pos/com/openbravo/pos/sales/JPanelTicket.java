@@ -150,8 +150,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 // added 25.05.13 JDl warranty receipt
     private Boolean warrantyPrint=false;
 //   private String loyaltyCardNumber=null;
-    
-    
+
+    //  Added 22.08.14 Add whole sale CanDD
+    private Boolean m_isWholeSale=false;
     /** Creates new form JTicketView */
     public JPanelTicket() {
         
@@ -331,6 +332,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         } else {
             m_jTax.setVisible(false);
             m_jaddtax.setVisible(false);
+        }
+
+        // Added 22.08.14 WholeSale by CanDD
+        if (m_App.getAppUserView().getUser().hasPermission("sales.WholeSale")) {
+            m_jWholeSale.setVisible(true);
+        } else {
+            m_jWholeSale.setVisible(false);
         }
 
         // Authorization for buttons
@@ -744,8 +752,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         // precondicion: prod != null
         if (prod.isVprice()){
             addTicketLine(prod, getPorValue(), getInputValue());    
-        }else {        
-            addTicketLine(prod, dPor, prod.getPriceSell());
+        }else {  
+            //22.08.14 CanDDD temporary add normal price TODO: Fix bug if any
+            addTicketLine(prod, dPor, prod.getPriceSell(m_isWholeSale)); 
         }
         
         
@@ -812,7 +821,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     oProduct.setPriceSell(Double.parseDouble(sCode.substring(7, 12)) / 100);   
                     oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
                     // Se anade directamente una unidad con el precio y todo
-                    addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
+                    addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell(m_isWholeSale)));
                 } else if (sCode.length() == 13 && sCode.startsWith("210")) {
                     // barcode of a weigth product
                     incProductByCodePrice(sCode.substring(0, 7), Double.parseDouble(sCode.substring(7, 12)) / 100);
@@ -938,7 +947,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         Double value = m_App.getDeviceScale().readWeight();
                         if (value != null) {
                             ProductInfoExt product = getInputProduct();
-                            addTicketLine(product, value.doubleValue(), product.getPriceSell());
+                            addTicketLine(product, value.doubleValue(), product.getPriceSell(m_isWholeSale));
                         }
                     } catch (ScaleException e) {
                         Toolkit.getDefaultToolkit().beep();
@@ -1067,28 +1076,28 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, 1.0, product.getPriceSell());
+                addTicketLine(product, 1.0, product.getPriceSell(m_isWholeSale));
                 
             // Anadimos 1 producto con precio negativo
             } else if (cTrans == '-' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, 1.0, -product.getPriceSell());
+                addTicketLine(product, 1.0, -product.getPriceSell(m_isWholeSale));
 
             // Anadimos n productos
             } else if (cTrans == '+' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, getPorValue(), product.getPriceSell());
+                addTicketLine(product, getPorValue(), product.getPriceSell(m_isWholeSale));
 
             // Anadimos n productos con precio negativo ?
             } else if (cTrans == '-' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, getPorValue(), -product.getPriceSell());
+                addTicketLine(product, getPorValue(), -product.getPriceSell(m_isWholeSale));
 
             // Totals() Igual;
             } else if (cTrans == ' ' || cTrans == '=') {
@@ -1541,6 +1550,8 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         m_jPanContainer = new javax.swing.JPanel();
         m_jOptions = new javax.swing.JPanel();
         m_jButtons = new javax.swing.JPanel();
@@ -1573,6 +1584,7 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jSubtotalEuros = new javax.swing.JLabel();
         m_jTaxesEuros = new javax.swing.JLabel();
         m_jTotalEuros = new javax.swing.JLabel();
+        m_jWholeSale = new javax.swing.JComboBox();
         m_jContEntries = new javax.swing.JPanel();
         m_jPanEntries = new javax.swing.JPanel();
         m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
@@ -1919,6 +1931,17 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
 
         jPanel4.add(m_jPanTotals, java.awt.BorderLayout.LINE_END);
 
+        m_jWholeSale.setBackground(new java.awt.Color(255, 255, 51));
+        m_jWholeSale.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        m_jWholeSale.setForeground(new java.awt.Color(255, 0, 51));
+        m_jWholeSale.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bán lẻ", "Bán buôn" }));
+        m_jWholeSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jWholeSaleActionPerformed(evt);
+            }
+        });
+        jPanel4.add(m_jWholeSale, java.awt.BorderLayout.PAGE_START);
+
         m_jPanelCentral.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
         m_jPanTicket.add(m_jPanelCentral, java.awt.BorderLayout.CENTER);
@@ -2219,15 +2242,15 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
            try{
            ProductInfoExt vProduct = dlSales.getProductInfoByCode("BFeesDay1");
            vProduct.setName("Berth Fees 1st Day " + mooring.getVesselName());
-           addTicketLine(vProduct, mooring.getVesselSize(), vProduct.getPriceSell());
+           addTicketLine(vProduct, mooring.getVesselSize(), vProduct.getPriceSell(m_isWholeSale));
            if (mooring.getVesselDays()>1){
            vProduct = dlSales.getProductInfoByCode("BFeesDay2");
            vProduct.setName("Additional Days " +(mooring.getVesselDays()-1));
-           addTicketLine(vProduct, mooring.getVesselSize() * (mooring.getVesselDays()-1), vProduct.getPriceSell());               
+           addTicketLine(vProduct, mooring.getVesselSize() * (mooring.getVesselDays()-1), vProduct.getPriceSell(m_isWholeSale));               
            }
            if (mooring.getVesselPower()){
            vProduct = dlSales.getProductInfoByCode("PowerSupplied");
-           addTicketLine(vProduct, mooring.getVesselDays(), vProduct.getPriceSell());               
+           addTicketLine(vProduct, mooring.getVesselDays(), vProduct.getPriceSell(m_isWholeSale));               
            }         
            }catch (Exception e){}
        }
@@ -2263,11 +2286,23 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
                 }    
 
     }//GEN-LAST:event_j_btnKitchenPrtActionPerformed
+    
+    //Added 22.08.14 Whole sale function by CanDD
+    private void m_jWholeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jWholeSaleActionPerformed
+        String tmp = m_jWholeSale.getSelectedItem().toString();
+        if (tmp.equalsIgnoreCase("Bán buôn")) {
+            m_isWholeSale = true;
+        } else {
+            m_isWholeSale = false;
+        }
+    }//GEN-LAST:event_m_jWholeSaleActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCustomer;
     private javax.swing.JButton btnSplit;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel catcontainer;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jEditAttributes;
@@ -2307,6 +2342,7 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JLabel m_jTicketId;
     private javax.swing.JLabel m_jTotalEuros;
     private javax.swing.JButton m_jUp;
+    private javax.swing.JComboBox m_jWholeSale;
     private javax.swing.JToggleButton m_jaddtax;
     private javax.swing.JButton m_jbtnScale;
     // End of variables declaration//GEN-END:variables
