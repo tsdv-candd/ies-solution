@@ -38,14 +38,14 @@ CREATE UNIQUE INDEX RESOURCES_NAME_INX ON RESOURCES(NAME);
 
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('0', 'Menu.Root', 0, $FILE{/com/openbravo/pos/templates/Menu.Root.txt});
 
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('1', 'coin.2', 1, $FILE{/com/openbravo/pos/templates/coin.2.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('2', 'coin.1', 1, $FILE{/com/openbravo/pos/templates/coin.1.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('3', 'coin.50', 1, $FILE{/com/openbravo/pos/templates/coin.50.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('4', 'coin.20', 1, $FILE{/com/openbravo/pos/templates/coin.20.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('5', 'coin.10', 1, $FILE{/com/openbravo/pos/templates/coin.10.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('6', 'coin.05', 1, $FILE{/com/openbravo/pos/templates/coin.05.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('7', 'coin.02', 1, $FILE{/com/openbravo/pos/templates/coin.02.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('8', 'coin.01', 1, $FILE{/com/openbravo/pos/templates/coin.01.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('1', 'to.2d', 1, $FILE{/com/openbravo/pos/templates/to.2d.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('2', 'to.5d', 1, $FILE{/com/openbravo/pos/templates/to.5d.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('3', 'to.1n', 1, $FILE{/com/openbravo/pos/templates/to.1n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('4', 'to.2n', 1, $FILE{/com/openbravo/pos/templates/to.2n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('5', 'to.5n', 1, $FILE{/com/openbravo/pos/templates/to.5n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('6', 'to.10n', 1, $FILE{/com/openbravo/pos/templates/to.10n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('7', 'to.20n', 1, $FILE{/com/openbravo/pos/templates/to.20n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('8', 'to.50n', 1, $FILE{/com/openbravo/pos/templates/to.50n.png});
 
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('9', 'img.cash', 1, $FILE{/com/openbravo/pos/templates/img.cash.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('10', 'img.cashdrawer', 1, $FILE{/com/openbravo/pos/templates/img.cashdrawer.png});
@@ -59,10 +59,9 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('17', 'img.run_script',
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('18', 'img.ticket_print', 1, $FILE{/com/openbravo/pos/templates/img.ticket_print.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('19', 'img.user', 1, $FILE{/com/openbravo/pos/templates/img.user.png});
 
-
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('20', 'note.50', 1, $FILE{/com/openbravo/pos/templates/note.50.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('21', 'note.20', 1, $FILE{/com/openbravo/pos/templates/note.20.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('22', 'note.10', 1, $FILE{/com/openbravo/pos/templates/note.10.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('20', 'to.100n', 1, $FILE{/com/openbravo/pos/templates/to.100n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('21', 'to.200n', 1, $FILE{/com/openbravo/pos/templates/to.200n.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('22', 'to.500n', 1, $FILE{/com/openbravo/pos/templates/to.500n.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('23', 'note.5', 1, $FILE{/com/openbravo/pos/templates/note.5.png});
 
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('24', 'payment.cash', 0, $FILE{/com/openbravo/pos/templates/payment.cash.txt});

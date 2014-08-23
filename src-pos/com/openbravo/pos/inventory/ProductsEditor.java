@@ -60,6 +60,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
 
     private Object m_id;
     private Object pricesell;
+    private Object pricewholesell;
     private boolean priceselllock = false;
 
     private boolean reportlock = false;
@@ -100,6 +101,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jAtt.addActionListener(dirty);
         m_jPriceBuy.getDocument().addDocumentListener(dirty);
         m_jPriceSell.getDocument().addDocumentListener(dirty);
+        m_jPriceWholeSell.getDocument().addDocumentListener(dirty);
         m_jImage.addPropertyChangeListener("image", dirty);
         m_jstockcost.getDocument().addDocumentListener(dirty);
         m_jstockvolume.getDocument().addDocumentListener(dirty);
@@ -519,31 +521,32 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         myprod[5] = Boolean.valueOf(m_jScale.isSelected());
         myprod[6] = Formats.CURRENCY.parseValue(m_jPriceBuy.getText());
         myprod[7] = pricesell;
-        myprod[8] = m_CategoryModel.getSelectedKey();
-        myprod[9] = taxcatmodel.getSelectedKey();
-        myprod[10] = attmodel.getSelectedKey();
-        myprod[11] = m_jImage.getImage();
-        myprod[12] = Formats.CURRENCY.parseValue(m_jstockcost.getText());
-        myprod[13] = Formats.DOUBLE.parseValue(m_jstockvolume.getText());
-        myprod[14] = Boolean.valueOf(m_jInCatalog.isSelected());
-        myprod[15] = Formats.INT.parseValue(m_jCatalogOrder.getText());
-        myprod[16] = Formats.BYTEA.parseValue(txtAttributes.getText());
+        myprod[8] = pricewholesell;
+        myprod[9] = m_CategoryModel.getSelectedKey();
+        myprod[10] = taxcatmodel.getSelectedKey();
+        myprod[11] = attmodel.getSelectedKey();
+        myprod[12] = m_jImage.getImage();
+        myprod[13] = Formats.CURRENCY.parseValue(m_jstockcost.getText());
+        myprod[14] = Formats.DOUBLE.parseValue(m_jstockvolume.getText());
+        myprod[15] = Boolean.valueOf(m_jInCatalog.isSelected());
+        myprod[16] = Formats.INT.parseValue(m_jCatalogOrder.getText());
+        myprod[17] = Formats.BYTEA.parseValue(txtAttributes.getText());
 // Added JG 20.12.10 - Kitchen Print
-	myprod[17] = Boolean.valueOf(m_jKitchen.isSelected());
+	myprod[18] = Boolean.valueOf(m_jKitchen.isSelected());
 // **
 // Added JG 25.06.11 - Is Service
-	myprod[18] = Boolean.valueOf(m_jService.isSelected());
+	myprod[19] = Boolean.valueOf(m_jService.isSelected());
 // **
-        myprod[19] = m_jDisplay.getText();        
+        myprod[20] = m_jDisplay.getText();        
 
 // Added JDL 19.12.12 - Var Price
-	myprod[20] = Boolean.valueOf(m_jVprice.isSelected());  
+	myprod[21] = Boolean.valueOf(m_jVprice.isSelected());  
 // Added JDL 09.02.13 for Chris
-       myprod[21] = Boolean.valueOf(m_jVerpatrib.isSelected());
+       myprod[22] = Boolean.valueOf(m_jVerpatrib.isSelected());
 // Added JDL 09.04.13
-       myprod[22] = m_jTextTip.getText();
+       myprod[23] = m_jTextTip.getText();
 // ADDed JDL 26.05.13        
-       myprod[23] = Boolean.valueOf(m_jCheckWarrantyReceipt.isSelected());   
+       myprod[24] = Boolean.valueOf(m_jCheckWarrantyReceipt.isSelected());   
         return myprod;
         
         
@@ -879,6 +882,8 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jCheckWarrantyReceipt = new javax.swing.JCheckBox();
         m_jGrossProfit = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        m_jPriceWholeSell = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         m_jstockcost = new javax.swing.JTextField();
@@ -1100,6 +1105,17 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jPanel1.add(jLabel22);
         jLabel22.setBounds(370, 220, 90, 20);
 
+        jLabel33.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel33.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
+        jPanel1.add(jLabel33);
+        jLabel33.setBounds(210, 220, 100, 25);
+
+        m_jPriceWholeSell.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jPriceWholeSell.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel1.add(m_jPriceWholeSell);
+        m_jPriceWholeSell.setBounds(310, 220, 70, 25);
+
         jTabbedPane1.addTab(AppLocal.getIntString("label.prodgeneral"), jPanel1); // NOI18N
 
         jPanel2.setLayout(null);
@@ -1158,7 +1174,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jService.setToolTipText("A Service Item will not be deducted from the Inventory");
         jPanel2.add(m_jService);
         m_jService.setBounds(160, 90, 30, 25);
-        m_jService.getAccessibleContext().setAccessibleDescription(null);
+        m_jService.getAccessibleContext().setAccessibleDescription("null");
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel11.setText(AppLocal.getIntString("label.prodaux")); // NOI18N
@@ -1427,6 +1443,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1458,6 +1475,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JTextField m_jPriceBuy;
     private javax.swing.JTextField m_jPriceSell;
     private javax.swing.JTextField m_jPriceSellTax;
+    private javax.swing.JTextField m_jPriceWholeSell;
     private javax.swing.JTextField m_jRef;
     private javax.swing.JCheckBox m_jScale;
     private javax.swing.JCheckBox m_jService;

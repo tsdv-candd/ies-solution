@@ -1932,7 +1932,7 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         jPanel4.add(m_jPanTotals, java.awt.BorderLayout.LINE_END);
 
         m_jWholeSale.setBackground(new java.awt.Color(255, 255, 51));
-        m_jWholeSale.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        m_jWholeSale.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         m_jWholeSale.setForeground(new java.awt.Color(255, 0, 51));
         m_jWholeSale.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bán lẻ", "Bán buôn" }));
         m_jWholeSale.addActionListener(new java.awt.event.ActionListener() {

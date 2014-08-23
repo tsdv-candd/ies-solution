@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT REFERENCE, NAME, CODE, PRICEBUY, PRICESELL, PREVIOUSBUY, PREVIOUSSELL FROM CSVIMPORT
+		<![CDATA[SELECT REFERENCE, NAME, CODE, PRICEBUY, PRICESELL, PRICEWHOLESELL, PREVIOUSBUY, PREVIOUSSELL, PREVIOUSWHOLESELL, FROM CSVIMPORT
 WHERE CSVERROR ='Updated Price Details']]>
 	</queryString>
 	<field name="REFERENCE" class="java.lang.String"/>
@@ -12,8 +12,10 @@ WHERE CSVERROR ='Updated Price Details']]>
 	<field name="CODE" class="java.lang.String"/>
 	<field name="PRICEBUY" class="java.lang.Double"/>
 	<field name="pricesell" class="java.lang.Double"/>
+        <field name="pricewholesell" class="java.lang.Double"/>
 	<field name="previousbuy" class="java.lang.Double"/>
 	<field name="previoussell" class="java.lang.Double"/>
+        <field name="previouswholesell" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

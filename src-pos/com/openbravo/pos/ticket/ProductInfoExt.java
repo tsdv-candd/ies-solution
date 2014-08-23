@@ -268,6 +268,7 @@ public class ProductInfoExt {
         m_sTextTip = value;
     }
 
+    //Added 23.08.14 wholesell by CanDDD
     public final double getPriceSellTax(TaxInfo tax, boolean isWholeSale) {
         if (isWholeSale) {
             return m_dPriceWholeSell * (1.0 + tax.getRate());
