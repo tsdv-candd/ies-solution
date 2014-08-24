@@ -623,13 +623,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
     }
     
-    private ProductInfoExt getInputProduct() { 
+    private ProductInfoExt getInputProduct() {
         ProductInfoExt oProduct = new ProductInfoExt(); // Es un ticket
         oProduct.setReference(null);
         oProduct.setCode(null);
         oProduct.setName("");
         oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
-        oProduct.setPriceSell(includeTaxes(oProduct.getTaxCategoryID(), getInputValue()));        
+        oProduct.setPriceSell(includeTaxes(oProduct.getTaxCategoryID(), getInputValue()));
+        oProduct.setPriceWholeSell(includeTaxes(oProduct.getTaxCategoryID(), getInputValue()));
         return oProduct;
     }
     
