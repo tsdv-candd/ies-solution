@@ -105,7 +105,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             Datas.STRING, 
             Datas.STRING, 
             Datas.STRING, 
-            Datas.STRING};
+            Datas.STRING,};
 
         productsRow = new Row(
                 new Field("ID", Datas.STRING, Formats.STRING),
@@ -136,7 +136,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("ISVERPATRIB", Datas.BOOLEAN, Formats.BOOLEAN),
                 new Field("TEXTTIP", Datas.STRING, Formats.STRING),
 // ADDED JDL 25.05.13 Warranty flag              
-                new Field("WARRANTY", Datas.BOOLEAN, Formats.BOOLEAN)
+                new Field("WARRANTY", Datas.BOOLEAN, Formats.BOOLEAN),
+
+//24.08.14 Added wholesale by CanDD
+                new Field(AppLocal.getIntString("label.prodpricewholesell"), Datas.DOUBLE, Formats.CURRENCY, false, true, true)
                 );
 // **        
              
@@ -170,7 +173,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISSCALE, "
                 + "PRICEBUY, "
                 + "PRICESELL, "
-                + "PRICEWHOLESELL, "
                 + "TAXCAT, "
                 + "CATEGORY, "
                 + "ATTRIBUTESET_ID, "
@@ -182,7 +184,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVPRICE, "
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
-                + "WARRANTY "
+                + "WARRANTY, "
+                + "PRICEWHOLESELL "
                 + "FROM PRODUCTS WHERE ID = ?"
 		, SerializerWriteString.INSTANCE
 		, ProductInfoExt.getSerializerRead()).find(id);
@@ -206,7 +209,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISSCALE, "
                 + "PRICEBUY, "
                 + "PRICESELL, "
-                + "PRICEWHOLESELL, " 
                 + "TAXCAT, "
                 + "CATEGORY, "
                 + "ATTRIBUTESET_ID, "
@@ -217,7 +219,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVPRICE, "
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
-                + "WARRANTY "
+                + "WARRANTY, "
+                + "PRICEWHOLESELL " 
 		+ "FROM PRODUCTS WHERE CODE = ?"
 		, SerializerWriteString.INSTANCE
 		, ProductInfoExt.getSerializerRead()).find(sCode);
@@ -240,7 +243,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISSCALE, "
                 + "PRICEBUY, "
                 + "PRICESELL, "
-                + "PRICEWHOLESELL, "
                 + "TAXCAT, "
                 + "CATEGORY, "
                 + "ATTRIBUTESET_ID, "
@@ -252,7 +254,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVPRICE, "
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
-                + "WARRANTY "
+                + "WARRANTY, "
+                + "PRICEWHOLESELL "
 		+ "FROM PRODUCTS WHERE REFERENCE = ?"
 		, SerializerWriteString.INSTANCE
 		, ProductInfoExt.getSerializerRead()).find(sReference);
@@ -308,7 +311,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISSCALE, "
                 + "P.PRICEBUY, "
                 + "P.PRICESELL, "
-                + "P.PRICEWHOLESELL, "
                 + "P.TAXCAT, "
                 + "P.CATEGORY, "
                 + "P.ATTRIBUTESET_ID, "
@@ -320,7 +322,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISVPRICE, "
                 + "P.ISVERPATRIB, "
                 + "P.TEXTTIP, "
-                + "P.WARRANTY "
+                + "P.WARRANTY, "
+                + "P.PRICEWHOLESELL "
 		+ "FROM PRODUCTS P, PRODUCTS_CAT O WHERE P.ID = O.PRODUCT AND P.CATEGORY = ? " +
 //		  "ORDER BY O.CATORDER, P.NAME " +
 //                  "LIMIT 3000 "
@@ -346,7 +349,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISSCALE, "
                 + "P.PRICEBUY, "
                 + "P.PRICESELL, "
-                + "P.PRICEWHOLESELL, "
                 + "P.TAXCAT, "
                 + "P.CATEGORY, "
                 + "P.ATTRIBUTESET_ID, "
@@ -358,7 +360,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISVPRICE, "
                 + "P.ISVERPATRIB, "
                 + "P.TEXTTIP, "
-                + "P.WARRANTY "
+                + "P.WARRANTY, "
+                + "P.PRICEWHOLESELL "
                 + "FROM PRODUCTS P, "
                 + "PRODUCTS_CAT O, PRODUCTS_COM M "
                 + "WHERE P.ID = O.PRODUCT AND P.ID = M.PRODUCT2 AND M.PRODUCT = ? "
@@ -459,7 +462,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISSCALE, "
                 + "PRICEBUY, "
                 + "PRICESELL, "
-                + "PRICEWHOLESELL, "
                 + "TAXCAT, "
                 + "CATEGORY, "
                 + "ATTRIBUTESET_ID, "
@@ -472,6 +474,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
                 + "WARRANTY, "
+                + "PRICEWHOLESELL "
                 + "FROM PRODUCTS "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY REFERENCE", 
@@ -506,7 +509,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISSCALE, "
                 + "PRICEBUY, "
                 + "PRICESELL, "
-                + "PRICEWHOLESELL, "
                 + "TAXCAT, "
                 + "CATEGORY, "
                 + "ATTRIBUTESET_ID, "
@@ -518,6 +520,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ISVERPATRIB, "
                 + "TEXTTIP, "
                 + "WARRANTY, "
+                + "PRICEWHOLESELL "
 		+ "FROM PRODUCTS "
                 + "WHERE ISCOM = " + s.DB.FALSE() + " AND ?(QBF_FILTER) ORDER BY REFERENCE",
                 new String[] {"NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE"})
@@ -550,7 +553,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                  + "ISSCALE, "
                  + "PRICEBUY, "
                  + "PRICESELL, "
-                 + "PRICEWHOLESELL, "
                  + "TAXCAT, "
                  + "CATEGORY, "
                  + "ATTRIBUTESET_ID, "
@@ -563,6 +565,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                  + "ISVERPATRIB, "
                  + "TEXTTIP, "
                  + "WARRANTY, "
+                 + "PRICEWHOLESELL "
 		 + "FROM PRODUCTS "
                  + "WHERE ISCOM = " + s.DB.TRUE() + " AND ?(QBF_FILTER) "
                  + "ORDER BY REFERENCE", new String[] {"NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE"})
@@ -1144,8 +1147,8 @@ public void writeValues() throws BasicException {
 		public int execInTransaction(Object params) throws BasicException {
 			Object[] values = (Object[]) params;
 			int i = new PreparedSentence(s
-				, "INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ATTRIBUTES, ISKITCHEN, ISSERVICE, DISPLAY, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-				, new SerializerWriteBasicExt(productsRow.getDatas(), new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23})).exec(params);
+				, "INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ATTRIBUTES, ISKITCHEN, ISSERVICE, DISPLAY, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY, PRICEWHOLESELL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+				, new SerializerWriteBasicExt(productsRow.getDatas(), new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24})).exec(params);
 			if (i > 0 && ((Boolean)values[14]).booleanValue()) {
 				return new PreparedSentence(s
 					, "INSERT INTO PRODUCTS_CAT (PRODUCT, CATORDER) VALUES (?, ?)"

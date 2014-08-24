@@ -335,12 +335,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
 
         // Added 22.08.14 WholeSale by CanDD
-        if (m_App.getAppUserView().getUser().hasPermission("sales.WholeSale")) {
-            m_jWholeSale.setVisible(true);
-        } else {
-            m_jWholeSale.setVisible(false);
-        }
-
+//        if (m_App.getAppUserView().getUser().hasPermission("sales.WholeSale")) {
+//            m_jWholeSale.setVisible(true);
+//        } else {
+//            m_jWholeSale.setVisible(false);
+//        }
+         m_jWholeSale.setVisible(true); //CanDD change
         // Authorization for buttons
         btnSplit.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
         m_jDelete.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));

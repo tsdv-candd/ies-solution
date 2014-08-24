@@ -308,39 +308,42 @@ public class ProductInfoExt {
     }
 
     public static SerializerRead getSerializerRead() {
-        return new SerializerRead() {@Override
- public Object readValues(DataRead dr) throws BasicException {
-            ProductInfoExt product = new ProductInfoExt();
-            product.m_ID = dr.getString(1);
-            product.m_sRef = dr.getString(2);
-            product.m_sCode = dr.getString(3);
-            product.m_sName = dr.getString(4);
-            product.m_bCom = dr.getBoolean(5).booleanValue();
-            product.m_bScale = dr.getBoolean(6).booleanValue();
-            product.m_dPriceBuy = dr.getDouble(7).doubleValue();
-            product.m_dPriceSell = dr.getDouble(8).doubleValue();
-//ADDED 22.08.14 WholeSell Price add by CanDD
-            product.m_dPriceWholeSell = dr.getDouble(9).doubleValue();
-            product.taxcategoryid = dr.getString(10);
-            product.categoryid = dr.getString(11);
-            product.attributesetid = dr.getString(12);
-            product.m_Image = ImageUtils.readImage(dr.getBytes(13));
-            product.attributes = ImageUtils.readProperties(dr.getBytes(14));
-            product.m_bKitchen = dr.getBoolean(15).booleanValue();
-            product.m_bService=dr.getBoolean(16).booleanValue();
+        return new SerializerRead() {
+            @Override
+            public Object readValues(DataRead dr) throws BasicException {
+                ProductInfoExt product = new ProductInfoExt();
+                product.m_ID = dr.getString(1);
+                product.m_sRef = dr.getString(2);
+                product.m_sCode = dr.getString(3);
+                product.m_sName = dr.getString(4);
+                product.m_bCom = dr.getBoolean(5).booleanValue();
+                product.m_bScale = dr.getBoolean(6).booleanValue();
+                product.m_dPriceBuy = dr.getDouble(7).doubleValue();
+                product.m_dPriceSell = dr.getDouble(8).doubleValue();
+                product.taxcategoryid = dr.getString(9);
+                product.categoryid = dr.getString(10);
+                product.attributesetid = dr.getString(11);
+                product.m_Image = ImageUtils.readImage(dr.getBytes(12));
+                product.attributes = ImageUtils.readProperties(dr.getBytes(13));
+                product.m_bKitchen = dr.getBoolean(14).booleanValue();
+                product.m_bService = dr.getBoolean(15).booleanValue();
 // ADDED JG 13 Nov 12 - Display
-            product.m_sDisplay = dr.getString(17); 
+                product.m_sDisplay = dr.getString(16);
 // ADDED JDL 19.12.12   
-          product.m_bVprice=dr.getBoolean(18).booleanValue();        
+                product.m_bVprice = dr.getBoolean(17).booleanValue();
 // ADDED JDL 09.0.2.13 for Chris
-          product.m_bVerpatrib=dr.getBoolean(19).booleanValue(); 
+                product.m_bVerpatrib = dr.getBoolean(18).booleanValue();
 // ADDED JDL 09.04.13
-          product.m_sTextTip = dr.getString(20);
-          
+                product.m_sTextTip = dr.getString(19);
+
 // ADDED JDL 25.04.13
-          product.m_bWarranty = dr.getBoolean(21).booleanValue();
-            return product;
-        }};
+                product.m_bWarranty = dr.getBoolean(20).booleanValue();
+
+//ADDED 22.08.14 WholeSell Price add by CanDD
+                product.m_dPriceWholeSell = dr.getDouble(21).doubleValue();
+                return product;
+            }
+        };
     }
 
     @Override
