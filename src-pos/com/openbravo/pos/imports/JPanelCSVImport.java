@@ -18,8 +18,6 @@
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
 //    CSV Import Panel added by JDL - February 2013
 //    Additonal library required - javacsv
-
-
 package com.openbravo.pos.imports;
 
 import com.csvreader.CsvReader;
@@ -42,13 +40,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-      
+public class JPanelCSVImport extends JPanel implements JPanelView {
 
-public class JPanelCSVImport extends JPanel implements JPanelView {    
-    
     private ArrayList<String> Headers = new ArrayList<>();
     private Session s;
-    private Connection con;  
+    private Connection con;
     private ResultSet rs;
     private Statement stmt;
     private String ID;
@@ -62,667 +58,673 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private CsvReader products;
     private DatabaseMetaData md;
     private int pre302;
-    private double oldSell=0;
-    private double oldBuy=0;
+    private double oldSell = 0;
+    private double oldBuy = 0;
     private int currentRecord;
-    private int rowCount=0;
+    private double oldWholeSell = 0;
+    private int rowCount = 0;
 
+    public JPanelCSVImport(AppView oApp) {
+        this(oApp.getProperties());
+    }
 
-public JPanelCSVImport (AppView oApp) {
-        this(oApp.getProperties());        
-}
-    @SuppressWarnings("empty-statement")  
-    public JPanelCSVImport (AppProperties props) {  
+    @SuppressWarnings("empty-statement")
+    public JPanelCSVImport(AppProperties props) {
 
-        initComponents();       
+        initComponents();
 
-        try{
-            s=AppViewConnection.createSession(props);
-            con=s.getConnection();           
+        try {
+            s = AppViewConnection.createSession(props);
+            con = s.getConnection();
+        } catch (BasicException | SQLException e) {;
         }
-        catch (BasicException | SQLException e){;
-        }
-        
-       
-      
-      DocumentListener documentListener;
+
+        DocumentListener documentListener;
         documentListener = new DocumentListener() {
-@Override
-public void changedUpdate(DocumentEvent documentEvent) {
-jHeaderRead.setEnabled(true);  
-}
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                jHeaderRead.setEnabled(true);
+            }
+
             @Override
             public void insertUpdate(DocumentEvent documentEvent) {
-if (!"".equals(jFileName.getText().trim())){
-jHeaderRead.setEnabled(true);
-}}
+                if (!"".equals(jFileName.getText().trim())) {
+                    jHeaderRead.setEnabled(true);
+                }
+            }
+
             @Override
             public void removeUpdate(DocumentEvent documentEvent) {
-if (jFileName.getText().trim().equals("")){  
-     jHeaderRead.setEnabled(false); 
-}}
-};
-        jFileName.getDocument().addDocumentListener(documentListener);  
-        
-        }
-    
-private void GetheadersFromFile(String CSVFileName) throws IOException {
+                if (jFileName.getText().trim().equals("")) {
+                    jHeaderRead.setEnabled(false);
+                }
+            }
+        };
+        jFileName.getDocument().addDocumentListener(documentListener);
+
+    }
+
+    private void GetheadersFromFile(String CSVFileName) throws IOException {
         File f = new File(CSVFileName);
-            if (f.exists()){
-                	products = new CsvReader(CSVFileName);
-                        products.setDelimiter(((String)jComboSeparator.getSelectedItem()).charAt(0));  
-                        products.readHeaders();
+        if (f.exists()) {
+            products = new CsvReader(CSVFileName);
+            products.setDelimiter(((String) jComboSeparator.getSelectedItem()).charAt(0));
+            products.readHeaders();
 // We need a minimum of 5 columns to map all required fields                            
-                        if (products.getHeaderCount()< 5) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Insufficient headers found in file", 
-                                    "Invalid Header Count.",
-                                    JOptionPane.WARNING_MESSAGE);
-                            products.close();
-                            return;
-                        }   
-                        rowCount=0;
-                        int i = 0;
-                        Headers.clear();
-                        Headers.add("");                                     
-                         jComboName.addItem("");
-                         jComboReference.addItem("");
-                         jComboBarcode.addItem("");
-                         jComboBuy.addItem("");
-                         jComboSell.addItem("");
-                        while(i < products.getHeaderCount()){                          
-                          jComboName.addItem(products.getHeader(i));
-                          jComboReference.addItem(products.getHeader(i));
-                          jComboBarcode.addItem(products.getHeader(i));
-                          jComboBuy.addItem(products.getHeader(i));
-                          jComboSell.addItem(products.getHeader(i));
-                          Headers.add(products.getHeader(i));
-                            ++i;
-                        }
-                        jHeaderRead.setEnabled(false);
-                        jImport.setEnabled(false);
+            if (products.getHeaderCount() < 5) {
+                JOptionPane.showMessageDialog(null,
+                        "Insufficient headers found in file",
+                        "Invalid Header Count.",
+                        JOptionPane.WARNING_MESSAGE);
+                products.close();
+                return;
+            }
+            rowCount = 0;
+            int i = 0;
+            Headers.clear();
+            Headers.add("");
+            jComboName.addItem("");
+            jComboReference.addItem("");
+            jComboBarcode.addItem("");
+            jComboBuy.addItem("");
+            jComboSell.addItem("");
+            jComboWholeSell.addItem("");
+            while (i < products.getHeaderCount()) {
+                jComboName.addItem(products.getHeader(i));
+                jComboReference.addItem(products.getHeader(i));
+                jComboBarcode.addItem(products.getHeader(i));
+                jComboBuy.addItem(products.getHeader(i));
+                jComboSell.addItem(products.getHeader(i));
+                jComboWholeSell.addItem(products.getHeader(i));
+                Headers.add(products.getHeader(i));
+                ++i;
+            }
+            jHeaderRead.setEnabled(false);
+            jImport.setEnabled(false);
 // Enable all the combo boxes & Check boxex
-                        jComboReference.setEnabled(true);
-                        jComboName.setEnabled(true);
-                        jComboBarcode.setEnabled(true);
-                        jComboBuy.setEnabled(true);
-                        jComboSell.setEnabled(true);
-                        jCheckInCatalogue.setEnabled(true);      
-                        jCheckSellIncTax.setEnabled(true);
-                        
-                        while (products.readRecord())
-                        {
-                            ++rowCount;
-                        }
-                                                
-                        jTextRecords.setText(Long.toString(rowCount));
+            jComboReference.setEnabled(true);
+            jComboName.setEnabled(true);
+            jComboBarcode.setEnabled(true);
+            jComboBuy.setEnabled(true);
+            jComboSell.setEnabled(true);
+            jComboWholeSell.setEnabled(true);
+            jCheckInCatalogue.setEnabled(true);
+            jCheckSellIncTax.setEnabled(true);
+
+            while (products.readRecord()) {
+                ++rowCount;
+            }
+
+            jTextRecords.setText(Long.toString(rowCount));
 // close to file we will open again when required                        
-                        products.close();                         
+            products.close();
 
-    } else {
-               JOptionPane.showMessageDialog(null,"Unable to locate "
-                       + CSVFileName, 
-                       "File not found",
-                       JOptionPane.WARNING_MESSAGE);
-            }    
-}
- 
-private void ImportCsvFile(String CSVFileName) throws IOException {
+        } else {
+            JOptionPane.showMessageDialog(null, "Unable to locate "
+                    + CSVFileName,
+                    "File not found",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
-                        int newRecords=0;
-                        int invalidRecords=0;
-                        int priceUpdates=0;
-                        int missingData=0;
-                        int noChanges=0;
-                        Double productBuyPrice;
-                        Double productSellPrice;
-                        int badPrice=0;
-           
+    private void ImportCsvFile(String CSVFileName) throws IOException {
+
+        int newRecords = 0;
+        int invalidRecords = 0;
+        int priceUpdates = 0;
+        int missingData = 0;
+        int noChanges = 0;
+        Double productBuyPrice;
+        Double productSellPrice;
+        int badPrice = 0;
+        Double productWholeSellPrice = null;
+
 // lets start to process the file          
 // get the default category & tax
-       
-try{
-        SQL = "SELECT id "
-                + "from categories "
-                + "where name ="
-                + "'" + ((String)jComboCategory.getSelectedItem()) + "'";     
-        
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            dCategory = (rs.getString("id"));           
+        try {
+            SQL = "SELECT id "
+                    + "from categories "
+                    + "where name ="
+                    + "'" + ((String) jComboCategory.getSelectedItem()) + "'";
+
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                dCategory = (rs.getString("id"));
+            }
+
+            SQL = "SELECT * "
+                    + "from taxcategories "
+                    + "where name ="
+                    + "'" + ((String) jComboTax.getSelectedItem()) + "'";
+
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                dTax = (rs.getString("id"));
+            }
+            SQL = "SELECT * "
+                    + "from taxes "
+                    + "where category ="
+                    + "'" + dTax + "'";
+
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                dTaxRate = (rs.getDouble("rate"));
+            }
+
+        } catch (Exception e) {
+
         }
-        
-        SQL = "SELECT * "
-                + "from taxcategories "
-                + "where name ="
-                + "'" + ((String)jComboTax.getSelectedItem()) + "'";     
-        
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            dTax = (rs.getString("id"));              
-        } 
-        SQL = "SELECT * "
-                + "from taxes "
-                + "where category ="
-                + "'" + dTax +"'";    
-        
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            dTaxRate = (rs.getDouble("rate"));                
-        } 
-        
-        
-} catch (Exception e){
-    
-}
-                       
-          File f = new File(CSVFileName);
-            if (f.exists()){
+
+        File f = new File(CSVFileName);
+        if (f.exists()) {
 // Count rows in csv file 
-                        products = new CsvReader(CSVFileName);
-                        products.setDelimiter(((String)jComboSeparator.getSelectedItem()).charAt(0)); 
-                        products.readHeaders();                                                
+            products = new CsvReader(CSVFileName);
+            products.setDelimiter(((String) jComboSeparator.getSelectedItem()).charAt(0));
+            products.readHeaders();
 
 // reset the csv file ready to 
-                    //    products = new CsvReader(CSVFileName);
-                    //    products.setDelimiter(((String)jComboSeparator.getSelectedItem()).charAt(0)); 
-                    //    products.readHeaders();
+            //    products = new CsvReader(CSVFileName);
+            //    products.setDelimiter(((String)jComboSeparator.getSelectedItem()).charAt(0)); 
+            //    products.readHeaders();
+            currentRecord = 0;
+            while (products.readRecord()) {
+                String productReference = products.get((String) jComboReference.getSelectedItem());
+                String productName = products.get((String) jComboName.getSelectedItem());
+                String productBarcode = products.get((String) jComboBarcode.getSelectedItem());
+                String BuyPrice = products.get((String) jComboBuy.getSelectedItem());
+                String SellPrice = products.get((String) jComboSell.getSelectedItem());
+                String WholeSellPrice = products.get((String) jComboWholeSell.getSelectedItem());
+                currentRecord++;
 
-                        currentRecord=0;
-                        while (products.readRecord())
-			{
-                                String productReference = products.get((String)jComboReference.getSelectedItem());
-				String productName = products.get((String)jComboName.getSelectedItem());
-                                String productBarcode = products.get((String)jComboBarcode.getSelectedItem());
-                                String BuyPrice = products.get((String)jComboBuy.getSelectedItem());
-                                String SellPrice = products.get((String)jComboSell.getSelectedItem());
-                                currentRecord++;       
-                                
 // Check if we have values in all the above
-                        if ("".equals(productReference) 
-                                | "".equals(productName) 
-                                | "".equals(productBarcode) 
-                                |  "".equals(BuyPrice) 
-                                | "".equals(SellPrice)
-                                | (!validateNumber(BuyPrice)) 
-                                | (!validateNumber(SellPrice)) )
-                        {    
-                         
-                          if (validateNumber(BuyPrice)){
-                              productBuyPrice = Double.parseDouble(BuyPrice);
-                          }else{
-                              productBuyPrice = null;       
-                          }
-                          if (validateNumber(SellPrice)){
-                              productSellPrice = Double.parseDouble(SellPrice);
-                          }else{
-                              productSellPrice = null;    
-                          }
-                          
-                          if ((validateNumber(BuyPrice)) | (validateNumber(SellPrice))){ 
-                              badPrice++;
-                          }else{
-                              missingData++;
-                          }
-                          
-                          CSVData(currentRecord,productReference, productBarcode, productName,productBuyPrice ,productSellPrice , "Missing data or Invalid number", null,null);
-                           
-                        }else{  
+                if ("".equals(productReference)
+                        | "".equals(productName)
+                        | "".equals(productBarcode)
+                        | "".equals(BuyPrice)
+                        | "".equals(SellPrice)
+                        | "".equals(WholeSellPrice)
+                        | (!validateNumber(BuyPrice))
+                        | (!validateNumber(SellPrice))
+                        | (!validateNumber(WholeSellPrice))) {
+
+                    if (validateNumber(BuyPrice)) {
+                        productBuyPrice = Double.parseDouble(BuyPrice);
+                    } else {
+                        productBuyPrice = null;
+                    }
+                    if (validateNumber(SellPrice)) {
+                        productSellPrice = Double.parseDouble(SellPrice);
+                    } else {
+                        productSellPrice = null;
+                    }
+
+                    if ((validateNumber(BuyPrice)) | (validateNumber(SellPrice))) {
+                        badPrice++;
+                    } else {
+                        missingData++;
+                    }
+                    if (validateNumber(WholeSellPrice)) {
+                        productWholeSellPrice = Double.parseDouble(WholeSellPrice);
+                    } else {
+                        productWholeSellPrice = null;
+                    }
+
+                    CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice, "Missing data or Invalid number", null, null, productWholeSellPrice);
+
+                } else {
 // Add a new record into the database                            
-                                productBuyPrice = Double.parseDouble(BuyPrice);
-                                productSellPrice = getSellPrice(SellPrice);
-                                String recordType;
-                                recordType=getRecordType(productReference, productName, productBarcode);
-                                switch (recordType){
-                                    case "new":
-                                        addRecord(productReference, productName, productBarcode, productBuyPrice, productSellPrice , dCategory, dTax);
-                                        newRecords++;
-                                        CSVData(currentRecord,productReference, productBarcode, productName,productBuyPrice ,Double.parseDouble(SellPrice) , "New product", null,null);
-                                        break;
-                                    case "update":
-                                        if (!"".equals(updateRecord(ID,productBuyPrice,Double.parseDouble(SellPrice)))){
-                                        priceUpdates++;
-                                        CSVData(currentRecord,productReference, productBarcode, productName,productBuyPrice ,productSellPrice*(1+dOriginalRate) , "Updated Price Details", oldBuy,oldSell*(1+dOriginalRate));
-                                        }else{
-                                        noChanges++;
-                                        }
-                                        break;
-                                    case "":
-                                        break;
-                                    default:    
-                                        invalidRecords++;
-                                        CSVData(currentRecord,productReference, productBarcode, productName,productBuyPrice ,productSellPrice , recordType, null,null);
-                                        break;
-                                }                                                             
+                    productBuyPrice = Double.parseDouble(BuyPrice);
+                    productSellPrice = getSellPrice(SellPrice);
+                    String recordType;
+                    recordType = getRecordType(productReference, productName, productBarcode);
+                    switch (recordType) {
+                        case "new":
+                            addRecord(productReference, productName, productBarcode, productBuyPrice, productSellPrice, dCategory, dTax, productWholeSellPrice);
+                            newRecords++;
+                            CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, Double.parseDouble(SellPrice), "New product", null, null, Double.parseDouble(WholeSellPrice));
+                            break;
+                        case "update":
+                            if (!"".equals(updateRecord(ID, productBuyPrice, Double.parseDouble(SellPrice)))) {
+                                priceUpdates++;
+                                CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice * (1 + dOriginalRate), "Updated Price Details", oldBuy, oldSell * (1 + dOriginalRate), oldWholeSell* (1 + dOriginalRate));
+                            } else {
+                                noChanges++;
                             }
-                        }                        			
-            }else{
-               JOptionPane.showMessageDialog(null,"Unable to locate " +  CSVFileName,"File not found",JOptionPane.WARNING_MESSAGE);
-            }         
+                            break;
+                        case "":
+                            break;
+                        default:
+                            invalidRecords++;
+                            CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice, recordType, null, null, productWholeSellPrice);
+                            break;
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Unable to locate " + CSVFileName, "File not found", JOptionPane.WARNING_MESSAGE);
+        }
 // update the record fields on the form
-            jTextNew.setText(Integer.toString(newRecords));
-            jTextUpdate.setText(Integer.toString(priceUpdates));
-            jTextInvalid.setText(Integer.toString(invalidRecords));
-            jTextMissing.setText(Integer.toString(missingData));
-            jTextNoChange.setText(Integer.toString(noChanges));
-            jTextBadPrice.setText(Integer.toString(badPrice));
- }
+        jTextNew.setText(Integer.toString(newRecords));
+        jTextUpdate.setText(Integer.toString(priceUpdates));
+        jTextInvalid.setText(Integer.toString(invalidRecords));
+        jTextMissing.setText(Integer.toString(missingData));
+        jTextNoChange.setText(Integer.toString(noChanges));
+        jTextBadPrice.setText(Integer.toString(badPrice));
+    }
 
-private Boolean validateNumber(String testString){
-    try{
+    private Boolean validateNumber(String testString) {
+        try {
             Double res = Double.parseDouble(testString);
-            return(true);
-        }catch (NumberFormatException e){                             
-            return(false);
-        } 
-}
+            return (true);
+        } catch (NumberFormatException e) {
+            return (false);
+        }
+    }
 
-private String getRecordType (String pReference, String pName , String pBarcode){
+    private String getRecordType(String pReference, String pName, String pBarcode) {
 // check the status of new record
-    try{
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE REFERENCE=?"
-                + " AND CODE=? AND NAME=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pReference);      //  Reference String
-        pstmt.setString(2,pBarcode);        //  Barcode String
-        pstmt.setString(3,pName);           //  Name String
-        rs = pstmt.executeQuery();
+        try {
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE REFERENCE=?"
+                    + " AND CODE=? AND NAME=?";
 
-        if (rs.next()){
-            ID =rs.getString("ID");
-            return("update");
-        }
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pReference);      //  Reference String
+            pstmt.setString(2, pBarcode);        //  Barcode String
+            pstmt.setString(3, pName);           //  Name String
+            rs = pstmt.executeQuery();
 
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE REFERENCE=? "
-                + "OR CODE=? OR NAME=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pReference);      //  Reference String
-        pstmt.setString(2,pBarcode);        //  Barcode String
-        pstmt.setString(3,pName);           //  Name String
-        rs = pstmt.executeQuery();
+            if (rs.next()) {
+                ID = rs.getString("ID");
+                return ("update");
+            }
 
-       if (!rs.next()){          
-            return("new");
-        }
-    
-    
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE REFERENCE=? "
+                    + "OR CODE=? OR NAME=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pReference);      //  Reference String
+            pstmt.setString(2, pBarcode);        //  Barcode String
+            pstmt.setString(3, pName);           //  Name String
+            rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                return ("new");
+            }
+
 // lets check which line exists.
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE REFERENCE=? AND CODE=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pReference);      //  Reference String
-        pstmt.setString(2,pBarcode);        //  Barcode String
-        rs = pstmt.executeQuery();
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE REFERENCE=? AND CODE=?";
 
-        if (rs.next()){          
-            return("Possible Description or Name error.");
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pReference);      //  Reference String
+            pstmt.setString(2, pBarcode);        //  Barcode String
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return ("Possible Description or Name error.");
+            }
+
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE REFERENCE=? AND NAME=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pReference);      //  Reference String
+            pstmt.setString(2, pName);        //  Barcode String
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return ("Possible Barcode error.");
+            }
+
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE CODE=? AND NAME=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pBarcode);      //  Reference String
+            pstmt.setString(2, pName);        //  Barcode String
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return ("Possible Reference error.");
+            }
+
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE REFERENCE=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pReference);      //  Reference String
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return ("Duplicate Reference found.");
+            }
+
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE CODE=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pBarcode);      //  Reference String
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return ("Duplicate Barcode found");
+            }
+
+            SQL = "Select ID "
+                    + "FROM PRODUCTS "
+                    + "WHERE NAME=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, pName);      //  Reference String
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return ("Duplicate Description found");
+            }
+            return ("");
+        } catch (Exception e) {
+            return ("");
         }
-    
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE REFERENCE=? AND NAME=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pReference);      //  Reference String
-        pstmt.setString(2,pName);        //  Barcode String
-        rs = pstmt.executeQuery();
+    }
 
-        if (rs.next()){          
-            return("Possible Barcode error.");
+    private Double getSellPrice(String pSellPrice) {
+        // Check if the selling price icludes taxes 
+        if (jCheckSellIncTax.isSelected()) {
+            return ((Double.parseDouble(pSellPrice)) / (1 + dTaxRate));
+        } else {
+            return (Double.parseDouble(pSellPrice));
         }
-        
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE CODE=? AND NAME=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pBarcode);      //  Reference String
-        pstmt.setString(2,pName);        //  Barcode String
-        rs = pstmt.executeQuery();
+    }
 
-        if (rs.next()){          
-            return("Possible Reference error.");
-        }
-        
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE REFERENCE=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pReference);      //  Reference String
-        rs = pstmt.executeQuery();
+    private String updateRecord(String pID, Double pBuy, Double pSell) {
 
-        if (rs.next()){          
-            return("Duplicate Reference found.");
-        }
-        
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE CODE=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pBarcode);      //  Reference String
-        rs = pstmt.executeQuery();
-
-        if (rs.next()){          
-            return("Duplicate Barcode found");
-        }
-        
-        SQL="Select ID "
-                + "FROM PRODUCTS "
-                + "WHERE NAME=?";
-        
-        pstmt = con.prepareStatement(SQL);    
-        pstmt.setString(1,pName);      //  Reference String
-        rs = pstmt.executeQuery();
-
-        if (rs.next()){          
-            return("Duplicate Description found");
-        }       
-       return("");
-    }catch (Exception e){
-        return("");
-}
-}   
-  
-private Double getSellPrice(String pSellPrice){
-  // Check if the selling price icludes taxes 
-    if (jCheckSellIncTax.isSelected()){
-        return ((Double.parseDouble(pSellPrice))/(1 + dTaxRate));
-    }else{
-        return(Double.parseDouble(pSellPrice));        
-    }   
-  }
-  
-private String updateRecord(String pID, Double pBuy, Double pSell) {
-
-    
 // always update record with the tax set for it.    
-    try{
-      SQL="SELECT TAXES.RATE FROM TAXES, PRODUCTS WHERE PRODUCTS.ID ='" + pID +"' AND TAXES.ID=PRODUCTS.TAXCAT";  
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            dOriginalRate = (rs.getDouble("rate"));                
-        } 
-        
-       // if (jCheckSellIncTax.isSelected()){
-            pSell=pSell/(1 + dOriginalRate);
+        try {
+            SQL = "SELECT TAXES.RATE FROM TAXES, PRODUCTS WHERE PRODUCTS.ID ='" + pID + "' AND TAXES.ID=PRODUCTS.TAXCAT";
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                dOriginalRate = (rs.getDouble("rate"));
+            }
+
+            // if (jCheckSellIncTax.isSelected()){
+            pSell = pSell / (1 + dOriginalRate);
        //  }
-        
-        SQL="SELECT * FROM PRODUCTS WHERE ID='" + pID + "'";
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            oldSell = rs.getDouble("Pricesell");
-            oldBuy = rs.getDouble("pricebuy");
-        }
-        
-        
+
+            SQL = "SELECT * FROM PRODUCTS WHERE ID='" + pID + "'";
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                oldSell = rs.getDouble("Pricesell");
+                oldBuy = rs.getDouble("pricebuy");
+            }
 
 // Now we can update the record    
-    SQL = "UPDATE PRODUCTS "
-            + "SET PRICESELL=?, "
-            + "PRICEBUY=? "
-            + "WHERE ID=?";
-    
-            pstmt=con.prepareStatement(SQL);
-            pstmt.setDouble(1,pSell); 
-            pstmt.setDouble(2,pBuy);    
+            SQL = "UPDATE PRODUCTS "
+                    + "SET PRICESELL=?, "
+                    + "PRICEBUY=? "
+                    + "WHERE ID=?";
+
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setDouble(1, pSell);
+            pstmt.setDouble(2, pBuy);
             pstmt.setString(3, ID);
             pstmt.executeUpdate();
-        }catch(Exception e){
-            }
-    
-        if ((oldSell != pSell) & (oldBuy !=pBuy)){
-                return("Buy and Sell prices changed");
-        }else{
-            if (oldSell != pSell){
-                return("Selling price changed");
-            }else{
-               if (oldBuy != pBuy){ 
-                return("Buy price changed");
-            }else {
-               return("");
-               }
-            }            
-            }
-}
+        } catch (Exception e) {
+        }
 
-private void CSVData(Integer currentRow, String pReference, String pBarcode, 
-        String pName , Double pBuy, Double pSell, String pCSVError, 
-        Double pPrevBuy, Double pPrevSell ){
-    ID = UUID.randomUUID().toString();
-    
-    SQL="INSERT INTO CSVIMPORT (ID, "
-            + "ROWNUMBER, "
-            + "CSVERROR, "
-            + "REFERENCE, "
-            + "CODE, "
-            + "NAME, "
-            + "PRICEBUY, "
-            + "PRICESELL, "
-            + "PREVIOUSBUY, "
-            + "PREVIOUSSELL) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-     
-    try{           
-        pstmt = con.prepareStatement(SQL);
-        pstmt.setString(1,ID);       //  Category String
-        pstmt.setString(2,Integer.toString(currentRow));       
-        pstmt.setString(3,pCSVError);       //  Category String
-        pstmt.setString(4,pReference);      //  Reference String
-        if ("".equals(pReference)){
-            pstmt.setString(4,null);
-         }  
-        pstmt.setString(5,pBarcode);        //  Barcode String
-        if ("".equals(pBarcode)){
-            pstmt.setString(5,null);
-         }
-        pstmt.setString(6,pName);           //  Name String
-        if ("".equals(pName)){
-            pstmt.setString(6,null);
-         }
-        
-        
-         if (pBuy == null){
-            pstmt.setNull(7,java.sql.Types.DOUBLE);
-         }else{
-            pstmt.setDouble(7,pBuy);        //  Buyprice Double
-         }       
-         if (pSell == null){
-            pstmt.setNull(8,java.sql.Types.DOUBLE);
-         }else{
-            pstmt.setDouble(8,pSell);        //  Buyprice Double
-         }       
-         if (pPrevBuy == null){
-            pstmt.setNull(9,java.sql.Types.DOUBLE);
-         }else{
-            pstmt.setDouble(9,pPrevBuy);        //  Buyprice Double
-         }        
-         if (pPrevSell == null){
-            pstmt.setNull(10,java.sql.Types.DOUBLE);
-         }else{
-            pstmt.setDouble(10,pPrevSell);        //  Buyprice Double
-         }
-     
-        pstmt.executeUpdate();
-    } catch (SQLException e){
-        System.out.println(e.getMessage());
+        if ((oldSell != pSell) & (oldBuy != pBuy)) {
+            return ("Buy and Sell prices changed");
+        } else {
+            if (oldSell != pSell) {
+                return ("Selling price changed");
+            } else {
+                if (oldBuy != pBuy) {
+                    return ("Buy price changed");
+                } else {
+                    return ("");
+                }
+            }
+        }
     }
-    
-}
 
-private void addRecord (String pReference, String pName , String pBarcode, Double pBuy, Double pSell, String pCategory, String pTax){
+    private void CSVData(Integer currentRow, String pReference, String pBarcode,
+            String pName, Double pBuy, Double pSell, String pCSVError,
+            Double pPrevBuy, Double pPrevSell, Double pWholeSell) {
         ID = UUID.randomUUID().toString();
-      
+
+        SQL = "INSERT INTO CSVIMPORT (ID, "
+                + "ROWNUMBER, "
+                + "CSVERROR, "
+                + "REFERENCE, "
+                + "CODE, "
+                + "NAME, "
+                + "PRICEBUY, "
+                + "PRICESELL, "
+                + "PREVIOUSBUY, "
+                + "PREVIOUSSELL, "
+                + "PRICEWHOLESELL) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, ID);       //  Category String
+            pstmt.setString(2, Integer.toString(currentRow));
+            pstmt.setString(3, pCSVError);       //  Category String
+            pstmt.setString(4, pReference);      //  Reference String
+            if ("".equals(pReference)) {
+                pstmt.setString(4, null);
+            }
+            pstmt.setString(5, pBarcode);        //  Barcode String
+            if ("".equals(pBarcode)) {
+                pstmt.setString(5, null);
+            }
+            pstmt.setString(6, pName);           //  Name String
+            if ("".equals(pName)) {
+                pstmt.setString(6, null);
+            }
+
+            if (pBuy == null) {
+                pstmt.setNull(7, java.sql.Types.DOUBLE);
+            } else {
+                pstmt.setDouble(7, pBuy);        //  Buyprice Double
+            }
+            if (pSell == null) {
+                pstmt.setNull(8, java.sql.Types.DOUBLE);
+            } else {
+                pstmt.setDouble(8, pSell);        //  Buyprice Double
+            }
+            if (pPrevBuy == null) {
+                pstmt.setNull(9, java.sql.Types.DOUBLE);
+            } else {
+                pstmt.setDouble(9, pPrevBuy);        //  Buyprice Double
+            }
+            if (pPrevSell == null) {
+                pstmt.setNull(10, java.sql.Types.DOUBLE);
+            } else {
+                pstmt.setDouble(10, pPrevSell);        //  Buyprice Double
+            }
+            if (pWholeSell == null) {
+                pstmt.setNull(11, java.sql.Types.DOUBLE);
+            } else {
+                pstmt.setDouble(11, pWholeSell);        //  Whole Sell price Double
+            }
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private void addRecord(String pReference, String pName, String pBarcode, Double pBuy, Double pSell, String pCategory, String pTax, Double pWholeSell) {
+        ID = UUID.randomUUID().toString();
+
 // Check for earlier versions
 //       switch (pre302){
 /*           case 1:
-              SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
-                + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE) VALUES" 
-                + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
-               break;
-           case 2:
-              SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
-                + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY) VALUES" 
-                + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";                
-               break;
-           case 4:
-              SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
-                + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ISVPRICE) VALUES" 
-                + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";                 
-               break;
-           case 8:
-*/
-SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
-                + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY) VALUES" 
-                + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";  
-/*               break;
-           default:
-               SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
-                + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS) VALUES" 
-                + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
-       } 
-  */      
-       try{           
-        pstmt = con.prepareStatement(SQL);
-        pstmt.setString(1, ID);             //  ID String
-        pstmt.setString(2,pReference);      //  Reference String
-        pstmt.setString(3,pBarcode);        //  Barcode String
-        pstmt.setString(4,pName);           //  Name String
-        pstmt.setBoolean(5,false);          //  Iscom   Boolean
-        pstmt.setBoolean(6,false);          //  isscale Boolean
-        pstmt.setDouble(7,pBuy);            //  Buyprice Double
-        pstmt.setDouble(8,pSell);           //  Sell price double
-        pstmt.setString(9,pCategory);       //  Category String
-        pstmt.setString(10,pTax);           //  TaxCat String
-        pstmt.setString(11,null);           //  Attributeset String
-        pstmt.setBytes(12,null);            //  Image Image
-        pstmt.setNull(13,java.sql.Types.DOUBLE); //  Stock cost Double
-        pstmt.setNull(14,java.sql.Types.DOUBLE); //  Stock volume Double
-        pstmt.setBytes(15,null);           //  Attrubutes Bytes
-        pstmt.setBoolean(16,false);         //  Iskitchen Boolean       
-        pstmt.setString(17,null);           //  Codetype String
-        pstmt.setBoolean(18,false);         //  Printkb Boolean
-        pstmt.setBoolean(19,false);         //  Sendstatus Boolean      
-    //    switch (pre302){
-    //        case 8:
-                pstmt.setBoolean(20,false);         //  Isserice Boolean
-                pstmt.setString(21,"<HTML>" + pName);//  Display String
-                pstmt.setBoolean(22,false);         //  isvprice Boolean
-                pstmt.setBoolean(23,false);         //  isverattrib Boolean 
-                pstmt.setString(24,pName);           //  set the text tip message
-                pstmt.setBoolean(25,false);
+         SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
+         + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE) VALUES" 
+         + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
+         break;
+         case 2:
+         SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
+         + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY) VALUES" 
+         + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";                
+         break;
+         case 4:
+         SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
+         + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ISVPRICE) VALUES" 
+         + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";                 
+         break;
+         case 8:
+         */
+        SQL = "INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
+                + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY, PRICEWHOLESELL) VALUES"
+                + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        /*               break;
+         default:
+         SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
+         + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS) VALUES" 
+         + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
+         } 
+         */
+        try {
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, ID);             //  ID String
+            pstmt.setString(2, pReference);      //  Reference String
+            pstmt.setString(3, pBarcode);        //  Barcode String
+            pstmt.setString(4, pName);           //  Name String
+            pstmt.setBoolean(5, false);          //  Iscom   Boolean
+            pstmt.setBoolean(6, false);          //  isscale Boolean
+            pstmt.setDouble(7, pBuy);            //  Buyprice Double
+            pstmt.setDouble(8, pSell);           //  Sell price double
+            pstmt.setString(9, pCategory);       //  Category String
+            pstmt.setString(10, pTax);           //  TaxCat String
+            pstmt.setString(11, null);           //  Attributeset String
+            pstmt.setBytes(12, null);            //  Image Image
+            pstmt.setNull(13, java.sql.Types.DOUBLE); //  Stock cost Double
+            pstmt.setNull(14, java.sql.Types.DOUBLE); //  Stock volume Double
+            pstmt.setBytes(15, null);           //  Attrubutes Bytes
+            pstmt.setBoolean(16, false);         //  Iskitchen Boolean       
+            pstmt.setString(17, null);           //  Codetype String
+            pstmt.setBoolean(18, false);         //  Printkb Boolean
+            pstmt.setBoolean(19, false);         //  Sendstatus Boolean      
+            //    switch (pre302){
+            //        case 8:
+            pstmt.setBoolean(20, false);         //  Isserice Boolean
+            pstmt.setString(21, "<HTML>" + pName);//  Display String
+            pstmt.setBoolean(22, false);         //  isvprice Boolean
+            pstmt.setBoolean(23, false);         //  isverattrib Boolean 
+            pstmt.setString(24, pName);           //  set the text tip message
+            pstmt.setBoolean(25, false);
+            pstmt.setDouble(26, pWholeSell);           //  Sell price double
       /*      case 4:
-                pstmt.setBoolean(20,false);         //  Isserice Boolean
-                pstmt.setString(21,"<HTML>" + pName);//  Display String
-                pstmt.setBoolean(22,false);         //  isvprice Boolean                
-            case 2:
-                pstmt.setBoolean(20,false);         //  Isserice Boolean
-                pstmt.setString(21,"<HTML>" + pName);//  Display String              
-            case 1:    
-                pstmt.setBoolean(20,false);         //  Isserice Boolean                                
-        */
+             pstmt.setBoolean(20,false);         //  Isserice Boolean
+             pstmt.setString(21,"<HTML>" + pName);//  Display String
+             pstmt.setBoolean(22,false);         //  isvprice Boolean                
+             case 2:
+             pstmt.setBoolean(20,false);         //  Isserice Boolean
+             pstmt.setString(21,"<HTML>" + pName);//  Display String              
+             case 1:    
+             pstmt.setBoolean(20,false);         //  Isserice Boolean                                
+             */
          //}
-                        
+
 // insert the record        
-        pstmt.executeUpdate();
-         
- // put into catalogue if required  
-        if (jCheckInCatalogue.isSelected()){
-        SQL="INSERT INTO products_cat (product, catorder ) VALUES(?, ?)";
-        pstmt = con.prepareStatement(SQL);
-        pstmt.setString(1,ID );             
-        pstmt.setNull(2,java.sql.Types.INTEGER); 
-        pstmt.executeUpdate();     
+            pstmt.executeUpdate();
+
+            // put into catalogue if required  
+            if (jCheckInCatalogue.isSelected()) {
+                SQL = "INSERT INTO products_cat (product, catorder ) VALUES(?, ?)";
+                pstmt = con.prepareStatement(SQL);
+                pstmt.setString(1, ID);
+                pstmt.setNull(2, java.sql.Types.INTEGER);
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+
         }
-    } catch (Exception e){
-            
-        }
- }   
-    
+    }
+
     @Override
     public String getTitle() {
         return AppLocal.getIntString("Menu.CSVImport");
-    } 
-    
+    }
+
     @Override
     public JComponent getComponent() {
         return this;
     }
-     
+
     @Override
     public void activate() throws BasicException {
 
-         try{
-            stmt = (Statement) con.createStatement();           
-            
+        try {
+            stmt = (Statement) con.createStatement();
+
 // get the categories and populate our comboboxes
-        SQL = "SELECT name from categories";     
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            jComboCategory.addItem(rs.getString("name"));           
-        }                 
+            SQL = "SELECT name from categories";
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                jComboCategory.addItem(rs.getString("name"));
+            }
 // get the taxcategories and populate our combobox
-        SQL = "SELECT name from taxcategories";     
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()){
-            jComboTax.addItem(rs.getString("name"));           
+            SQL = "SELECT name from taxcategories";
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                jComboTax.addItem(rs.getString("name"));
+            }
+            /* 
+             md=con.getMetaData();
+             rs=md.getColumns(null,null,"products","isservice");
+             if (rs.next()){
+             pre302=1;
+             }
+             rs=md.getColumns(null,null,"products","display");
+             if (rs.next()){
+             pre302 = 2;
+             }   
+             rs=md.getColumns(null,null,"products","isvprice");
+             if (rs.next()){
+             pre302 = 4;
+             }
+             rs=md.getColumns(null,null,"products","isverpatrib");
+             if (rs.next()){
+             pre302 = 8;
+             }
+             */
+        } catch (Exception e) {
         }
-/* 
-        md=con.getMetaData();
-        rs=md.getColumns(null,null,"products","isservice");
-        if (rs.next()){
-            pre302=1;
-        }
-        rs=md.getColumns(null,null,"products","display");
-         if (rs.next()){
-            pre302 = 2;
-        }   
-        rs=md.getColumns(null,null,"products","isvprice");
-         if (rs.next()){
-            pre302 = 4;
-        }
-        rs=md.getColumns(null,null,"products","isverpatrib");
-         if (rs.next()){
-            pre302 = 8;
-        }
-*/         
-            } catch (Exception e) {                
-       }    
 
         jComboSeparator.removeAllItems();
-     // Set the column delimiter
-        jComboSeparator.addItem(",");   
-        jComboSeparator.addItem(";"); 
-        jComboSeparator.addItem("~"); 
-        jComboSeparator.addItem("^");       
-        
-
+        // Set the column delimiter
+        jComboSeparator.addItem(",");
+        jComboSeparator.addItem(";");
+        jComboSeparator.addItem("~");
+        jComboSeparator.addItem("^");
 
     }
-    
 
-
-public void resetFields() {
+    public void resetFields() {
 // Clear the form
         jComboReference.removeAllItems();
         jComboReference.setEnabled(false);
-        jComboName.removeAllItems(); 
+        jComboName.removeAllItems();
         jComboName.setEnabled(false);
-        jComboBarcode.removeAllItems(); 
+        jComboBarcode.removeAllItems();
         jComboBarcode.setEnabled(false);
-        jComboBuy.removeAllItems(); 
+        jComboBuy.removeAllItems();
         jComboBuy.setEnabled(false);
-        jComboSell.removeAllItems(); 
-        jComboSell.setEnabled(false);
+        jComboWholeSell.removeAllItems();
+        jComboWholeSell.setEnabled(false);
         jImport.setEnabled(false);
         jHeaderRead.setEnabled(false);
         jCheckInCatalogue.setSelected(false);
@@ -738,39 +740,38 @@ public void resetFields() {
         jTextNoChange.setText("");
         jTextRecords.setText("");
         jTextBadPrice.setText("");
-        Headers.clear();  
-   }
-
-public void checkFieldMapping(){
-    if (jComboReference.getSelectedItem() != "" & jComboName.getSelectedItem() != "" & jComboBarcode.getSelectedItem() != "" & 
-                                jComboBuy.getSelectedItem() != "" & jComboSell.getSelectedItem() != "") {
-        jImport.setEnabled(true);
-    }else{
-        jImport.setEnabled(false);
+        Headers.clear();
     }
-}
+
+    public void checkFieldMapping() {
+        if (jComboReference.getSelectedItem() != "" & jComboName.getSelectedItem() != "" & jComboBarcode.getSelectedItem() != ""
+                & jComboBuy.getSelectedItem() != "" & jComboWholeSell.getSelectedItem() != "") {
+            jImport.setEnabled(true);
+        } else {
+            jImport.setEnabled(false);
+        }
+    }
 
     @Override
     public boolean deactivate() {
         resetFields();
         jComboCategory.removeAllItems();
         jComboTax.removeAllItems();
-/*        
-        try{
-            pstmt.close();
-            rs.close();
-            stmt.close();
-            con.close();
-        }catch (Exception e){}
-   */     
+        /*        
+         try{
+         pstmt.close();
+         rs.close();
+         stmt.close();
+         con.close();
+         }catch (Exception e){}
+         */
         return (true);
-    }    
-  
-    
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -784,20 +785,18 @@ public void checkFieldMapping(){
         jComboBarcode = new javax.swing.JComboBox();
         jComboName = new javax.swing.JComboBox();
         jComboBuy = new javax.swing.JComboBox();
-        jComboSell = new javax.swing.JComboBox();
+        jComboWholeSell = new javax.swing.JComboBox();
         jComboCategory = new javax.swing.JComboBox();
         jComboTax = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jCheckInCatalogue = new javax.swing.JCheckBox();
-        jLabel8 = new javax.swing.JLabel();
-        jCheckSellIncTax = new javax.swing.JCheckBox();
-        jLabel12 = new javax.swing.JLabel();
+        jComboSell = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jHeaderRead = new javax.swing.JButton();
@@ -818,6 +817,10 @@ public void checkFieldMapping(){
         jTextNoChange = new javax.swing.JTextField();
         jComboSeparator = new javax.swing.JComboBox();
         jImport = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jCheckSellIncTax = new javax.swing.JCheckBox();
+        jCheckInCatalogue = new javax.swing.JCheckBox();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(630, 430));
@@ -860,14 +863,11 @@ public void checkFieldMapping(){
         jFileChooserPanelLayout.setVerticalGroup(
             jFileChooserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFileChooserPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addGroup(jFileChooserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .addGroup(jFileChooserPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jbtnDbDriverLib, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jbtnDbDriverLib, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jComboReference.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -932,18 +932,18 @@ public void checkFieldMapping(){
             }
         });
 
-        jComboSell.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboSell.setEnabled(false);
-        jComboSell.setMinimumSize(new java.awt.Dimension(32, 25));
-        jComboSell.setPreferredSize(new java.awt.Dimension(275, 30));
-        jComboSell.addItemListener(new java.awt.event.ItemListener() {
+        jComboWholeSell.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboWholeSell.setEnabled(false);
+        jComboWholeSell.setMinimumSize(new java.awt.Dimension(32, 25));
+        jComboWholeSell.setPreferredSize(new java.awt.Dimension(275, 30));
+        jComboWholeSell.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboSellItemStateChanged(evt);
+                jComboWholeSellItemStateChanged(evt);
             }
         });
-        jComboSell.addFocusListener(new java.awt.event.FocusAdapter() {
+        jComboWholeSell.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jComboSellFocusGained(evt);
+                jComboWholeSellFocusGained(evt);
             }
         });
 
@@ -975,9 +975,9 @@ public void checkFieldMapping(){
         jLabel10.setText(bundle.getString("label.prodpricebuy")); // NOI18N
         jLabel10.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel11.setText(bundle.getString("label.prodpricesell")); // NOI18N
-        jLabel11.setPreferredSize(new java.awt.Dimension(100, 30));
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel19.setText(bundle.getString("label.prodpricewholesell")); // NOI18N
+        jLabel19.setPreferredSize(new java.awt.Dimension(100, 30));
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setText(bundle.getString("label.prodcategory")); // NOI18N
@@ -987,17 +987,24 @@ public void checkFieldMapping(){
         jLabel7.setText(bundle.getString("label.prodtaxcode")); // NOI18N
         jLabel7.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        jCheckInCatalogue.setEnabled(false);
+        jComboSell.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboSell.setEnabled(false);
+        jComboSell.setMinimumSize(new java.awt.Dimension(32, 25));
+        jComboSell.setPreferredSize(new java.awt.Dimension(275, 30));
+        jComboSell.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboSellItemStateChanged(evt);
+            }
+        });
+        jComboSell.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jComboSellFocusGained(evt);
+            }
+        });
 
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText(bundle.getString("label.prodincatalog")); // NOI18N
-
-        jCheckSellIncTax.setEnabled(false);
-
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel12.setText(bundle.getString("label.csvsellingintax")); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel11.setText(bundle.getString("label.prodpricesell")); // NOI18N
+        jLabel11.setPreferredSize(new java.awt.Dimension(100, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1009,31 +1016,20 @@ public void checkFieldMapping(){
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboReference, 0, 276, Short.MAX_VALUE)
                     .addComponent(jComboBarcode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBuy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboSell, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboWholeSell, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboTax, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jCheckInCatalogue, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCheckSellIncTax, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jComboSell, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1058,29 +1054,25 @@ public void checkFieldMapping(){
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboSell, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboSell, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboWholeSell, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboTax, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jCheckInCatalogue)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckSellIncTax))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        jLabel19.getAccessibleContext().setAccessibleName("Whole Sell Price");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel17.setText("Import Version V1.3");
@@ -1270,6 +1262,18 @@ public void checkFieldMapping(){
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel12.setText(bundle.getString("label.csvsellingintax")); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel8.setText(bundle.getString("label.prodincatalog")); // NOI18N
+
+        jCheckSellIncTax.setEnabled(false);
+
+        jCheckInCatalogue.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1293,14 +1297,26 @@ public void checkFieldMapping(){
                                         .addComponent(jComboSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(106, 106, 106)
                                         .addComponent(jHeaderRead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(8, 8, 8)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 4, Short.MAX_VALUE)))
+                        .addGap(0, 16, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jCheckInCatalogue, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckSellIncTax, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1317,35 +1333,45 @@ public void checkFieldMapping(){
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jCheckInCatalogue)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckSellIncTax))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jHeaderReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHeaderReadActionPerformed
-       try {            
-                GetheadersFromFile(jFileName.getText());
-            } catch (IOException ex) {
-                Logger.getLogger(JPanelCSVImport.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            GetheadersFromFile(jFileName.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(JPanelCSVImport.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jHeaderReadActionPerformed
 
     private void jImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jImportActionPerformed
 // prevent any more key presses
-        jImport.setEnabled(false);   
-        
-        try {            
-                ImportCsvFile(jFileName.getText());
-            } catch (IOException ex) {
-                Logger.getLogger(JPanelCSVImport.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       
+        jImport.setEnabled(false);
+
+        try {
+            ImportCsvFile(jFileName.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(JPanelCSVImport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jImportActionPerformed
 
     private void jFileNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileNameActionPerformed
-            jImport.setEnabled(false);
-            jHeaderRead.setEnabled(true);
+        jImport.setEnabled(false);
+        jHeaderRead.setEnabled(true);
     }//GEN-LAST:event_jFileNameActionPerformed
 
     private void jbtnDbDriverLibActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDbDriverLibActionPerformed
@@ -1353,45 +1379,45 @@ public void checkFieldMapping(){
         JFileChooser chooser = new JFileChooser("C:\\");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("csv files", "csv");
         chooser.setFileFilter(filter);
-        chooser.showOpenDialog(null);      
+        chooser.showOpenDialog(null);
         File csvFile = chooser.getSelectedFile();
 // check if a file was selected        
-        if (csvFile == null){
+        if (csvFile == null) {
             return;
         }
         String csv = csvFile.getName();
         if (!(csv.trim().equals(""))) {
             csvFileName = csvFile.getAbsolutePath();
             jFileName.setText(csvFileName);
-           }        
+        }
     }//GEN-LAST:event_jbtnDbDriverLibActionPerformed
 
     private void jComboCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboCategoryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboCategoryActionPerformed
 
-    private void jComboSellFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboSellFocusGained
-        jComboSell.removeAllItems();
-        int i =1;
-        jComboSell.addItem("");
-        while(i < Headers.size()){
+    private void jComboWholeSellFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboWholeSellFocusGained
+        jComboWholeSell.removeAllItems();
+        int i = 1;
+        jComboWholeSell.addItem("");
+        while (i < Headers.size()) {
             if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem())) {
-                jComboSell.addItem(Headers.get(i));
+                jComboWholeSell.addItem(Headers.get(i));
             }
             ++i;
         }
-    }//GEN-LAST:event_jComboSellFocusGained
+    }//GEN-LAST:event_jComboWholeSellFocusGained
 
-    private void jComboSellItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboSellItemStateChanged
+    private void jComboWholeSellItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboWholeSellItemStateChanged
         checkFieldMapping();
-    }//GEN-LAST:event_jComboSellItemStateChanged
+    }//GEN-LAST:event_jComboWholeSellItemStateChanged
 
     private void jComboBuyFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBuyFocusGained
         jComboBuy.removeAllItems();
-        int i =1;
+        int i = 1;
         jComboBuy.addItem("");
-        while(i < Headers.size()){
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboSell.getSelectedItem())) {
+        while (i < Headers.size()) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboBuy.addItem(Headers.get(i));
             }
             ++i;
@@ -1404,10 +1430,10 @@ public void checkFieldMapping(){
 
     private void jComboNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboNameFocusGained
         jComboName.removeAllItems();
-        int i =1;
+        int i = 1;
         jComboName.addItem("");
-        while(i < Headers.size()){
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboSell.getSelectedItem())) {
+        while (i < Headers.size()) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboName.addItem(Headers.get(i));
             }
             ++i;
@@ -1420,10 +1446,10 @@ public void checkFieldMapping(){
 
     private void jComboBarcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBarcodeFocusGained
         jComboBarcode.removeAllItems();
-        int i =1;
+        int i = 1;
         jComboBarcode.addItem("");
-        while(i < Headers.size()){
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboSell.getSelectedItem())) {
+        while (i < Headers.size()) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboBarcode.addItem(Headers.get(i));
             }
             ++i;
@@ -1436,10 +1462,10 @@ public void checkFieldMapping(){
 
     private void jComboReferenceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboReferenceFocusGained
         jComboReference.removeAllItems();
-        int i =1;
+        int i = 1;
         jComboReference.addItem("");
-        while(i < Headers.size()){
-            if ((Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboSell.getSelectedItem())) {
+        while (i < Headers.size()) {
+            if ((Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboReference.addItem(Headers.get(i));
             }
             ++i;
@@ -1449,8 +1475,16 @@ public void checkFieldMapping(){
     private void jComboReferenceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboReferenceItemStateChanged
         checkFieldMapping();
     }//GEN-LAST:event_jComboReferenceItemStateChanged
-    
-    
+
+    private void jComboSellItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboSellItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboSellItemStateChanged
+
+    private void jComboSellFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboSellFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboSellFocusGained
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckInCatalogue;
     private javax.swing.JCheckBox jCheckSellIncTax;
@@ -1462,6 +1496,7 @@ public void checkFieldMapping(){
     private javax.swing.JComboBox jComboSell;
     private javax.swing.JComboBox jComboSeparator;
     private javax.swing.JComboBox jComboTax;
+    private javax.swing.JComboBox jComboWholeSell;
     private javax.swing.JPanel jFileChooserPanel;
     private javax.swing.JTextField jFileName;
     private javax.swing.JButton jHeaderRead;
@@ -1476,6 +1511,7 @@ public void checkFieldMapping(){
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1496,7 +1532,5 @@ public void checkFieldMapping(){
     private javax.swing.JLabel jTextUpdates;
     private javax.swing.JButton jbtnDbDriverLib;
     // End of variables declaration//GEN-END:variables
-
-    
 
 }

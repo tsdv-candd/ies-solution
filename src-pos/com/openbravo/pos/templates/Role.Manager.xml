@@ -36,6 +36,7 @@
     <class name="sales.RefundTicket"/>
     <class name="sales.PrintTicket"/>
     <class name="sales.Total"/>
+    <class name="sales.WholeSale"/>
     <class name="sales.ChangeTaxOptions"/>
     <class name="payment.bank"/>
     <class name="payment.cash"/>

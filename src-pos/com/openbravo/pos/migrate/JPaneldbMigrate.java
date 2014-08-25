@@ -593,7 +593,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         SQL ="SELECT * FROM CSVIMPORT";         
         rs = stmt.executeQuery(SQL);
         while (rs.next()){
-            SQL="INSERT INTO CSVIMPORT (ID, ROWNUMBER, CSVERROR, REFERENCE, CODE, NAME, BUYPRICE, SELLPRICE, PREVIOUSBUY, PREVIOUSSELL  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            SQL="INSERT INTO CSVIMPORT (ID, ROWNUMBER, CSVERROR, REFERENCE, CODE, NAME, BUYPRICE, SELLPRICE, PREVIOUSBUY, PREVIOUSSELL, PRICEWHOLESELL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             pstmt = con2.prepareStatement(SQL);    
             pstmt.setString(1,rs.getString("ID")); 
             pstmt.setString(2,rs.getString("ROWNUMBER")); 
@@ -604,7 +604,8 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
             pstmt.setDouble(7,rs.getDouble("BUYPRICE")); 
             pstmt.setDouble(8,rs.getDouble("SELLPRICE")); 
             pstmt.setDouble(9,rs.getDouble("PREVIOUSBUY")); 
-            pstmt.setDouble(10,rs.getDouble("PREVIOUSSELL"));                         
+            pstmt.setDouble(10,rs.getDouble("PREVIOUSSELL")); 
+            pstmt.setDouble(8,rs.getDouble("PRICEWHOLESELL")); 
             pstmt.executeUpdate();              
         }         
          

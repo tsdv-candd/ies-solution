@@ -1089,9 +1089,11 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jPanel1.add(m_jPriceSellTax);
         m_jPriceSellTax.setBounds(130, 190, 80, 25);
 
+        jLabel4.setBackground(new java.awt.Color(255, 255, 51));
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
+        jLabel4.setText(AppLocal.getIntString("label.prodpricewholesell")); // NOI18N
         jPanel1.add(jLabel4);
         jLabel4.setBounds(210, 220, 100, 30);
 

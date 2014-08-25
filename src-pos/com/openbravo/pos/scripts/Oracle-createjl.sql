@@ -66,6 +66,8 @@ CREATE TABLE CSVIMPORT(
   PRICESELL double precision,
   PREVIOUSBUY double precision,
   PREVIOUSSELL double precision,
+  PRICEWHOLESELL double precision,
+  PREVIOUSWHOLESELL double precision,
   PRIMARY KEY (ID)
 );
 

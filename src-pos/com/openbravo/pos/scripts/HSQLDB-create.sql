@@ -611,9 +611,9 @@ CREATE TABLE csvimport (
   name VARCHAR(255),
   pricebuy DOUBLE,
   pricesell DOUBLE,
-  pricewholesell DOUBLE,
   previousbuy DOUBLE,
   previoussell DOUBLE,
+  pricewholesell DOUBLE,
   PRIMARY KEY (id)
 );
 
