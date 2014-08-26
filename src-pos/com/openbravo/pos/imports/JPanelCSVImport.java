@@ -177,7 +177,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         Double productBuyPrice;
         Double productSellPrice;
         int badPrice = 0;
-        Double productWholeSellPrice = null;
+        Double productWholeSellPrice;
 
 // lets start to process the file          
 // get the default category & tax
@@ -211,7 +211,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                 dTaxRate = (rs.getDouble("rate"));
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
 
         }
 
@@ -269,24 +269,25 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                         productWholeSellPrice = null;
                     }
 
-                    CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice, "Missing data or Invalid number", null, null, productWholeSellPrice);
+                    CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice, "Missing data or Invalid number", null, null, productWholeSellPrice, null);
 
                 } else {
 // Add a new record into the database                            
                     productBuyPrice = Double.parseDouble(BuyPrice);
                     productSellPrice = getSellPrice(SellPrice);
+                    productWholeSellPrice = getWholeSellPrice(WholeSellPrice);
                     String recordType;
                     recordType = getRecordType(productReference, productName, productBarcode);
                     switch (recordType) {
                         case "new":
                             addRecord(productReference, productName, productBarcode, productBuyPrice, productSellPrice, dCategory, dTax, productWholeSellPrice);
                             newRecords++;
-                            CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, Double.parseDouble(SellPrice), "New product", null, null, Double.parseDouble(WholeSellPrice));
+                            CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, Double.parseDouble(SellPrice), "New product", null, null, Double.parseDouble(WholeSellPrice), null);
                             break;
                         case "update":
-                            if (!"".equals(updateRecord(ID, productBuyPrice, Double.parseDouble(SellPrice)))) {
+                            if (!"".equals(updateRecord(ID, productBuyPrice, Double.parseDouble(SellPrice), Double.parseDouble(WholeSellPrice)))) {
                                 priceUpdates++;
-                                CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice * (1 + dOriginalRate), "Updated Price Details", oldBuy, oldSell * (1 + dOriginalRate), oldWholeSell* (1 + dOriginalRate));
+                                CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice * (1 + dOriginalRate), "Updated Price Details", oldBuy, oldSell * (1 + dOriginalRate), productSellPrice * (1 + dOriginalRate), oldWholeSell* (1 + dOriginalRate));
                             } else {
                                 noChanges++;
                             }
@@ -295,7 +296,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                             break;
                         default:
                             invalidRecords++;
-                            CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice, recordType, null, null, productWholeSellPrice);
+                            CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice, recordType, null, null, productWholeSellPrice, null);
                             break;
                     }
                 }
@@ -444,8 +445,18 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             return (Double.parseDouble(pSellPrice));
         }
     }
+    
+    private Double getWholeSellPrice(String pWholeSellPrice) {
+        // Check if the selling price icludes taxes 
+        if (jCheckSellIncTax.isSelected()) {
+            return ((Double.parseDouble(pWholeSellPrice)) / (1 + dTaxRate));
+        } else {
+            return (Double.parseDouble(pWholeSellPrice));
+        }
+    }
 
-    private String updateRecord(String pID, Double pBuy, Double pSell) {
+
+    private String updateRecord(String pID, Double pBuy, Double pSell, Double pWholeSell) {
 
 // always update record with the tax set for it.    
         try {
@@ -464,23 +475,26 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             while (rs.next()) {
                 oldSell = rs.getDouble("Pricesell");
                 oldBuy = rs.getDouble("pricebuy");
+                oldWholeSell = rs.getDouble("Pricewholesell");
             }
 
 // Now we can update the record    
             SQL = "UPDATE PRODUCTS "
                     + "SET PRICESELL=?, "
                     + "PRICEBUY=? "
+                    + "SET PRICEWHOLESELL=?, "
                     + "WHERE ID=?";
 
             pstmt = con.prepareStatement(SQL);
             pstmt.setDouble(1, pSell);
             pstmt.setDouble(2, pBuy);
             pstmt.setString(3, ID);
+            pstmt.setDouble(4, pWholeSell);
             pstmt.executeUpdate();
         } catch (Exception e) {
         }
 
-        if ((oldSell != pSell) & (oldBuy != pBuy)) {
+        if ((oldSell != pSell) & (oldBuy != pBuy) & (oldWholeSell != pWholeSell)) {
             return ("Buy and Sell prices changed");
         } else {
             if (oldSell != pSell) {
@@ -489,7 +503,11 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                 if (oldBuy != pBuy) {
                     return ("Buy price changed");
                 } else {
-                    return ("");
+                    if (oldWholeSell != pWholeSell) {
+                        return ("Whole Selling price changed");
+                    } else {
+                        return ("");
+                    }
                 }
             }
         }
@@ -497,7 +515,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 
     private void CSVData(Integer currentRow, String pReference, String pBarcode,
             String pName, Double pBuy, Double pSell, String pCSVError,
-            Double pPrevBuy, Double pPrevSell, Double pWholeSell) {
+            Double pPrevBuy, Double pPrevSell, Double pWholeSell, Double pPrevWholeSell) {
         ID = UUID.randomUUID().toString();
 
         SQL = "INSERT INTO CSVIMPORT (ID, "
@@ -510,8 +528,9 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                 + "PRICESELL, "
                 + "PREVIOUSBUY, "
                 + "PREVIOUSSELL, "
-                + "PRICEWHOLESELL) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "PRICEWHOLESELL, "
+                + "PREVIOUSWHOLESELL) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             pstmt = con.prepareStatement(SQL);
@@ -555,6 +574,11 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                 pstmt.setNull(11, java.sql.Types.DOUBLE);
             } else {
                 pstmt.setDouble(11, pWholeSell);        //  Whole Sell price Double
+            }
+            if (pPrevWholeSell == null) {
+                pstmt.setNull(12, java.sql.Types.DOUBLE);
+            } else {
+                pstmt.setDouble(12, pPrevWholeSell);        //  Whole Sell price Double
             }
 
             pstmt.executeUpdate();
@@ -1026,10 +1050,10 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                     .addComponent(jComboBarcode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBuy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboSell, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboWholeSell, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboTax, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboSell, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboTax, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1054,14 +1078,14 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboSell, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboWholeSell, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboSell, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboWholeSell, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1071,8 +1095,6 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                     .addComponent(jComboTax, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
-        jLabel19.getAccessibleContext().setAccessibleName("Whole Sell Price");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel17.setText("Import Version V1.3");
@@ -1289,34 +1311,31 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                                 .addGap(10, 10, 10)
                                 .addComponent(jFileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(109, 109, 109)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jCheckInCatalogue, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jCheckSellIncTax))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jComboSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(106, 106, 106)
-                                        .addComponent(jHeaderRead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jComboSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(106, 106, 106)
+                                                .addComponent(jHeaderRead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 16, Short.MAX_VALUE)))
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(109, 109, 109)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jCheckInCatalogue, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckSellIncTax, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1333,19 +1352,20 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCheckInCatalogue)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckSellIncTax))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jCheckInCatalogue)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(2, 2, 2)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jCheckSellIncTax)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
