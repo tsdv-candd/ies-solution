@@ -481,17 +481,18 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 // Now we can update the record    
             SQL = "UPDATE PRODUCTS "
                     + "SET PRICESELL=?, "
-                    + "PRICEBUY=? "
-                    + "SET PRICEWHOLESELL=?, "
+                    + "PRICEBUY=?, "
+                    + "PRICEWHOLESELL=? "
                     + "WHERE ID=?";
 
             pstmt = con.prepareStatement(SQL);
             pstmt.setDouble(1, pSell);
             pstmt.setDouble(2, pBuy);
-            pstmt.setString(3, ID);
-            pstmt.setDouble(4, pWholeSell);
+            pstmt.setDouble(3, pWholeSell);
+            pstmt.setString(4, ID);
+ 
             pstmt.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
 
         if ((oldSell != pSell) & (oldBuy != pBuy) & (oldWholeSell != pWholeSell)) {
