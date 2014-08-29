@@ -26,73 +26,73 @@
             <text align="right" length="10">${ticket.printTotal()}</text>
         </line>
         <line>
-            <text align="center" length="20">Thank you for your custom</text>
+            <text align="center" length="20">Xin Chân Thành Cảm Ơn!</text>
         </line>
     </display>
     <ticket>
         <image>Printer.Ticket.Logo</image>
         <line></line>
         <line>
-            <text align="center" length="42">uniCenta oPOS</text>
+            <text align="center" length="42">Cửa Hàng Kinh Doanh</text>
         </line>
         <line>
-            <text align="center" length="42">Touch Friendly Point Of Sale</text>
+            <text align="center" length="42">Hân Hạnh Phục Vụ Quý Khách</text>
         </line>
-        <line>
+<!--    <line>
             <text align="center" length="42">Copyright (c) 2009-2013 uniCenta</text>
         </line>
         <line>
             <text align="center" length="42">Printer.TicketNew</text>
         </line>
-        <line></line>
+-->     <line></line>
         #if (${ticket.ticketType} == 0)
           <line>
-            <text align="left" length="15">Receipt:</text>
+            <text align="left" length="15">Số HĐ:</text>
             <text>${ticket.printId()}</text>
           </line>
         #end
         #if (${ticket.ticketType} == 1)
           <line>
-            <text align="left" length="15">Refund:</text>
+            <text align="left" length="15">Khách đưa:</text>
             <text>${ticket.printId()}</text>
           </line>
         #end
         <line>
-            <text align="left" length="15">Date:</text>
+            <text align="left" length="15">Ngày:</text>
             <text>${ticket.printDate()}</text>
         </line>
         #if ($ticket.getCustomer())
           <line>
-            <text align="left" length="15">Customer:</text>
+            <text align="left" length="15">K.Hàng:</text>
             <text>${ticket.getCustomer().printName()}</text>
           </line>
           <line>
-            <text align="left" length="15">Account #:</text>
+            <text align="left" length="15">Tài Khỏan #:</text>
             <text>${ticket.getCustomer().printTaxid()}</text>
           </line>
           <line>
-            <text align="left" length="15">Current Debt:</text>
+            <text align="left" length="15">Nợ hiện tại:</text>
             <text>${ticket.getCustomer().printCurDebt()}</text>
           </line>
         #end
 
         #if (${tickettext.place} != ${place})
         <line>
-           <text align="left" length="15">Table:</text>
+           <text align="left" length="15">Bàn:</text>
            <text>${place}</text>
         </line>
         #end
         
           <line>
-            <text align="left" length="15">Served by:</text>
+            <text align="left" length="15">Phục Vụ:</text>
             <text>${ticket.printUser()}</text>
           </line>
           <line></line>
           <line>
-            <text align ="left" length="17">Item</text>
-            <text align ="right" length="8">Price</text>
-            <text align ="right" length="7">Qty</text>
-            <text align ="right" length="10">Value</text>
+            <text align ="left" length="17">Món Hàng</text>
+            <text align ="right" length="8">Đ.giá</text>
+            <text align ="right" length="7">S.Lg</text>
+            <text align ="right" length="10">T.Tiền</text>
           </line>
           <line>
             <text>------------------------------------------</text>
@@ -119,12 +119,12 @@
             <text>------------------------------------------</text>
         </line>
         <line>
-            <text>Items count: </text>
+            <text>Tổng món: </text>
             <text align ="left" length="14">${ticket.printArticlesCount()}</text>
         </line>
         <line></line>
         <line size="1">
-            <text align ="left" length="16" bold="true">Total</text>
+            <text align ="left" length="16" bold="true">Tổng tiền</text>
             <text align ="right" length="26" bold="true">${ticket.printTotal()}</text>
         </line>
     #foreach ($paymentline in $ticket.payments)
@@ -133,17 +133,17 @@
               <text bold="true">Cash</text>
             </line>
             <line>
-              <text align="left" length="22">Tendered:</text>
+              <text align="left" length="22">Khách đưa:</text>
               <text align ="right" length="20">${paymentline.printPaid()}</text>
             </line>
             <line>
-              <text align="left" length="22">Change:</text>
+              <text align="left" length="22">Trả lại:</text>
               <text align ="right" length="20">${paymentline.printChange()}</text>
             </line>
           #end
           #if ($paymentline.name == "cashrefund")
             <line>
-              <text bold="true">Refund</text>
+              <text bold="true">Thanh toán</text>
             </line>
             <line>
               <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -157,15 +157,15 @@
             <text align ="right" length="42">${paymentline.printTotal()}</text>
           </line>
           <line>
-            <text align ="left" length="22">Card Number:</text>
+            <text align ="left" length="22">Số Cardr:</text>
             <text>${paymentline.printCardNumber()}</text>
           </line>
           <line>
-            <text align ="left" length="22">Expiration Date:</text>
+            <text align ="left" length="22">Ngày hết hạn:</text>
             <text>${paymentline.printExpirationDate()}</text>
           </line>
           <line>
-            <text align ="left" length="22">Operation:</text>
+            <text align ="left" length="22">Giao dịch:</text>
             <text>${paymentline.printTransactionID()}</text>
           </line>
           <line>
@@ -175,7 +175,7 @@
         #end
         #if ($paymentline.name == "magcardrefund")
             <line>
-                <text bold="true">Card Refund</text>
+                <text bold="true">T.Toán Card</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -184,7 +184,7 @@
         #if ($paymentline.name == "cheque")
             <line></line>
             <line>
-                <text bold="true">Cheque</text>
+                <text bold="true">Séc</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -193,7 +193,7 @@
         #if ($paymentline.name == "chequerefund")
             <line></line>
             <line>
-                <text bold="true">Cheque Refund</text>
+                <text bold="true">T.Toán Séc</text>
             </line>
             <line>
             <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -202,7 +202,7 @@
         #if ($paymentline.name == "paperin")
             <line></line>
             <line>
-                <text bold="true">Note</text>
+                <text bold="true">T.Toán Phiếu</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -211,7 +211,7 @@
         #if ($paymentline.name == "paperout")
             <line></line>
             <line>
-            <text bold="true">Note Refund</text>
+            <text bold="true">T.Toán Phiếu</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -220,7 +220,7 @@
         #if ($paymentline.name == "free")
             <line></line>
             <line>
-                <text bold="true">Free</text>
+                <text bold="true">Miễn Phí</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -229,7 +229,7 @@
         #if ($paymentline.name == "debt")
             <line></line>
             <line>
-                <text bold="true">On Account</text>
+                <text bold="true">Ghi nợ</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -238,11 +238,11 @@
     #end
         <line></line>
         <line>
-            <text align ="left" bold="true" length="16">Nett of Tax:</text>
+            <text align ="left" bold="true" length="16">Gồm Thuế:</text>
             <text align ="right" length="26">${ticket.printSubTotal()}</text>
         </line>
         <line>
-            <text align ="left" length="16">Taxes:</text>
+            <text align ="left" length="16">Thuế:</text>
             <text align ="right" length="26">${ticket.printTax()}</text>
         </line>
         #foreach ($taxinfo in $taxes)

@@ -57,7 +57,7 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('19', 'img.user', 1, $F
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('20', 'to.100n', 1, $FILE{/com/openbravo/pos/templates/to.100n.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('21', 'to.200n', 1, $FILE{/com/openbravo/pos/templates/to.200n.png});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('22', 'to.500n', 1, $FILE{/com/openbravo/pos/templates/to.500n.png});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('23', 'note.5', 1, $FILE{/com/openbravo/pos/templates/note.5.png});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('23', 'to.1000n', 1, $FILE{/com/openbravo/pos/templates/to.1000n.png});
 
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('24', 'payment.cash', 0, $FILE{/com/openbravo/pos/templates/payment.cash.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('25', 'Printer.CloseCash', 0, $FILE{/com/openbravo/pos/templates/Printer.CloseCash.xml});

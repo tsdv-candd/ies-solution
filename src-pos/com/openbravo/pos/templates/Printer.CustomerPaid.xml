@@ -23,11 +23,11 @@
 <output>
     <display>
         <line>
-            <text align="left" length="10">Total paid</text>
+            <text align="left" length="10">Tổng Trả</text>
             <text align="right" length="10">${ticket.printTotalPaid()}</text>
         </line>
         <line>
-            <text align="center" length="20">Thank You for your custom</text>
+            <text align="center" length="20">Cảm ơn quý khách, hẹn gặp lại</text>
         </line>
     </display>
     <ticket>
@@ -44,21 +44,21 @@
         </line>
         <line></line>
         <line>
-            <text align="left" length="15">Receipt:</text>
+            <text align="left" length="15">HĐ:</text>
             <text>${ticket.printId()}</text>
         </line>
         <line>
-            <text align="left" length="15">Date:</text>
+            <text align="left" length="15">Ngày:</text>
             <text>${ticket.printDate()}</text>
         </line>
         
         #if ($ticket.getCustomer())
             <line>
-                <text align="left" length="15">Account:</text>
+                <text align="left" length="15">T.Khoản:</text>
                 <text>${ticket.getCustomer().printTaxid()}</text>
             </line>
             <line>
-                <text align="left" length="15">Customer:</text>
+                <text align="left" length="15">Khách Hàng:</text>
                 <text>${ticket.getCustomer().printName()}</text>
             </line>
 
@@ -66,12 +66,12 @@
 
         <line></line>
         <line size="1">
-            <text align ="left" length="32" bold="true">Total Paid</text>
+            <text align ="left" length="32" bold="true">Tổng Trả</text>
             <text align ="right" length="10" bold="true">${ticket.printTotalPaid()}</text>
         </line>
         <line></line>
         <line>
-            <text align ="left" length="32" bold="true">Account Balance</text>
+            <text align ="left" length="32" bold="true">Cân Tài Khoản</text>
             <text align ="right" length="10" bold="true">${customer.printCurDebt()}</text>
         </line>
 
@@ -79,14 +79,14 @@
         #if ($paymentline.name == "cash")
             <line></line>
             <line>
-                <text bold="true">Cash</text>
+                <text bold="true">Tiền Mặt</text>
             </line>
             <line>
-                <text align="left" length="22">Tendered:</text>
+                <text align="left" length="22">Đưa:</text>
                 <text align ="right" length="20">${paymentline.printPaid()}</text>
             </line>
             <line>
-                <text align="left" length="22">Change:</text>
+                <text align="left" length="22">Trả lại:</text>
                 <text align ="right" length="20">${paymentline.printChange()}</text>
             </line>
         #end
@@ -94,25 +94,25 @@
         #if ($paymentline.name == "magcard")
             <line></line>
             <line>
-                <text bold="true">Mag card</text>
+                <text bold="true">Thẻ từ (card)</text>
             </line>
             <line>
             <text align ="right" length="42">${paymentline.printTotal()}</text>
             </line>
             <line>
-                <text align ="left" length="22">Number:</text>
+                <text align ="left" length="22">Số:</text>
                 <text>${paymentline.printCardNumber()}</text>
             </line>
             <line>
-                <text align ="left" length="22">Expiry Date:</text>
+                <text align ="left" length="22">Ngày hết hạn:</text>
                 <text>${paymentline.printExpirationDate()}</text>
             </line>
             <line>
-                <text align ="left" length="22">Operation:</text>
+                <text align ="left" length="22">Giao dịch:</text>
                 <text>${paymentline.printTransactionID()}</text>
             </line>
             <line>
-                <text align ="left" length="22">Authorization:</text>
+                <text align ="left" length="22">Quyền hạn:</text>
                 <text>${paymentline.printAuthorization()}</text>
             </line>
         #end
@@ -120,7 +120,7 @@
         #if ($paymentline.name == "cheque")
             <line></line>
             <line>
-                <text bold="true">Cheque</text>
+                <text bold="true">Séc</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -130,7 +130,7 @@
         #if ($paymentline.name == "paperin")
             <line></line>
             <line>
-                <text bold="true">Note</text>
+                <text bold="true">Ghi chú</text>
             </line>
             <line>
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -139,12 +139,12 @@
     #end
        <line></line>
         <line>
-            <text align="left" length="15">Cashier:</text>
+            <text align="left" length="15">Thu Ngân:</text>
             <text>${ticket.printUser()}</text>
         </line>
         <line></line>
         <line>
-            <text align="center" length="42">Thank You for your custom</text>
+            <text align="center" length="42">***Hẹn gặp lại***</text>
         </line>
     </ticket>
 

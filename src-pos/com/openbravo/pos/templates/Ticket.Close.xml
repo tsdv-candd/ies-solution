@@ -39,7 +39,7 @@ if ("cash".equals(p.getName())) {
 }
 
 if(isCash) {
-	FontText.setText("TRẢ LẠI: " + change);
+	FontText.setText("Trả lại khách: " + change);
 	JOptionPane.showMessageDialog (null,
 	FontText,
 	"Tiền thừa", 
