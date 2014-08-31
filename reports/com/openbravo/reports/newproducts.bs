@@ -28,7 +28,7 @@ report.setReport("/com/openbravo/reports/newproducts");
 report.setResourceBundle("com/openbravo/reports/newproducts_messages");
 
 report.setSentence("SELECT CSVIMPORT.REFERENCE, CSVIMPORT.CODE,"+
-       "CSVIMPORT.NAME, CSVIMPORT.PRICEBUY, CSVIMPORT.PRICESELL"+
+       "CSVIMPORT.NAME, CSVIMPORT.PRICEBUY, CSVIMPORT.PRICESELL, CSVIMPORT.PRICEWHOLESELL"+
         " FROM CSVIMPORT WHERE CSVIMPORT.CSVERROR='New product'");
 
 

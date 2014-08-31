@@ -287,7 +287,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                         case "update":
                             if (!"".equals(updateRecord(ID, productBuyPrice, Double.parseDouble(SellPrice), Double.parseDouble(WholeSellPrice)))) {
                                 priceUpdates++;
-                                CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice * (1 + dOriginalRate), "Updated Price Details", oldBuy, oldSell * (1 + dOriginalRate), productSellPrice * (1 + dOriginalRate), oldWholeSell* (1 + dOriginalRate));
+                                CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, productSellPrice * (1 + dOriginalRate), "Updated Price Details", oldBuy, oldSell * (1 + dOriginalRate), productWholeSellPrice * (1 + dOriginalRate), oldWholeSell* (1 + dOriginalRate));
                             } else {
                                 noChanges++;
                             }

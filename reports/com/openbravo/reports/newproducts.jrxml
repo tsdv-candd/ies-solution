@@ -66,22 +66,29 @@ WHERE CSVERROR ='New product']]>
 			<line>
 				<reportElement x="0" y="23" width="555" height="1"/>
 			</line>
-			<textField>
+                        <textField>
 				<reportElement x="503" y="0" width="52" height="20"/>
+				<textElement textAlignment="Right" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricewholesell}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="52" height="20"/>
 				<textElement textAlignment="Right" markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricesell}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="441" y="0" width="52" height="20"/>
+				<reportElement x="396" y="0" width="52" height="20"/>
 				<textElement textAlignment="Right" markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricebuy}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="169" y="0" width="251" height="20"/>
+				<reportElement x="95" y="0" width="207" height="20"/>
 				<textElement markup="none">
 					<font fontName="Arial"/>
 				</textElement>
@@ -106,25 +113,32 @@ WHERE CSVERROR ='New product']]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{reference}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="169" y="0" width="251" height="18"/>
+				<reportElement x="95" y="0" width="207" height="18"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="441" y="0" width="52" height="18"/>
+				<reportElement x="396" y="0" width="52" height="18"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{pricebuy})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="503" y="1" width="52" height="18"/>
+				<reportElement x="450" y="1" width="52" height="18"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{pricesell})]]></textFieldExpression>
+			</textField>
+                        <textField>
+				<reportElement x="503" y="1" width="52" height="18"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{pricewholesell})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

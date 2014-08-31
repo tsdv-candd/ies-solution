@@ -28,7 +28,7 @@ report.setReport("/com/openbravo/reports/newproducts");
 report.setResourceBundle("com/openbravo/reports/newproducts_messages");
 
 report.setSentence("SELECT CSVIMPORT.REFERENCE, CSVIMPORT.CODE,"+
-       "CSVIMPORT.NAME, CSVIMPORT.PRICEBUY, CSVIMPORT.PRICESELL"+
+       "CSVIMPORT.NAME, CSVIMPORT.PRICEBUY, CSVIMPORT.PRICESELL, CSVIMPORT.PRICEWHOLESELL"+
         " FROM CSVIMPORT WHERE CSVIMPORT.CSVERROR='New product'");
 
 
@@ -38,6 +38,7 @@ report.addField("code", com.openbravo.data.loader.Datas.STRING);
 report.addField("name", com.openbravo.data.loader.Datas.STRING);
 report.addField("pricebuy", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("pricesell", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("pricewholesell", com.openbravo.data.loader.Datas.DOUBLE);
 
 
 report;

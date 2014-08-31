@@ -23,13 +23,14 @@ report.setTitleKey("Menu.Products");
 report.setReport("/com/openbravo/reports/products");
 report.setResourceBundle("com/openbravo/reports/products_messages");
 
-report.setSentence("SELECT PRODUCTS.ID, PRODUCTS.REFERENCE, PRODUCTS.CODE, PRODUCTS.NAME, PRODUCTS.PRICEBUY, PRODUCTS.PRICESELL, TC.ID AS TAXCAT, TC.NAME AS TAXCATNAME, CATEGORIES.ID AS CATEGORY, CATEGORIES.NAME AS CATEGORYNAME " +
+report.setSentence("SELECT PRODUCTS.ID, PRODUCTS.REFERENCE, PRODUCTS.CODE, PRODUCTS.NAME, PRODUCTS.PRICEBUY, PRODUCTS.PRICESELL, PRODUCTS.PRICEWHOLESELL, TC.ID AS TAXCAT, TC.NAME AS TAXCATNAME, CATEGORIES.ID AS CATEGORY, CATEGORIES.NAME AS CATEGORYNAME " +
                  "FROM PRODUCTS LEFT OUTER JOIN CATEGORIES ON PRODUCTS.CATEGORY = CATEGORIES.ID LEFT OUTER JOIN TAXCATEGORIES TC ON PRODUCTS.TAXCAT = TC.ID " +
                  "WHERE ?(QBF_FILTER) " +
                  "ORDER BY CATEGORIES.NAME, PRODUCTS.NAME");
 report.addParameter("PRODUCTS.NAME");
 report.addParameter("PRODUCTS.PRICEBUY");
 report.addParameter("PRODUCTS.PRICESELL");
+//report.addParameter("PRODUCTS.PRICEWHOLESELL");
 report.addParameter("PRODUCTS.CATEGORY");
 report.addParameter("PRODUCTS.CODE");
 report.addQBFFilter(new com.openbravo.pos.ticket.ProductFilter());
@@ -40,6 +41,7 @@ report.addField("CODE", com.openbravo.data.loader.Datas.STRING);
 report.addField("NAME", com.openbravo.data.loader.Datas.STRING);
 report.addField("PRICEBUY", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("PRICESELL", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PRICEWHOLESELL", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("TAXCAT", com.openbravo.data.loader.Datas.STRING);
 report.addField("TAXCATNAME", com.openbravo.data.loader.Datas.STRING);
 report.addField("CATEGORY", com.openbravo.data.loader.Datas.STRING);
