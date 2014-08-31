@@ -44,19 +44,19 @@
             <total paid="${paymentline.getPaid()}">Cash</total>
          #end
          #if ($paymentline.name == "cashrefund")
-            <total paid="${paymentline.getTotal()}">Refund</total>  
+            <total paid="${paymentline.getTotal()}">Trả lại</total>  
          #end
          #if ($paymentline.name == "magcard")
-            <total paid="${paymentline.getTotal()}">Mag card</total>  
+            <total paid="${paymentline.getTotal()}">Thẻ (card)</total>  
          #end  
          #if ($paymentline.name == "magcardrefund")
-            <total paid="${paymentline.getTotal()}">Mag card refund</total>     
+            <total paid="${paymentline.getTotal()}">Trả lại thẻ (Card)</total>     
          #end
          #if ($paymentline.name == "cheque")
-            <total paid="${paymentline.getTotal()}">Cheque</total>    
+            <total paid="${paymentline.getTotal()}">Séc</total>    
          #end
          #if ($paymentline.name == "chequerefund")
-            <total paid="${paymentline.getTotal()}">Cheque refund</total>    
+            <total paid="${paymentline.getTotal()}">Trả lại Séc</total>    
          #end
         #end 
     </fiscalreceipt>

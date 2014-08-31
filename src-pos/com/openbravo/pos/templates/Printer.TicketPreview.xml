@@ -23,8 +23,8 @@
 <output>
 
 <display>
-	<line><text align="left" length="10">Total</text><text align="right" length="10">${ticket.printTotal()}</text></line>
-	<line><text align="center" length="20">Thank you for your custom</text></line>
+	<line><text align="left" length="10">Tổng tiền</text><text align="right" length="10">${ticket.printTotal()}</text></line>
+	<line><text align="center" length="20">Chân thành cảm ơn, hẹn gặp lại</text></line>
 </display>
 
 <ticket>
@@ -38,7 +38,7 @@
  -->	<line></line>
 
 	#if (${ticket.ticketType} == 0)
-		<line><text align="left" length="15">HĐ:</text><text>${ticket.printId()}</text></line>
+		<line><text align="left" length="15">Số HĐ:</text><text>${ticket.printId()}</text></line>
 	#end
 
 	#if (${ticket.ticketType} == 1)
@@ -47,8 +47,8 @@
 		<line><text align="left" length="15">Ngày:</text><text>${ticket.printDate()}</text></line>
 
 	#if ($ticket.getCustomer())
-		<line><text align="left" length="15">K/H:</text><text>${ticket.getCustomer().printName()}</text></line>
-		<line><text align="left" length="15">STK #:</text><text>${ticket.getCustomer().printTaxid()}</text></line>
+		<line><text align="left" length="15">Khách hàng:</text><text>${ticket.getCustomer().printName()}</text></line>
+		<line><text align="left" length="15">Số Tài Khoản #:</text><text>${ticket.getCustomer().printTaxid()}</text></line>
 		<line><text align="left" length="15">Nợ:</text><text>${ticket.getCustomer().printCurDebt()}</text></line>
 	#end
 
@@ -58,7 +58,7 @@
         
 		<line><text align="left" length="15">Nhân viên:</text><text>${ticket.printUser()}</text></line>
 		<line></line>
-		<line><text align ="left" length="17">Tên Món</text><text align ="right" length="8">Đ.Giá</text><text align ="right" length="7">S.Lượng</text><text align ="right" length="10">T.Tiền</text></line>
+		<line><text align ="left" length="17">Tên Món</text><text align ="right" length="8">Đ.giá</text><text align ="right" length="7">S.Lg</text><text align ="right" length="10">T.Tiền</text></line>
 		<line><text align="left" length="42">------------------------------------------</text></line>
                 
 #foreach ($ticketline in $ticket.getLines())
@@ -87,21 +87,21 @@
 
 	#if ($paymentline.name == "cash")
 		<line><text bold="true">Tiền mặt</text></line>
-	        <line><text align="left" length="22">Kh.Đưa:</text><text align ="right" length="20">${paymentline.printPaid()}</text></line>
+	        <line><text align="left" length="22">Khách đưa:</text><text align ="right" length="20">${paymentline.printPaid()}</text></line>
 	#end
           	
 	#if ($paymentline.name == "cashrefund")
-            	<line><text bold="true">T.Toán Tiền Mặt</text></line>
+            	<line><text bold="true">T.Toán Bằng Tiền Mặt</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end
 	
 	#if ($paymentline.name == "magcard")
-		<line><text bold="true">Card</text></line>
+		<line><text bold="true">Thẻ (Card)</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end
 
 	#if ($paymentline.name == "magcardrefund")
-		<line><text bold="true">T.Toán Card</text></line>
+		<line><text bold="true">T.Toán bằng thẻ (Card)</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end
 
@@ -113,13 +113,13 @@
 
 	#if ($paymentline.name == "chequerefund")
 		<line></line>
-		<line><text bold="true">T.Toán Séc</text></line>
+		<line><text bold="true">T.Toán bằng Séc</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end
 
 	#if ($paymentline.name == "paperin")
 		<line></line>
-		<line><text bold="true">Lưu ý</text></line>
+		<line><text bold="true">Phiếu</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end
 
@@ -149,8 +149,8 @@
 
 
 	<line></line>
-	<line><text align="center" length="42">Trân thành cảm ơn</text></line>
-	<line><text align="center" length="42">Hẹn gặp lại quý khách</text></line>
+	<line><text align="center" length="42">Chân thành cảm ơn!</text></line>
+	<line><text align="center" length="42">Hẹn gặp lại</text></line>
 
 </ticket>
 

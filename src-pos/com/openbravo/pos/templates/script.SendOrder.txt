@@ -38,9 +38,9 @@ if (kitchen) {
 	sales.printTicket("Printer.TicketKitchen");
 }
 if (kitchen){
-	javax.swing.JOptionPane.showMessageDialog(null, "Order sent to Kitchen");
+	javax.swing.JOptionPane.showMessageDialog(null, "Order Đã Được Gửi Tới Bếp");
 } else {
-	javax.swing.JOptionPane.showMessageDialog(null, "Nothing to Send", "Warning", JOptionPane.WARNING_MESSAGE);
+	javax.swing.JOptionPane.showMessageDialog(null, "Không Có Gì Để Gửi", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
 }
 
 for(int i = ticket.getLinesCount()-1; i>= 0 ; i--){

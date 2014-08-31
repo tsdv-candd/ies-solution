@@ -53,95 +53,119 @@ WHERE CSVERROR ='Updated Price Details']]>
 	<columnHeader>
 		<band height="27" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="53" height="20"/>
+				<reportElement x="0" y="0" width="25" height="20"/>
 				<textElement markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.reference}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="136" y="0" width="208" height="20"/>
-				<textElement markup="none">
-					<font fontName="Arial"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="53" y="0" width="83" height="20"/>
+                        <textField>
+				<reportElement x="26" y="0" width="62" height="20"/>
 				<textElement markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.barcode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="399" y="0" width="52" height="20"/>
+				<reportElement x="89" y="0" width="88" height="20"/>
+				<textElement markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="178" y="0" width="52" height="20"/>
 				<textElement textAlignment="Right" markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricebuy}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="451" y="0" width="52" height="20"/>
+				<reportElement x="231" y="0" width="52" height="20"/>
 				<textElement textAlignment="Right" markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.previoussell}]]></textFieldExpression>
 			</textField>
+                        <textField>
+				<reportElement x="284" y="0" width="52" height="20"/>
+				<textElement textAlignment="Right" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.previouswholesell}]]></textFieldExpression>
+			</textField>
 			<line>
 				<reportElement x="0" y="23" width="555" height="1"/>
 			</line>
 			<textField>
-				<reportElement x="347" y="0" width="52" height="20"/>
+				<reportElement x="337" y="0" width="52" height="20"/>
 				<textElement textAlignment="Right" markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.previousbuy}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="503" y="0" width="52" height="20"/>
+				<reportElement x="390" y="0" width="52" height="20"/>
 				<textElement textAlignment="Right" markup="none">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricesell}]]></textFieldExpression>
 			</textField>
+                        <textField>
+				<reportElement x="443" y="0" width="52" height="20"/>
+				<textElement textAlignment="Right" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricewholesell}]]></textFieldExpression>
+			</textField>        
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="21" splitType="Stretch">
-			<textField>
-				<reportElement x="53" y="0" width="83" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{CODE}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="347" y="0" width="52" height="20"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{previousbuy})]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00">
-				<reportElement x="451" y="0" width="52" height="20"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{previoussell})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="0" width="53" height="20"/>
+                        <textField>
+				<reportElement x="0" y="1" width="25" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{REFERENCE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="136" y="1" width="208" height="20"/>
+				<reportElement x="26" y="1" width="62" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CODE}]]></textFieldExpression>
+			</textField>
+                        <textField>
+				<reportElement x="89" y="1" width="88" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="399" y="0" width="52" height="20"/>
+                        <textField>
+				<reportElement x="178" y="1" width="52" height="20"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PRICEBUY})]]></textFieldExpression>
 			</textField>
+                        <textField pattern="###0.00">
+				<reportElement x="231" y="1" width="52" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{previoussell})]]></textFieldExpression>
+			</textField>
+                        <textField pattern="###0.00">
+				<reportElement x="284" y="1" width="52" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{previouswholesell})]]></textFieldExpression>
+			</textField>
+                        <textField>
+				<reportElement x="337" y="1" width="52" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{previousbuy})]]></textFieldExpression>
+			</textField>
 			<textField>
-				<reportElement x="503" y="1" width="52" height="20"/>
+				<reportElement x="390" y="1" width="52" height="20"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{pricesell})]]></textFieldExpression>
+			</textField>
+                        <textField>
+				<reportElement x="443" y="1" width="52" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{pricewholesell})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

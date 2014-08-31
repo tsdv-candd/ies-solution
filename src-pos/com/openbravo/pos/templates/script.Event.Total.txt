@@ -33,7 +33,7 @@ for(int i= 0; i < ticket.getLinesCount(); i++){
 }
 
 if (mySent == "No"){
-	javax.swing.JOptionPane.showMessageDialog(null, "Before closing ticket: Please Send Order to Remote Printer", "Send Check", JOptionPane.WARNING_MESSAGE);
+	javax.swing.JOptionPane.showMessageDialog(null, "Trước khi đóng hóa đơn: Làm ơn gửi Ođơ tới máy in bếp", "Kiểm tra gửi", JOptionPane.WARNING_MESSAGE);
 	return "Cancel";
 }else{
 	return null;

@@ -25,37 +25,37 @@
         <image>Printer.Ticket.Logo</image>
         <line></line>
         <line>
-            <text align="center" length="42">Inventory Record</text>
+            <text align="center" length="42">Bản ghi kho</text>
         </line>
         <line>
-            <text align="center" length="42">You can change this template</text>
+            <text align="center" length="42">Bạn có thể thay đổi mẫu này</text>
         </line>
         <line>
-            <text align="center" length="42">in the Resources panel</text>
+            <text align="center" length="42">trong thanh Tài Nguyên (Resource Panel)</text>
         </line>
         <line></line>
         <line>
-            <text>Date:     ${inventoryrecord.printDate()}</text>
+            <text>Ngày:     ${inventoryrecord.printDate()}</text>
         </line>
         <line>
-            <text>Reason:   ${inventoryrecord.printReason()}</text>
+            <text>Lí do:    ${inventoryrecord.printReason()}</text>
         </line>
         <line>
-            <text>Location: ${inventoryrecord.printLocation()}</text>
+            <text>Vị trí: ${inventoryrecord.printLocation()}</text>
         </line>
         <line size="1">
             #if ($inventoryrecord.isInput())
-            <text align ="center" length="42">In</text>
+            <text align ="center" length="42">Vào</text>
             #else
-            <text align ="center" length="42">Out</text>
+            <text align ="center" length="42">Ra</text>
             #end
         </line>
         <line></line>    
         <line>
-            <text align ="left" length="17">Item</text>
-            <text align ="right" length="10">Price</text>
+            <text align ="left" length="17">Mặt hàng</text>
+            <text align ="right" length="10">Đ.giá</text>
             <text align ="right" length="5"></text>
-            <text align ="right" length="10">Value</text>
+            <text align ="right" length="10">T.Tiền</text>
         </line>      
         <line>
             <text>------------------------------------------</text>
@@ -78,7 +78,7 @@
         </line>   
         <line></line>            
         <line>
-            <text align="center" length="42">Thank You for your custom</text>
+            <text align="center" length="42">Chân thành cảm ơn!</text>
         </line>   
     </ticket>
 </output>

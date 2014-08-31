@@ -1231,7 +1231,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jCatalogOrder.setBounds(370, 140, 80, 25);
 
         jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel15.setText("Service Item");
+        jLabel15.setText(bundle.getString("label.serviceitem")); // NOI18N
         jPanel2.add(jLabel15);
         jLabel15.setBounds(10, 90, 150, 25);
 
@@ -1264,7 +1264,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jKitchen.setBounds(160, 180, 30, 25);
 
         jLabel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel14.setText("Print to Remote Printer");
+        jLabel14.setText(bundle.getString("label.printtokitchen")); // NOI18N
         jPanel2.add(jLabel14);
         jLabel14.setBounds(10, 180, 150, 25);
 

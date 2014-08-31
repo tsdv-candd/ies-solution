@@ -28,7 +28,7 @@ report.setReport("/com/openbravo/reports/updatedprices");
 report.setResourceBundle("com/openbravo/reports/updatedprices_messages");
 
 report.setSentence("SELECT CSVIMPORT.REFERENCE, CSVIMPORT.CODE,"+
-       "CSVIMPORT.NAME, CSVIMPORT.PRICEBUY,CSVIMPORT.PRICESELL,CSVIMPORT.PREVIOUSBUY,CSVIMPORT.PREVIOUSSELL"+
+       "CSVIMPORT.NAME, CSVIMPORT.PRICEBUY,CSVIMPORT.PRICESELL,CSVIMPORT.PREVIOUSBUY,CSVIMPORT.PREVIOUSSELL,CSVIMPORT.PRICEWHOLESELL,CSVIMPORT.PREVIOUSWHOLESELL"+
         " FROM CSVIMPORT WHERE CSVIMPORT.CSVERROR='Updated Price Details' ");
 
 
@@ -38,8 +38,9 @@ report.addField("CODE", com.openbravo.data.loader.Datas.STRING);
 report.addField("NAME", com.openbravo.data.loader.Datas.STRING);
 report.addField("PRICEBUY", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("pricesell", com.openbravo.data.loader.Datas.DOUBLE);
-report.addField("pricewholesell", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("previousbuy", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("previoussell", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("pricewholesell", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("previouswholesell", com.openbravo.data.loader.Datas.DOUBLE);
 
 report;

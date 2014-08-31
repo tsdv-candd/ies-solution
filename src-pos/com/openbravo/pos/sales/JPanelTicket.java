@@ -1939,7 +1939,7 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jWholeSale.setBackground(new java.awt.Color(255, 255, 51));
         m_jWholeSale.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         m_jWholeSale.setForeground(new java.awt.Color(255, 0, 51));
-        m_jWholeSale.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bán lẻ", "Bán buôn" }));
+        m_jWholeSale.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bán lẻ", "Bán Sỉ" }));
         m_jWholeSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jWholeSaleActionPerformed(evt);
@@ -2295,7 +2295,7 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     //Added 22.08.14 Whole sale function by CanDD
     private void m_jWholeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jWholeSaleActionPerformed
         String tmp = m_jWholeSale.getSelectedItem().toString();
-        if (tmp.equalsIgnoreCase("Bán buôn")) {
+        if (tmp.equalsIgnoreCase("Bán Sỉ")) {
             m_isWholeSale = true;
         } else {
             m_isWholeSale = false;

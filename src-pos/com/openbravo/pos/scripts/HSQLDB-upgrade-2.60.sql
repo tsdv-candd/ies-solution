@@ -24,6 +24,7 @@ UPDATE ROLES SET PERMISSIONS = $FILE{/com/openbravo/pos/templates/Role.Administr
 UPDATE ROLES SET PERMISSIONS = $FILE{/com/openbravo/pos/templates/Role.Manager.xml} WHERE ID='1';
 UPDATE ROLES SET PERMISSIONS = $FILE{/com/openbravo/pos/templates/Role.Employee.xml} WHERE ID='2';
 UPDATE ROLES SET PERMISSIONS = $FILE{/com/openbravo/pos/templates/Role.Guest.xml} WHERE ID='3';
+UPDATE ROLES SET PERMISSIONS = $FILE{/com/openbravo/pos/templates/Role.Employee.WholeSale.xml} WHERE ID='4';
 
 DROP TABLE RESOURCES;
 

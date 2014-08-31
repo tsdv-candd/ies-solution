@@ -27,7 +27,7 @@
             <text align="right" length="10">${ticket.printTotalPaid()}</text>
         </line>
         <line>
-            <text align="center" length="20">Cảm ơn quý khách, hẹn gặp lại</text>
+            <text align="center" length="20">Cảm ơn quý khách, hẹn gặp lại!</text>
         </line>
     </display>
     <ticket>
@@ -37,14 +37,14 @@
             <text align="center" length="42">Printer.CustomerPaid</text>
         </line>
         <line>
-            <text align="center" length="42">You can change this template</text>
+            <text align="center" length="42">Bạn thay đổi mẫu này</text>
         </line>
         <line>
-            <text align="center" length="42">in the Resources panel</text>
+            <text align="center" length="42">Trong bảng tài nguyên (Resource Panel)</text>
         </line>
         <line></line>
         <line>
-            <text align="left" length="15">HĐ:</text>
+            <text align="left" length="15">Số HĐ:</text>
             <text>${ticket.printId()}</text>
         </line>
         <line>
@@ -82,7 +82,7 @@
                 <text bold="true">Tiền Mặt</text>
             </line>
             <line>
-                <text align="left" length="22">Đưa:</text>
+                <text align="left" length="22">Khách đưa:</text>
                 <text align ="right" length="20">${paymentline.printPaid()}</text>
             </line>
             <line>
@@ -144,7 +144,7 @@
         </line>
         <line></line>
         <line>
-            <text align="center" length="42">***Hẹn gặp lại***</text>
+            <text align="center" length="42">Hẹn gặp lại</text>
         </line>
     </ticket>
 

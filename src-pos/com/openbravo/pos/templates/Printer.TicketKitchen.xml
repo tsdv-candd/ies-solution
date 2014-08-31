@@ -24,11 +24,11 @@
 
     <display>
         <line>
-            <text align="left" length="10">Order sent to Remote Printer</text>
+            <text align="left" length="10">Order Đã Được Gửi Tới Máy In Bếp</text>
             <text align="right" length="10">${ticket.printTotal()}</text>
         </line>
         <line>
-            <text align="center" length="20">Thank you.</text>
+            <text align="center" length="20">Cảm ơn!</text>
         </line>
     </display>
 
@@ -36,40 +36,40 @@
         <line></line>
         <line></line>
         <line size = "1">
-            <text bold = "true" align="center" length="42">Remote Print Order</text>
+            <text bold = "true" align="center" length="42">In Order Xuống Bếp</text>
         </line>
         <line></line>
         <line>
-            <text align="left" length="15">Receipt:</text>
+            <text align="left" length="15">Số HĐ:</text>
             <text>${ticket.printId()}</text>
         </line>
         <line>
-            <text align="left" length="15">Date:</text>
+            <text align="left" length="15">Ngày:</text>
             <text>${ticket.printDate()}</text>
         </line>
 
     #if ($ticket.getCustomer())
         <line>
-            <text align="left" length="15">Customer:</text>
+            <text align="left" length="15">Khách hàng:</text>
             <text>${ticket.getCustomer().getName()}</text>
         </line>
         <line>
             <text align="left" length="15"></text>
-            <text align="left" length="15">Account #:</text>
+            <text align="left" length="15">Số T.K#:</text>
             <text>${ticket.getCustomer().getTaxid()}</text>
         </line>
     #end
 
     #if (${tickettext.place} != ${place})
         <line>
-           <text align="left" length="15">Table:</text>
+           <text align="left" length="15">Bàn:</text>
            <text>${place}</text>
         </line>
     #end
         
         <line></line>
         <line>
-            <text align ="left" length="17">Item</text>
+            <text align ="left" length="17">Món</text>
             <text align ="right" length="5"></text>
         </line>
         <line>
@@ -98,7 +98,7 @@
             <text>------------------------------------------</text>
         </line>
         <line>
-            <text align="left" length="15">Cashier:</text>
+            <text align="left" length="15">Thu Ngân:</text>
             <text>${ticket.printUser()}</text>
         </line>
     </ticket>

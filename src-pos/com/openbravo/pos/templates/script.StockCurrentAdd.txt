@@ -39,7 +39,7 @@ units = logicsale.findProductStock(loc,product,null);
 multiply = 0;
  
 if (line.isProductService() == true) {
-    javax.swing.JOptionPane.showMessageDialog(null, "This is a Service and Stock Level is not checked", "Stock Check", JOptionPane.WARNING_MESSAGE);
+    javax.swing.JOptionPane.showMessageDialog(null, "Đây là Service và Mức Kho không được kiểm tra", "Kiểm tra kho", JOptionPane.WARNING_MESSAGE);
 } else {
     
     for (int i= 0; i < ticket.getLinesCount(); i++) {
@@ -50,7 +50,7 @@ if (line.isProductService() == true) {
     }
     diff = units - line.getMultiply() - multiply;
         if (diff < 0.0) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Not enough stock at this Location " + loc + " - Use Stock Diary to Add Stock to Inventory", "Stock Check", JOptionPane.WARNING_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Không đủ kho ở vị trí này" + loc + " - Sử dụng nhật ký kho để thêm Stock to vào kho", "Kiểm tra kho", JOptionPane.WARNING_MESSAGE);
 	    return "Cancel";
 	 } else {
 	    return null;

@@ -30,7 +30,7 @@ import com.openbravo.pos.promotion.PromoInfo;
 import java.util.List;
 import java.util.ArrayList;
 
-Session session = new Session("jdbc:mysql://localhost:3306/unicentaopos", "root", "pass123"); 
+Session session = new Session("jdbc:mysql://localhost:3306/iES-Solution", "root", "pass123"); 
 DataLogicSales logic = new DataLogicSales();
 logic.init(session);
 
