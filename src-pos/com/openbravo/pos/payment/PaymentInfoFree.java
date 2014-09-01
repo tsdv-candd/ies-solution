@@ -41,7 +41,7 @@ public class PaymentInfoFree extends PaymentInfo {
 
     @Override
     public String getName() {
-        return "free";
+        return "Miễn Phí";
     }   
     @Override
     public double getTotal() {

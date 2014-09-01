@@ -19,6 +19,7 @@
 package com.openbravo.pos.payment;
 
 import com.openbravo.format.Formats;
+import com.openbravo.pos.forms.AppLocal;
 
 public class PaymentInfoCash extends PaymentInfo {
 
@@ -59,7 +60,9 @@ public class PaymentInfoCash extends PaymentInfo {
     
     @Override
     public String getName() {
-        return "cash";
+//        return "Tiền Mặt";
+        return AppLocal.getIntString("transpayment.cash");
+        //return "cash";
     }
 
     @Override

@@ -22,26 +22,30 @@
 
 import com.openbravo.pos.payment.PaymentInfo;
 import javax.swing.JOptionPane;
+import com.openbravo.pos.forms.AppLocal;
 
 boolean isCash = false;
 String paid = "";
 String change = "";
+String ptype = "";
 PaymentInfo p = ticket.payments.getFirst();
 
 JLabel FontText = new JLabel();
 
 FontText.setFont (new Font ( "Arial", Font.BOLD, 32) );
-
-if ("cash".equals(p.getName())) {
+ptype=AppLocal.getIntString("transpayment.cash");
+//CanDD fix for update Payment typeif ("cash".equals(p.getName())) {
+if (ptype.equals(p.getName())) {
 	isCash = true;
         paid = p.printPaid();
 	change = p.printChange();
 }
 
 if(isCash) {
-	FontText.setText("Trả lại khách: " + change);
+	//FontText.setText("Trả lại khách: " + change);
+        FontText.setText(AppLocal.getIntString("transpayment.close") + change);
 	JOptionPane.showMessageDialog (null,
 	FontText,
-	"Tiền thừa", 
+	AppLocal.getIntString("transpayment.change"), 
 	JOptionPane.WARNING_MESSAGE);
 }
