@@ -107,7 +107,9 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private void GetheadersFromFile(String CSVFileName) throws IOException {
         File f = new File(CSVFileName);
         if (f.exists()) {
-            products = new CsvReader(CSVFileName);
+            //MOD 2014.09.06 enable import utf-8 characters from csv file (vietnamese)
+            //products = new CsvReader(CSVFileName);
+            products = new CsvReader(new InputStreamReader(new FileInputStream(CSVFileName), "UTF-8"));
             products.setDelimiter(((String) jComboSeparator.getSelectedItem()).charAt(0));
             products.readHeaders();
 // We need a minimum of 5 columns to map all required fields                            
@@ -218,7 +220,9 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         File f = new File(CSVFileName);
         if (f.exists()) {
 // Count rows in csv file 
-            products = new CsvReader(CSVFileName);
+            //MOD 2014.09.06 enable import utf-8 characters from csv file (vietnamese)
+            //products = new CsvReader(CSVFileName);
+            products = new CsvReader(new InputStreamReader(new FileInputStream(CSVFileName), "UTF-8"));
             products.setDelimiter(((String) jComboSeparator.getSelectedItem()).charAt(0));
             products.readHeaders();
 
