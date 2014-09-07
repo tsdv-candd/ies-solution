@@ -22,6 +22,8 @@ package com.openbravo.pos.imports;
 
 import com.csvreader.CsvReader;
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.Session;
 import com.openbravo.pos.forms.*;
 import java.io.*;
@@ -125,6 +127,8 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             int i = 0;
             Headers.clear();
             Headers.add("");
+            //Added 2014.09.07 for Categories
+            jComboCategory.addItem("");
             jComboName.addItem("");
             jComboReference.addItem("");
             jComboBarcode.addItem("");
@@ -132,6 +136,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             jComboSell.addItem("");
             jComboWholeSell.addItem("");
             while (i < products.getHeaderCount()) {
+                jComboCategory.addItem(products.getHeader(i));
                 jComboName.addItem(products.getHeader(i));
                 jComboReference.addItem(products.getHeader(i));
                 jComboBarcode.addItem(products.getHeader(i));
@@ -145,6 +150,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             jImport.setEnabled(false);
 // Enable all the combo boxes & Check boxex
             jComboReference.setEnabled(true);
+            jComboCategory.setEnabled(true);
             jComboName.setEnabled(true);
             jComboBarcode.setEnabled(true);
             jComboBuy.setEnabled(true);
@@ -233,6 +239,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             currentRecord = 0;
             while (products.readRecord()) {
                 String productReference = products.get((String) jComboReference.getSelectedItem());
+                String productCategories = products.get((String) jComboCategory.getSelectedItem());
                 String productName = products.get((String) jComboName.getSelectedItem());
                 String productBarcode = products.get((String) jComboBarcode.getSelectedItem());
                 String BuyPrice = products.get((String) jComboBuy.getSelectedItem());
@@ -284,7 +291,8 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                     recordType = getRecordType(productReference, productName, productBarcode);
                     switch (recordType) {
                         case "new":
-                            addRecord(productReference, productName, productBarcode, productBuyPrice, productSellPrice, dCategory, dTax, productWholeSellPrice);
+//                            addRecord(productReference, productName, productBarcode, productBuyPrice, productSellPrice, dCategory, dTax, productWholeSellPrice);
+                            addRecord(productReference, productName, productBarcode, productBuyPrice, productSellPrice, productCategories, dTax, productWholeSellPrice);
                             newRecords++;
                             CSVData(currentRecord, productReference, productBarcode, productName, productBuyPrice, Double.parseDouble(SellPrice), "New product", null, null, Double.parseDouble(WholeSellPrice), null);
                             break;
@@ -615,6 +623,8 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
          break;
          case 8:
          */
+        //CanDD add Categories
+//        SQL = "INSERT INTO CATEGORIES (ID, NAME, PARENTID, )"
         SQL = "INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST,"
                 + "STOCKVOLUME, ATTRIBUTES, ISKITCHEN, CODETYPE, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY, PRICEWHOLESELL) VALUES"
                 + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -668,7 +678,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
          //}
 
 // insert the record        
-            pstmt.executeUpdate();
+            int result = pstmt.executeUpdate();
 
             // put into catalogue if required  
             if (jCheckInCatalogue.isSelected()) {
@@ -678,8 +688,8 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
                 pstmt.setNull(2, java.sql.Types.INTEGER);
                 pstmt.executeUpdate();
             }
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("Could not insert product"), e));
         }
     }
 
@@ -746,6 +756,8 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 // Clear the form
         jComboReference.removeAllItems();
         jComboReference.setEnabled(false);
+        jComboCategory.removeAllItems();
+        jComboCategory.setEnabled(false);
         jComboName.removeAllItems();
         jComboName.setEnabled(false);
         jComboBarcode.removeAllItems();
@@ -773,7 +785,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     }
 
     public void checkFieldMapping() {
-        if (jComboReference.getSelectedItem() != "" & jComboName.getSelectedItem() != "" & jComboBarcode.getSelectedItem() != ""
+        if (jComboReference.getSelectedItem() != "" & jComboCategory.getSelectedItem() != "" & jComboName.getSelectedItem() != "" & jComboBarcode.getSelectedItem() != ""
                 & jComboBuy.getSelectedItem() != "" & jComboWholeSell.getSelectedItem() != "") {
             jImport.setEnabled(true);
         } else {
@@ -979,9 +991,14 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jComboCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jComboCategory.setMinimumSize(new java.awt.Dimension(32, 25));
         jComboCategory.setPreferredSize(new java.awt.Dimension(275, 30));
-        jComboCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboCategoryActionPerformed(evt);
+        jComboCategory.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboCategoryItemStateChanged(evt);
+            }
+        });
+        jComboCategory.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jComboCategoryFocusGained(evt);
             }
         });
 
@@ -1417,16 +1434,12 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         }
     }//GEN-LAST:event_jbtnDbDriverLibActionPerformed
 
-    private void jComboCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboCategoryActionPerformed
-
     private void jComboWholeSellFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboWholeSellFocusGained
         jComboWholeSell.removeAllItems();
         int i = 1;
         jComboWholeSell.addItem("");
         while (i < Headers.size()) {
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem())) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboCategory.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem())) {
                 jComboWholeSell.addItem(Headers.get(i));
             }
             ++i;
@@ -1442,7 +1455,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         int i = 1;
         jComboBuy.addItem("");
         while (i < Headers.size()) {
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboCategory.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboBuy.addItem(Headers.get(i));
             }
             ++i;
@@ -1452,13 +1465,13 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private void jComboBuyItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBuyItemStateChanged
         checkFieldMapping();
     }//GEN-LAST:event_jComboBuyItemStateChanged
-
+ 
     private void jComboNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboNameFocusGained
         jComboName.removeAllItems();
         int i = 1;
         jComboName.addItem("");
         while (i < Headers.size()) {
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem())  & (Headers.get(i) != jComboCategory.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboName.addItem(Headers.get(i));
             }
             ++i;
@@ -1474,7 +1487,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         int i = 1;
         jComboBarcode.addItem("");
         while (i < Headers.size()) {
-            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboCategory.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboBarcode.addItem(Headers.get(i));
             }
             ++i;
@@ -1490,7 +1503,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         int i = 1;
         jComboReference.addItem("");
         while (i < Headers.size()) {
-            if ((Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
+            if ((Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboCategory.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
                 jComboReference.addItem(Headers.get(i));
             }
             ++i;
@@ -1509,6 +1522,21 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboSellFocusGained
 
+    private void jComboCategoryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboCategoryFocusGained
+        jComboCategory.removeAllItems();
+        int i = 1;
+        jComboCategory.addItem("");
+        while (i < Headers.size()) {
+            if ((Headers.get(i) != jComboReference.getSelectedItem()) & (Headers.get(i) != jComboName.getSelectedItem()) & (Headers.get(i) != jComboBarcode.getSelectedItem()) & (Headers.get(i) != jComboBuy.getSelectedItem()) & (Headers.get(i) != jComboWholeSell.getSelectedItem())) {
+                jComboCategory.addItem(Headers.get(i));
+            }
+            ++i;
+        }
+    }//GEN-LAST:event_jComboCategoryFocusGained
+
+    private void jComboCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboCategoryItemStateChanged
+        checkFieldMapping();
+    }//GEN-LAST:event_jComboCategoryItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckInCatalogue;
