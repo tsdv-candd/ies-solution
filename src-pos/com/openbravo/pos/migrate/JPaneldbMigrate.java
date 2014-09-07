@@ -761,8 +761,8 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         SQL ="SELECT * FROM PRODUCTS";         
         rs = stmt.executeQuery(SQL);
         while (rs.next()){
-            SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, CODETYPE, NAME, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, STOCKCOST, STOCKVOLUME, IMAGE, ISCOM, ISSCALE, ISKITCHEN, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ATTRIBUTES, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY )"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            SQL="INSERT INTO PRODUCTS (ID, REFERENCE, CODE, CODETYPE, NAME, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, STOCKCOST, STOCKVOLUME, IMAGE, ISCOM, ISSCALE, ISKITCHEN, PRINTKB, SENDSTATUS, ISSERVICE, DISPLAY, ATTRIBUTES, ISVPRICE, ISVERPATRIB, TEXTTIP, WARRANTY, PRICEWHOLESELL)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             pstmt = con2.prepareStatement(SQL);    
             pstmt.setString(1,rs.getString("ID")); 
             pstmt.setString(2,rs.getString("REFERENCE")); 
@@ -788,7 +788,8 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
             pstmt.setBoolean(22,rs.getBoolean("ISVPRICE")); 
             pstmt.setBoolean(23,rs.getBoolean("ISVERPATRIB"));  
             pstmt.setString(24,rs.getString("TEXTTIP"));   
-            pstmt.setBoolean(25,rs.getBoolean("WARRANTY"));            
+            pstmt.setBoolean(25,rs.getBoolean("WARRANTY"));
+            pstmt.setBoolean(26,rs.getBoolean("PRICEWHOLESELL")); 
             pstmt.executeUpdate();              
         }         
         
