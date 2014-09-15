@@ -649,7 +649,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             //    switch (pre302){
             //        case 8:
             pstmt.setBoolean(20, false);         //  Isserice Boolean
-            pstmt.setString(21, "<HTML>" + pName);//  Display String
+            pstmt.setString(21, "<HTML><b>" + pName);//  Display String
             pstmt.setBoolean(22, false);         //  isvprice Boolean
             pstmt.setBoolean(23, false);         //  isverattrib Boolean 
             pstmt.setString(24, pName);           //  set the text tip message
