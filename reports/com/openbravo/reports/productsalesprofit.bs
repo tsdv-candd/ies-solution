@@ -31,13 +31,13 @@ report.setSentence("SELECT PRODUCTS.CODE, "+
                         "RECEIPTS.DATENEW AS DATE, "+
                         "PRODUCTS.NAME, "+
                         "PRODUCTS.PRICEBUY, "+
-                        "PRODUCTS.PRICESELL, "+
+                        "TICKETLINES.PRICE, "+
                         "SUM(TICKETLINES.UNITS) AS UNITSSOLD, "+
                         "SUM(TICKETLINES.UNITS * TICKETLINES.PRICE) AS TOTAL, "+
                         "SUM(TICKETLINES.UNITS*(TICKETLINES.PRICE-PRODUCTS.PRICEBUY)) AS PROFITLOSS "+
                         "FROM RECEIPTS, TICKETS, TICKETLINES, PRODUCTS "+
                         "WHERE RECEIPTS.ID = TICKETS.ID AND TICKETS.ID = TICKETLINES.TICKET AND TICKETLINES.PRODUCT = PRODUCTS.ID AND ?(QBF_FILTER)"+
-                        "GROUP BY PRODUCTS.CODE, PRODUCTS.NAME , TICKETS.TICKETID, RECEIPTS.DATENEW, PRODUCTS.PRICEBUY, PRODUCTS.PRICESELL "+
+                        "GROUP BY PRODUCTS.CODE, PRODUCTS.NAME , TICKETS.TICKETID, RECEIPTS.DATENEW, PRODUCTS.PRICEBUY, TICKETLINES.PRICE "+
                         "ORDER BY RECEIPTS.DATENEW");
 
 report.addParameter("RECEIPTS.DATENEW");
@@ -51,7 +51,7 @@ report.addField("TICKETID", com.openbravo.data.loader.Datas.INT);
 report.addField("DATE", com.openbravo.data.loader.Datas.TIMESTAMP);
 report.addField("NAME", com.openbravo.data.loader.Datas.STRING);
 report.addField("PRICEBUY", com.openbravo.data.loader.Datas.DOUBLE);
-report.addField("PRICESELL", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PRICE", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("UNITSSOLD", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("TOTAL", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("PROFITLOSS", com.openbravo.data.loader.Datas.DOUBLE);

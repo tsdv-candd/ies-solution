@@ -15,13 +15,13 @@
                             RECEIPTS.DATENEW AS DATE, 
                             PRODUCTS.NAME, 
                             PRODUCTS.PRICEBUY, 
-                            PRODUCTS.PRICESELL, 
+                            TICKETLINES.PRICE, 
                             SUM(TICKETLINES.UNITS) AS UNITSSOLD, 
                             SUM(TICKETLINES.UNITS * TICKETLINES.PRICE) AS TOTAL, 
                             SUM(TICKETLINES.UNITS*(TICKETLINES.PRICE-products.PRICEBUY)) AS PROFITLOSS
                         FROM RECEIPTS, TICKETS, TICKETLINES, PRODUCTS
                         WHERE RECEIPTS.ID = TICKETS.ID AND TICKETS.ID = TICKETLINES.TICKET AND TICKETLINES.PRODUCT = PRODUCTS.ID
-                        GROUP BY PRODUCTS.CODE, PRODUCTS.NAME , TICKETS.TICKETID, RECEIPTS.DATENEW, PRODUCTS.PRICEBUY, PRODUCTS.PRICESELL
+                        GROUP BY PRODUCTS.CODE, PRODUCTS.NAME , TICKETS.TICKETID, RECEIPTS.DATENEW, PRODUCTS.PRICEBUY, TICKETLINES.PRICE
                         ORDER BY RECEIPTS.DATENEW]]>
 	</queryString>
 	<field name="CODE" class="java.lang.String"/>
@@ -29,7 +29,7 @@
 	<field name="DATE" class="java.util.Date"/>
 	<field name="NAME" class="java.lang.String"/>
 	<field name="PRICEBUY" class="java.lang.Double"/>
-	<field name="PRICESELL" class="java.lang.Double"/>
+	<field name="PRICE" class="java.lang.Double"/>
 	<field name="UNITSSOLD" class="java.lang.Double"/>
 	<field name="TOTAL" class="java.lang.Double"/>
 	<field name="PROFITLOSS" class="java.lang.Double"/>
@@ -322,7 +322,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRICESELL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{PRICE}]]></textFieldExpression>
 			</textField>
 			<textField pattern="##0.00" isBlankWhenNull="false">
 				<reportElement key="textField" x="282" y="0" width="51" height="15"/>
