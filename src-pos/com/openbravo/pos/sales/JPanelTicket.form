@@ -750,14 +750,17 @@
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="2">
-                            <StringItem index="0" value="B&#xe1;n l&#x1ebb;"/>
-                            <StringItem index="1" value="B&#xe1;n bu&#xf4;n"/>
+                            <StringItem index="0" value="B&#xe1;n L&#x1ebb;"/>
+                            <StringItem index="1" value="B&#xe1;n S&#x1ec9;"/>
                           </StringArray>
                         </Property>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_jWholeSaleActionPerformed"/>
                       </Events>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="JPanelTicket_m_jWholeSale"/>
+                      </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                           <BorderConstraints direction="First"/>
