@@ -121,10 +121,10 @@
     Remove the comment at beginning and of line
     You will also need to enable in Administration>Resources>Roles>Administrator/Manager & etc ***
     -->
-    <!-- <class name="/com/openbravo/reports/categorysales.bs")>; -->
-    <!-- <class name="/com/openbravo/reports/productsalesprofit.bs"/> -->
-    <!-- <class name="/com/openbravo/reports/piesalescat.bs"/> -->
-    <!-- <class name="/com/openbravo/reports/top10sales.bs"/> -->
+    <class name="/com/openbravo/reports/categorysales.bs")>
+    <class name="/com/openbravo/reports/productsalesprofit.bs"/>
+    <class name="/com/openbravo/reports/piesalescat.bs"/>
+    <class name="/com/openbravo/reports/top10sales.bs"/>
     
 <!-- EPM -->
   <class name="com.openbravo.pos.forms.MenuEmployees" />
@@ -133,7 +133,7 @@
   <class name="com.openbravo.pos.epm.JPanelEmployeePresence" />  
   <class name="/com/openbravo/reports/dailypresencereport.bs" /> 
   <class name="/com/openbravo/reports/dailyschedulereport.bs" /> 
-<!--  <class name="/com/openbravo/reports/performancereport.bs" />  -->
+  <class name="/com/openbravo/reports/performancereport.bs" />
         
 
 </permissions>
