@@ -88,7 +88,7 @@ WHERE CSVERROR ='New product']]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.pricebuy}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="95" y="0" width="207" height="20"/>
+				<reportElement x="145" y="0" width="207" height="20"/>
 				<textElement markup="none">
 					<font fontName="Arial"/>
 				</textElement>
@@ -113,7 +113,7 @@ WHERE CSVERROR ='New product']]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{reference}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="95" y="0" width="207" height="18"/>
+				<reportElement x="145" y="0" width="207" height="18"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
