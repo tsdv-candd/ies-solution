@@ -2302,6 +2302,9 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
         } else {
             m_isWholeSale = false;
         }
+        //Fixed bug could not scan product after change mode.
+        //from normal sale to wholesale and vise versa.
+        refreshTicket();
     }//GEN-LAST:event_m_jWholeSaleActionPerformed
 
 
