@@ -777,7 +777,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CITY, "
                 + "REGION, "
                 + "COUNTRY, "
-                + "IMAGE"
+                + "IMAGE "
                 + "FROM CUSTOMERS "
                 + "WHERE CARD = ? AND VISIBLE = " + s.DB.TRUE() + " "
                 + "ORDER BY NAME"
