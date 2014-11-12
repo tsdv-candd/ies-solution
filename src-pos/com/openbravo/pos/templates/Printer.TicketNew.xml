@@ -226,7 +226,7 @@
                 <text align ="right" length="42">${paymentline.printTotal()}</text>
             </line>
         #end
-        #if ($paymentline.name == "debt")
+        #if ($paymentline.name == "Nợ")
             <line></line>
             <line>
                 <text bold="true">Ghi nợ</text>

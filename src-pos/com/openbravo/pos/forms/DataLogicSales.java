@@ -63,8 +63,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     private String getRetMsg;    
 
 // JG 3 Oct 2013
-    public static final String DEBT = "debt";
-    public static final String DEBT_PAID = "debtpaid";
+    public static final String DEBT = "Nợ";
+    public static final String DEBT_PAID = "Trả Nợ";
     protected static final String PREPAY = "prepay";
     private static final Logger logger = Logger.getLogger("com.openbravo.pos.forms.DataLogicSales");
 
@@ -995,7 +995,7 @@ public Object transact() throws BasicException {
         }});
             
         
-        if ("debt".equals(pName) || "debtpaid".equals(pName)) {                                     
+        if ("Nợ".equals(pName) || "Trả Nợ".equals(pName)) {                                     
             // udate customer fields...
             ticket.getCustomer().updateCurDebt(getTotal, ticket.getDate());                        
             // save customer fields...
@@ -1060,7 +1060,7 @@ public void writeValues() throws BasicException {
 
                 // update customer debts
                 for (PaymentInfo p : ticket.getPayments()) {
-                    if ("debt".equals(p.getName()) || "debtpaid".equals(p.getName())) {
+                    if ("Nợ".equals(p.getName()) || "Trả Nợ".equals(p.getName())) {
 
                         // udate customer fields...
                         ticket.getCustomer().updateCurDebt(-p.getTotal(), ticket.getDate());

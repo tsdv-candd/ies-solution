@@ -363,7 +363,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public double getTotalPaid() {
         double sum = 0.0;
         for (PaymentInfo p : payments) {
-            if (!"debtpaid".equals(p.getName())) {
+            if (!"Trả Nợ".equals(p.getName())) {
                 sum += p.getTotal();
             }
         }
