@@ -25,6 +25,7 @@ import java.awt.geom.AffineTransform;
 
 public class BasicTicketForScreen extends BasicTicket {
 
+    //private static Font BASEFONT = new Font("Monospaced", Font.PLAIN, 12).deriveFont(AffineTransform.getScaleInstance(1.0, 1.40));
     private static Font BASEFONT = new Font("Monospaced", Font.TYPE1_FONT, 12).deriveFont(AffineTransform.getScaleInstance(1.0, 1.40));
     //private static Font BASEFONT = new Font("Times New Roman", Font.TYPE1_FONT, 12).deriveFont(AffineTransform.getScaleInstance(1.0, 1.40));
     //private static Font BASEFONT = new Font("Arial", Font.PLAIN, 12).deriveFont(AffineTransform.getScaleInstance(1.0, 1.40));
