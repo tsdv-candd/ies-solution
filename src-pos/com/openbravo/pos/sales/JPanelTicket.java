@@ -70,6 +70,7 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import com.openbravo.format.Formats;
 
 /**
  *
@@ -449,6 +450,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jSubtotalEuros.setText(null);
             m_jTaxesEuros.setText(null);
             m_jTotalEuros.setText(null);
+            //CanDD Add for CurrentDebt Display
+            m_jCurDebt.setText(null);
 
             stateToZero();
             repaint();
@@ -503,11 +506,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jSubtotalEuros.setText(null);
             m_jTaxesEuros.setText(null);
             m_jTotalEuros.setText(null);
+            //CanDD Add 2014-11-13
+            m_jCurDebt.setText(null);
             repaint();
         } else {
             m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
             m_jTaxesEuros.setText(m_oTicket.printTax());
             m_jTotalEuros.setText(m_oTicket.printTotal());
+            //CanDD Add 2014-11-13
+            m_jCurDebt.setText(Formats.CURRENCY.formatValue(m_oTicket.getCustomer().getCurdebt()));
         }
     }
 
@@ -1563,13 +1570,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanelCentral = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         m_jPanTotals = new javax.swing.JPanel();
+        m_jLbCurDebt = new javax.swing.JLabel();
         m_jLblTotalEuros3 = new javax.swing.JLabel();
         m_jLblTotalEuros2 = new javax.swing.JLabel();
         m_jLblTotalEuros1 = new javax.swing.JLabel();
+        m_jCurDebt = new javax.swing.JLabel();
         m_jSubtotalEuros = new javax.swing.JLabel();
         m_jTaxesEuros = new javax.swing.JLabel();
         m_jTotalEuros = new javax.swing.JLabel();
         m_jWholeSale = new javax.swing.JComboBox();
+        m_jaddDebt = new javax.swing.JToggleButton();
         m_jContEntries = new javax.swing.JPanel();
         m_jPanEntries = new javax.swing.JPanel();
         m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
@@ -1857,6 +1867,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanTotals.setPreferredSize(new java.awt.Dimension(375, 60));
         m_jPanTotals.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
 
+        m_jLbCurDebt.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        m_jLbCurDebt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jLbCurDebt.setLabelFor(m_jTotalEuros);
+        m_jLbCurDebt.setText(AppLocal.getIntString("label.curdebt")); // NOI18N
+        m_jPanTotals.add(m_jLbCurDebt);
+
         m_jLblTotalEuros3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblTotalEuros3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         m_jLblTotalEuros3.setLabelFor(m_jSubtotalEuros);
@@ -1874,6 +1890,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jLblTotalEuros1.setLabelFor(m_jTotalEuros);
         m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
         m_jPanTotals.add(m_jLblTotalEuros1);
+
+        m_jCurDebt.setBackground(m_jEditLine.getBackground());
+        m_jCurDebt.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        m_jCurDebt.setForeground(m_jEditLine.getForeground());
+        m_jCurDebt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jCurDebt.setLabelFor(m_jTotalEuros);
+        m_jCurDebt.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        m_jCurDebt.setMaximumSize(new java.awt.Dimension(125, 25));
+        m_jCurDebt.setMinimumSize(new java.awt.Dimension(80, 25));
+        m_jCurDebt.setOpaque(true);
+        m_jCurDebt.setPreferredSize(new java.awt.Dimension(100, 25));
+        m_jCurDebt.setRequestFocusEnabled(false);
+        m_jPanTotals.add(m_jCurDebt);
 
         m_jSubtotalEuros.setBackground(m_jEditLine.getBackground());
         m_jSubtotalEuros.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -1926,6 +1955,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
         });
         jPanel4.add(m_jWholeSale, java.awt.BorderLayout.PAGE_START);
+
+        m_jaddDebt.setBackground(new java.awt.Color(0, 0, 255));
+        m_jaddDebt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        m_jaddDebt.setForeground(new java.awt.Color(51, 51, 255));
+        m_jaddDebt.setText("Cộng nợ");
+        m_jaddDebt.setBorderPainted(false);
+        m_jaddDebt.setFocusPainted(false);
+        m_jaddDebt.setFocusable(false);
+        m_jaddDebt.setPreferredSize(new java.awt.Dimension(40, 25));
+        m_jaddDebt.setRequestFocusEnabled(false);
+        jPanel4.add(m_jaddDebt, java.awt.BorderLayout.CENTER);
 
         m_jPanelCentral.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
@@ -2031,6 +2071,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jPanEntries.add(jPanel9);
 
+        m_jContEntries.add(m_jPanEntries, java.awt.BorderLayout.NORTH);
+
         m_jKeyFactory.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
         m_jKeyFactory.setForeground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
         m_jKeyFactory.setBorder(null);
@@ -2041,9 +2083,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_jKeyFactoryKeyTyped(evt);
             }
         });
-        m_jPanEntries.add(m_jKeyFactory);
-
-        m_jContEntries.add(m_jPanEntries, java.awt.BorderLayout.NORTH);
+        m_jContEntries.add(m_jKeyFactory, java.awt.BorderLayout.LINE_END);
 
         m_jPanContainer.add(m_jContEntries, java.awt.BorderLayout.LINE_END);
 
@@ -2301,11 +2341,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private javax.swing.JPanel m_jButtons;
     private javax.swing.JPanel m_jButtonsExt;
     private javax.swing.JPanel m_jContEntries;
+    private javax.swing.JLabel m_jCurDebt;
     private javax.swing.JButton m_jDelete;
     private javax.swing.JButton m_jDown;
     private javax.swing.JButton m_jEditLine;
     private javax.swing.JButton m_jEnter;
     private javax.swing.JTextField m_jKeyFactory;
+    private javax.swing.JLabel m_jLbCurDebt;
     private javax.swing.JLabel m_jLblTotalEuros1;
     private javax.swing.JLabel m_jLblTotalEuros2;
     private javax.swing.JLabel m_jLblTotalEuros3;
@@ -2328,6 +2370,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private javax.swing.JLabel m_jTotalEuros;
     private javax.swing.JButton m_jUp;
     private javax.swing.JComboBox m_jWholeSale;
+    private javax.swing.JToggleButton m_jaddDebt;
     private javax.swing.JToggleButton m_jaddtax;
     private javax.swing.JButton m_jbtnScale;
     // End of variables declaration//GEN-END:variables
