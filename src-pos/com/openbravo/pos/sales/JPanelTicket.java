@@ -1585,13 +1585,16 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jPanelCentral = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         m_jPanTotals = new javax.swing.JPanel();
-        m_jLblTotalEuros3 = new javax.swing.JLabel();
+        m_jaddCurDebt = new javax.swing.JToggleButton();
         m_jLblTotalEuros2 = new javax.swing.JLabel();
+        m_jLblTotalEuros4 = new javax.swing.JLabel();
         m_jLblTotalEuros1 = new javax.swing.JLabel();
+        m_jSubtotalEuros1 = new javax.swing.JLabel();
         m_jSubtotalEuros = new javax.swing.JLabel();
         m_jTaxesEuros = new javax.swing.JLabel();
         m_jTotalEuros = new javax.swing.JLabel();
         m_jWholeSale = new javax.swing.JComboBox();
+        m_jTicketId1 = new javax.swing.JLabel();
         m_jContEntries = new javax.swing.JPanel();
         m_jPanEntries = new javax.swing.JPanel();
         m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
@@ -1876,14 +1879,17 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        m_jPanTotals.setPreferredSize(new java.awt.Dimension(375, 60));
+        m_jPanTotals.setPreferredSize(new java.awt.Dimension(475, 60));
         m_jPanTotals.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
 
-        m_jLblTotalEuros3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        m_jLblTotalEuros3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        m_jLblTotalEuros3.setLabelFor(m_jSubtotalEuros);
-        m_jLblTotalEuros3.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
-        m_jPanTotals.add(m_jLblTotalEuros3);
+        m_jaddCurDebt.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        m_jaddCurDebt.setForeground(new java.awt.Color(51, 51, 255));
+        m_jaddCurDebt.setText("CurDebt");
+        m_jaddCurDebt.setFocusPainted(false);
+        m_jaddCurDebt.setFocusable(false);
+        m_jaddCurDebt.setPreferredSize(new java.awt.Dimension(40, 25));
+        m_jaddCurDebt.setRequestFocusEnabled(false);
+        m_jPanTotals.add(m_jaddCurDebt);
 
         m_jLblTotalEuros2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblTotalEuros2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1891,11 +1897,30 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jLblTotalEuros2.setText(AppLocal.getIntString("label.taxcash")); // NOI18N
         m_jPanTotals.add(m_jLblTotalEuros2);
 
+        m_jLblTotalEuros4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        m_jLblTotalEuros4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jLblTotalEuros4.setLabelFor(m_jSubtotalEuros);
+        m_jLblTotalEuros4.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
+        m_jPanTotals.add(m_jLblTotalEuros4);
+
         m_jLblTotalEuros1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblTotalEuros1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         m_jLblTotalEuros1.setLabelFor(m_jTotalEuros);
         m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
         m_jPanTotals.add(m_jLblTotalEuros1);
+
+        m_jSubtotalEuros1.setBackground(m_jEditLine.getBackground());
+        m_jSubtotalEuros1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        m_jSubtotalEuros1.setForeground(m_jEditLine.getForeground());
+        m_jSubtotalEuros1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jSubtotalEuros1.setLabelFor(m_jSubtotalEuros);
+        m_jSubtotalEuros1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        m_jSubtotalEuros1.setMaximumSize(new java.awt.Dimension(125, 25));
+        m_jSubtotalEuros1.setMinimumSize(new java.awt.Dimension(80, 25));
+        m_jSubtotalEuros1.setOpaque(true);
+        m_jSubtotalEuros1.setPreferredSize(new java.awt.Dimension(80, 25));
+        m_jSubtotalEuros1.setRequestFocusEnabled(false);
+        m_jPanTotals.add(m_jSubtotalEuros1);
 
         m_jSubtotalEuros.setBackground(m_jEditLine.getBackground());
         m_jSubtotalEuros.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -1948,6 +1973,16 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
             }
         });
         jPanel4.add(m_jWholeSale, java.awt.BorderLayout.PAGE_START);
+
+        m_jTicketId1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        m_jTicketId1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        m_jTicketId1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        m_jTicketId1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        m_jTicketId1.setOpaque(true);
+        m_jTicketId1.setPreferredSize(new java.awt.Dimension(50, 40));
+        m_jTicketId1.setRequestFocusEnabled(false);
+        m_jTicketId1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(m_jTicketId1, java.awt.BorderLayout.CENTER);
 
         m_jPanelCentral.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
@@ -2333,7 +2368,7 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JTextField m_jKeyFactory;
     private javax.swing.JLabel m_jLblTotalEuros1;
     private javax.swing.JLabel m_jLblTotalEuros2;
-    private javax.swing.JLabel m_jLblTotalEuros3;
+    private javax.swing.JLabel m_jLblTotalEuros4;
     private javax.swing.JButton m_jList;
     private com.openbravo.beans.JNumberKeys m_jNumberKeys;
     private javax.swing.JPanel m_jOptions;
@@ -2347,12 +2382,15 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JLabel m_jPor;
     private javax.swing.JLabel m_jPrice;
     private javax.swing.JLabel m_jSubtotalEuros;
+    private javax.swing.JLabel m_jSubtotalEuros1;
     private javax.swing.JComboBox m_jTax;
     private javax.swing.JLabel m_jTaxesEuros;
     private javax.swing.JLabel m_jTicketId;
+    private javax.swing.JLabel m_jTicketId1;
     private javax.swing.JLabel m_jTotalEuros;
     private javax.swing.JButton m_jUp;
     private javax.swing.JComboBox m_jWholeSale;
+    private javax.swing.JToggleButton m_jaddCurDebt;
     private javax.swing.JToggleButton m_jaddtax;
     private javax.swing.JButton m_jbtnScale;
     // End of variables declaration//GEN-END:variables
