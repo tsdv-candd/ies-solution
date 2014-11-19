@@ -360,10 +360,19 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return getSubTotal() + getTax();
     }
     
+    //CanDD Add Current Debt option
+    public double getTotal(boolean isAddDebt) {
+        if (m_Customer != null && isAddDebt) {
+            return getSubTotal() + getTax() + m_Customer.getCurdebt();
+        } else {
+            return getSubTotal() + getTax();
+        }
+    }
+    
     public double getTotalPaid() {
         double sum = 0.0;
         for (PaymentInfo p : payments) {
-            if (!"debtpaid".equals(p.getName())) {
+            if (!"Trả Nợ".equals(p.getName())) {
                 sum += p.getTotal();
             }
         }
@@ -512,6 +521,12 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printTotal() {
         return Formats.CURRENCY.formatValue(new Double(getTotal()));
     }
+    
+    //CanDD add Current Debt
+    public String printTotal(boolean isAddCurDebt) {
+        return Formats.CURRENCY.formatValue(new Double(getTotal(isAddCurDebt)));
+    }
+    
 
     public String printTotalPaid() {
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid()));
