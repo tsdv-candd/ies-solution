@@ -172,6 +172,20 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         @Override
         public String getIconKey() { return "/com/openbravo/images/cash.png"; }
     }
+    
+    //CanDD Add payment debt part
+    public class JPaymentCashPartCreator implements JPaymentCreator {
+        @Override
+        public JPaymentInterface createJPayment() {
+            return new JPaymentCashPosPart(JPaymentSelect.this, dlSystem);
+        }
+        @Override
+        public String getKey() { return "payment.cashpart"; }
+        @Override
+        public String getLabelKey() { return "tab.cashpart"; }
+        @Override
+        public String getIconKey() { return "/com/openbravo/images/cash.png"; }
+    }
         
     public class JPaymentChequeCreator implements JPaymentCreator {
         @Override

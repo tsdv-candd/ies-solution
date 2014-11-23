@@ -121,7 +121,9 @@ public class CustomerInfoExt extends CustomerInfo {
     
     public void updateCurDebt(Double amount, Date d) {
         
-        curdebt = curdebt == null ? amount : curdebt + amount;
+        //CanDD change caculation method (Curdebt already included in the amount
+        //curdebt = curdebt == null ? amount : curdebt + amount;
+        curdebt =  amount;
 
         if (RoundUtils.compare(curdebt, 0.0) > 0) {
             if (curdate == null) {

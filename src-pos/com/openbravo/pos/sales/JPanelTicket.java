@@ -522,7 +522,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         } else {
             m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
             m_jTaxesEuros.setText(m_oTicket.printTax());
-            m_jTotalEuros.setText(m_oTicket.printTotal(m_jaddCurDebt.isSelected()));
+            m_jTotalEuros.setText(m_oTicket.printTotal(true));
+            //CanDD comment set ty
 //            if (m_oTicket.getCustomer() != null) {
 //                m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
 //            }
@@ -823,9 +824,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             m_jTicketId.setText(m_oTicket.getName(m_oTicketExt));
                             //CanDD Add Current Debt to the Sale Panel 2014-11-16
                             m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
-                            if(m_oTicket.getCustomer().getCurdebt() != 0) {
-                                m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
-                            }
+                            //CanDD comment
+//                            if(m_oTicket.getCustomer().getCurdebt() != 0) {
+//                                m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
+//                            }
                         }
                     } catch (BasicException e) {
                         Toolkit.getDefaultToolkit().beep();
@@ -1164,7 +1166,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             try {
                 // reset the payment info
                 taxeslogic.calculateTaxes(ticket);
-                if (ticket.getTotal(m_jaddCurDebt.isSelected()) >= 0.0) {
+                if (ticket.getTotal(true) >= 0.0) {
                     ticket.resetPayments(); //Only reset if is sale
                 }
 
@@ -1193,7 +1195,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
                     paymentdialog.setTransactionID(ticket.getTransactionID());
 
-                    if (paymentdialog.showDialog(ticket.getTotal(m_jaddCurDebt.isSelected()), ticket.getCustomer())) {
+                    if (paymentdialog.showDialog(ticket.getTotal(true), ticket.getCustomer())) {
 
                         // assign the payments selected and calculate taxes.         
                         ticket.setPayments(paymentdialog.getSelectedPayments());
@@ -2219,7 +2221,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 }
                 //CanDD Add Current Debt to the Sale Panel 2014-11-16
                 if (m_oTicket.getCustomer().getCurdebt() != 0) {
-                    m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
+                    //CanDD comment m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
                     m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
                 }
             }
@@ -2366,14 +2368,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 //        String m_sMyView="com.openbravo.pos.customers.CustomersPayment";
 //        m_App.getAppUserView().showTask(m_sMyView);
         // CanDD add m_AddCurDebt for easier to check
-        m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPayment");
-        if (m_oTicket.getCustomer() != null && m_jaddCurDebt.isSelected()) {
-            m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
-            m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
-        } else {
-            m_oTicket.setTicketType(TicketInfo.RECEIPT_NORMAL);
-        }
-        m_jTotalEuros.setText(m_oTicket.printTotal(m_jaddCurDebt.isSelected()));
+        //CanDD stop calling the payment screen m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPayment");
+//        if (m_oTicket.getCustomer() != null && m_jaddCurDebt.isSelected()) {
+//            m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+//            m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
+//        } else {RECEIPT_PAYMENT
+//            m_oTicket.setTicketType(TicketInfo.RECEIPT_NORMAL);
+//        }
+//        m_jTotalEuros.setText(m_oTicket.printTotal(m_jaddCurDebt.isSelected()));
     }//GEN-LAST:event_m_jaddCurDebtActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
