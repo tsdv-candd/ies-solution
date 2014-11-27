@@ -912,23 +912,24 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         }
                     });
 
-                    if ("Nợ".equals(pName) || "Trả Nợ".equals(pName) || "Nợ Gối".equals(pName)) {
+                    if ("Nợ".equals(pName) || "Trả Nợ".equals(pName) || "Nợ Gối".equals(pName) || "Tiền Mặt".equals(pName)) {
                         // udate customer fields...
                         if("Nợ Gối".equals(pName)) {
                             if (ticket.getCustomer() != null) {
                                 ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
-                                // save customer fields...
-                                getDebtUpdate().exec(new DataParams() {
-                                    @Override
-                                    public void writeValues() throws BasicException {
-                                        setDouble(1, ticket.getCustomer().getCurdebt());
-                                        setTimestamp(2, ticket.getCustomer().getCurdate());
-                                        setString(3, ticket.getCustomer().getId());
-                                    }
-                                });
                             }
-                        } else {
+                        }  else if("Tiền Mặt".equals(pName)) {
+                            if (ticket.getCustomer() != null) {
+                                if(getTendered >= getTotal) {
+                                    ticket.getCustomer().updateCurDebt((Double)0.0, ticket.getDate());
+                                } else {
+                                    ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
+                                }
+                            }
+                        }
+                        else {
                             ticket.getCustomer().updateCurDebt(getTotal, ticket.getDate());
+                        }
 
                             // save customer fields...
                             getDebtUpdate().exec(new DataParams() {
@@ -939,7 +940,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     setString(3, ticket.getCustomer().getId());
                                 }
                             });
-                        }
+                        
                     }
                 }
 
