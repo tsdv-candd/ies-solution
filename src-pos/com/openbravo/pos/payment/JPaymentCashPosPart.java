@@ -51,6 +51,8 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
     private double m_dPaid;
     private double m_dTotal;  
     private Boolean priceWith00;
+    //CanDD Add current debt
+    private CustomerInfoExt customerext;
     
     /** Creates new form JPaymentCash */
     public JPaymentCashPosPart(JPaymentNotifier notifier, DataLogicSystem dlSystem) {
@@ -89,7 +91,7 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
     @Override
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
                
-               
+        this.customerext = customerext;       
         m_dTotal = dTotal;
         
         m_jTendered.reset();
@@ -115,24 +117,41 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
     
     private void printState() {
 
-        Double value = m_jTendered.getDoubleValue();
-        if (value == null || value == 0.0) {
-            m_dPaid = m_dTotal;
-        } else {            
-            m_dPaid = value;
+       //CanDD Add for checking status of the current debt
+        if (customerext == null) {
+            m_jMoneyEuros.setText(null);
+            jlblMessage.setText(AppLocal.getIntString("message.nocustomernodebt"));
+            m_notifier.setStatus(false, false);
+        } else {
+            if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()) + m_dPaid, RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
+                // maximum debt exceded
+                jlblMessage.setText(AppLocal.getIntString("message.customerdebtexceded"));
+                m_notifier.setStatus(false, false);
+            } else {
+                jlblMessage.setText(null);
+                Double value = m_jTendered.getDoubleValue();
+                if (value == null || value == 0.0) {
+                    //CanDD modify default of Debt
+                    //m_dPaid = m_dTotal;
+                    m_dPaid = 0.0;
+                } else {
+                    m_dPaid = value;
+                }
+                //CanDD modify int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
+                int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
 
-        }   
-
-        //CanDD modify int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
-        int iCompare = RoundUtils.compare(m_dPaid, 0);
-        
-        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
-        m_jChangeEuros.setText(iCompare > 0 
-//                CanDD change ? Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal))
-                ? Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid))
-                : null); 
-        
-        m_notifier.setStatus(m_dPaid > 0.0, iCompare >= 0);
+                m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
+//                m_jRemainingDebt.setText(iCompare > 0
+//                        //                CanDD change ? Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal))
+//                        ? Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid))
+//                        : null);
+                m_jRemainingDebt.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid)));
+                m_notifier.setStatus(m_dPaid > 0.0, iCompare <= 0);
+                if(iCompare >=0 ) {
+                    jlblMessage.setText(AppLocal.getIntString("message.customerdebtnegative"));
+                }
+            }
+        }
     }
     
     private class RecalculateState implements PropertyChangeListener {
@@ -214,7 +233,7 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
 
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        m_jChangeEuros = new javax.swing.JLabel();
+        m_jRemainingDebt = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         m_jMoneyEuros = new javax.swing.JLabel();
@@ -224,6 +243,8 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
         m_jKeys = new com.openbravo.editor.JEditorKeys();
         jPanel3 = new javax.swing.JPanel();
         m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
+        jPanel7 = new javax.swing.JPanel();
+        jlblMessage = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -233,14 +254,14 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
         jPanel4.setPreferredSize(new java.awt.Dimension(0, 70));
         jPanel4.setLayout(null);
 
-        m_jChangeEuros.setBackground(new java.awt.Color(255, 255, 255));
-        m_jChangeEuros.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        m_jChangeEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        m_jChangeEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-        m_jChangeEuros.setOpaque(true);
-        m_jChangeEuros.setPreferredSize(new java.awt.Dimension(180, 30));
-        jPanel4.add(m_jChangeEuros);
-        m_jChangeEuros.setBounds(120, 36, 180, 30);
+        m_jRemainingDebt.setBackground(new java.awt.Color(255, 255, 255));
+        m_jRemainingDebt.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        m_jRemainingDebt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        m_jRemainingDebt.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+        m_jRemainingDebt.setOpaque(true);
+        m_jRemainingDebt.setPreferredSize(new java.awt.Dimension(180, 30));
+        jPanel4.add(m_jRemainingDebt);
+        m_jRemainingDebt.setBounds(120, 36, 180, 30);
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel6.setText(AppLocal.getIntString("Label.RemainingDebt")); // NOI18N
@@ -264,8 +285,6 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
         m_jMoneyEuros.setBounds(120, 4, 180, 30);
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.NORTH);
-
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         jPanel5.add(jPanel6, java.awt.BorderLayout.CENTER);
 
         add(jPanel5, java.awt.BorderLayout.CENTER);
@@ -285,6 +304,19 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.NORTH);
 
+        jlblMessage.setEditable(false);
+        jlblMessage.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jlblMessage.setForeground(new java.awt.Color(255, 0, 51));
+        jlblMessage.setLineWrap(true);
+        jlblMessage.setWrapStyleWord(true);
+        jlblMessage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jlblMessage.setFocusable(false);
+        jlblMessage.setPreferredSize(new java.awt.Dimension(198, 86));
+        jlblMessage.setRequestFocusEnabled(false);
+        jPanel7.add(jlblMessage);
+
+        jPanel2.add(jPanel7, java.awt.BorderLayout.CENTER);
+
         add(jPanel2, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
     
@@ -298,9 +330,11 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JLabel m_jChangeEuros;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JTextArea jlblMessage;
     private com.openbravo.editor.JEditorKeys m_jKeys;
     private javax.swing.JLabel m_jMoneyEuros;
+    private javax.swing.JLabel m_jRemainingDebt;
     private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
     // End of variables declaration//GEN-END:variables
     

@@ -36,6 +36,9 @@ public class CustomerInfoExt extends CustomerInfo {
     protected Double maxdebt;
     protected Date curdate;
     protected Double curdebt;
+    //CanDD Add old debt to describe on the ticket
+    protected Date olddate;
+    protected Double olddebt;
     protected String firstname;
     protected String lastname;
     protected String email;
@@ -102,6 +105,10 @@ public class CustomerInfoExt extends CustomerInfo {
     public Date getCurdate() {
         return curdate;
     }
+    //CanDD Add
+    public Date getOlddate() {
+        return olddate;
+    }
 
     public void setCurdate(Date curdate) {
         this.curdate = curdate;
@@ -111,9 +118,23 @@ public class CustomerInfoExt extends CustomerInfo {
         return curdebt;
     }
     
+    public Double getOlddebt() {
+        return olddebt;
+    }
+    
     public String printCurDebt() {       
         return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCurdebt()));
     }
+    //CanDD add old debt start
+    public String printOldDebt() {       
+        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getOlddebt()));
+    }
+    
+    public String printOldDate() {       
+        return Formats.DATE.formatValue(olddate);
+    }
+    
+    //CanDD add old debt end
     
     public void setCurdebt(Double curdebt) {
         this.curdebt = curdebt;
@@ -123,6 +144,9 @@ public class CustomerInfoExt extends CustomerInfo {
         
         //CanDD change caculation method (Curdebt already included in the amount
         //curdebt = curdebt == null ? amount : curdebt + amount;
+        //CanDD restore old debt
+        olddebt = curdebt;
+        olddate = curdate;
         curdebt =  amount;
 
         if (RoundUtils.compare(curdebt, 0.0) > 0) {

@@ -42,12 +42,18 @@
     <class name="sales.Total"/>
     <class name="sales.WholeSale"/>
     <class name="sales.ChangeTaxOptions"/>
-    <class name="payment.bank"/>
     <class name="payment.cash"/>
+<!--
+    CanDD add currentDebt to the Sale Panel
+-->
+    <class name="payment.cashpart"/>
+<!--
+    <class name="payment.bank"/>
     <class name="payment.cheque"/>
     <class name="payment.paper"/>
     <class name="payment.magcard"/>
     <class name="payment.free"/>
+-->
     <class name="payment.debt"/>
     <class name="refund.cash"/>
     <class name="refund.cheque"/>
