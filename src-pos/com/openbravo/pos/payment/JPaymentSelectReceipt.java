@@ -52,13 +52,13 @@ public class JPaymentSelectReceipt extends JPaymentSelect {
         
         addTabPayment(new JPaymentSelect.JPaymentCashCreator());
         addTabPayment(new JPaymentSelect.JPaymentCashPartCreator());
-        //CanDD addTabPayment(new JPaymentSelect.JPaymentChequeCreator());
-        //CanDD addTabPayment(new JPaymentSelect.JPaymentPaperCreator());            
-        //CanDD addTabPayment(new JPaymentSelect.JPaymentMagcardCreator());                
+        addTabPayment(new JPaymentSelect.JPaymentChequeCreator());
+        addTabPayment(new JPaymentSelect.JPaymentPaperCreator());            
+        addTabPayment(new JPaymentSelect.JPaymentMagcardCreator());                
         addTabPayment(new JPaymentSelect.JPaymentFreeCreator());                
         addTabPayment(new JPaymentSelect.JPaymentDebtCreator());
 // JG Added 1 Dec 13 
-        //CanDD addTabPayment(new JPaymentSelect.JPaymentBankCreator());        
+        addTabPayment(new JPaymentSelect.JPaymentBankCreator());        
         setHeaderVisible(true);
     }
     
