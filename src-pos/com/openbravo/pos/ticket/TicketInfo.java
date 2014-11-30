@@ -357,7 +357,12 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public double getTotal() {
-        return getSubTotal() + getTax();
+        //return getSubTotal() + getTax();
+        if (m_Customer != null) {
+            return getSubTotal() + getTax() + m_Customer.getCurdebt();
+        } else {
+            return getSubTotal() + getTax();
+        }
     }
     
     //CanDD Add Current Debt option
