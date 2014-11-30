@@ -922,6 +922,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         if ("Nợ Gối".equals(pName)) {
                             ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
                         } else if ("Tiền Mặt".equals(pName)) {
+
                             if (RoundUtils.compare(getTendered, getTotal) == 0) {
                                 double newdebt = 0.0;
                                 newdebt = ticket.getCustomer().getCurdebt() - getTotal;

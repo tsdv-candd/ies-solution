@@ -71,12 +71,12 @@
         </line>
         <line></line>
         <line>
-            <text align ="left" length="32" bold="true">Cân Tài Khoản</text>
+            <text align ="left" length="32" bold="true">NỢ CÒN LẠI:</text>
             <text align ="right" length="10" bold="true">${customer.printCurDebt()}</text>
         </line>
 
     #foreach ($paymentline in $ticket.payments)
-        #if ($paymentline.name == "cash")
+        #if ($paymentline.name == "Tiền Mặt")
             <line></line>
             <line>
                 <text bold="true">Tiền Mặt</text>
@@ -149,7 +149,7 @@
     </ticket>
 
     #foreach ($paymentline in $ticket.payments)
-        #if ($paymentline.name == "cash")
+        #if ($paymentline.name == "Tiền Mặt")
             <opendrawer/>
         #end
     

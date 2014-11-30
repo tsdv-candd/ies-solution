@@ -476,6 +476,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             //Refresh current debt  by CanDD 2014-11-16
             if(m_oTicket.getCustomer() != null) {
                 m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                m_jTotalEuros.setText(m_oTicket.printTotal(true));
             } else {
                 m_jCurDebt.setText(null);
             }
@@ -518,6 +519,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jSubtotalEuros.setText(null);
             m_jTaxesEuros.setText(null);
             m_jTotalEuros.setText(null);
+            if (m_oTicket.getCustomer() != null) {
+                m_jTotalEuros.setText(m_oTicket.printTotal(true));
+            }
             repaint();
         } else {
             m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
@@ -824,6 +828,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             m_jTicketId.setText(m_oTicket.getName(m_oTicketExt));
                             //CanDD Add Current Debt to the Sale Panel 2014-11-16
                             m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                            m_jTotalEuros.setText(m_oTicket.printTotal(true));
                             //CanDD comment
 //                            if(m_oTicket.getCustomer().getCurdebt() != 0) {
 //                                m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
@@ -2223,6 +2228,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 if (m_oTicket.getCustomer().getCurdebt() != 0) {
                     //CanDD comment m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
                     m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                    m_jTotalEuros.setText(m_oTicket.printTotal(true));
                 }
             }
 

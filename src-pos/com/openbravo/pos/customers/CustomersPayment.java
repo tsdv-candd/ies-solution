@@ -34,9 +34,12 @@ import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.util.RoundUtils;
+import java.awt.Font;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -563,6 +566,31 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
                 c = null;
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"), ex);
                 msg.show(this);
+            }
+            //CanDD Will modify to notify the change
+            {
+                double paid = 0.0;
+                String change = "";
+                String ptype = "";
+
+                PaymentInfo p = payments.get(0);
+                paid = p.getPaid();
+                int iCompare = RoundUtils.compare(paid, total);
+                //In case Paid > total, it's need to return cusomter
+                if (iCompare > 0) {
+                    change = Formats.DOUBLE.formatValue(paid - total);
+
+                    JLabel FontText = new JLabel();
+
+                    FontText.setFont(new Font("Arial", Font.BOLD, 32));
+                    ptype = AppLocal.getIntString("transpayment.cash");
+  
+                    FontText.setText(AppLocal.getIntString("transpayment.close") + change);
+                    JOptionPane.showMessageDialog(null,
+                            FontText,
+                            AppLocal.getIntString("transpayment.change"),
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
 
             printTicket(paymentdialog.isPrintSelected()

@@ -117,37 +117,37 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
     
     private void printState() {
 
-       //CanDD Add for checking status of the current debt
+        jlblMessage.setText(null);
+        Double value = m_jTendered.getDoubleValue();
+        if (value == null || value == 0.0) {
+            //CanDD modify default of Debt
+            //m_dPaid = m_dTotal;
+            m_dPaid = 0.0;
+        } else {
+            m_dPaid = value;
+        }
+        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
+//                m_jRemainingDebt.setText(iCompare > 0
+//                        //                CanDD change ? Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal))
+//                        ? Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid))
+//                        : null);
+        m_jRemainingDebt.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid)));
+        //CanDD Add for checking status of the current debt
         if (customerext == null) {
             m_jMoneyEuros.setText(null);
             jlblMessage.setText(AppLocal.getIntString("message.nocustomernodebt"));
             m_notifier.setStatus(false, false);
         } else {
-            if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()) + m_dPaid, RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
+            //if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()) + m_dPaid, RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
+            if (RoundUtils.compare(RoundUtils.getValue(m_dTotal - m_dPaid), RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
                 // maximum debt exceded
                 jlblMessage.setText(AppLocal.getIntString("message.customerdebtexceded"));
                 m_notifier.setStatus(false, false);
             } else {
-                jlblMessage.setText(null);
-                Double value = m_jTendered.getDoubleValue();
-                if (value == null || value == 0.0) {
-                    //CanDD modify default of Debt
-                    //m_dPaid = m_dTotal;
-                    m_dPaid = 0.0;
-                } else {
-                    m_dPaid = value;
-                }
                 //CanDD modify int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
                 int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
-
-                m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
-//                m_jRemainingDebt.setText(iCompare > 0
-//                        //                CanDD change ? Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal))
-//                        ? Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid))
-//                        : null);
-                m_jRemainingDebt.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal - m_dPaid)));
                 m_notifier.setStatus(m_dPaid > 0.0, iCompare <= 0);
-                if(iCompare >=0 ) {
+                if (iCompare >= 0) {
                     jlblMessage.setText(AppLocal.getIntString("message.customerdebtnegative"));
                 }
             }
