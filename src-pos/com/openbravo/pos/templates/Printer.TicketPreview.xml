@@ -85,12 +85,12 @@
 
 #foreach ($paymentline in $ticket.payments)
 
-	#if ($paymentline.name == "cash")
+	#if ($paymentline.name == "Tiền Mặt")
 		<line><text bold="true">Tiền mặt</text></line>
 	        <line><text align="left" length="22">Khách đưa:</text><text align ="right" length="20">${paymentline.printPaid()}</text></line>
 	#end
           	
-	#if ($paymentline.name == "cashrefund")
+	#if ($paymentline.name == "Trả lại")
             	<line><text bold="true">T.Toán Bằng Tiền Mặt</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end

@@ -916,13 +916,13 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     if (("Nợ".equals(pName)
                             || "Trả Nợ".equals(pName)
                             || "Nợ Gối".equals(pName)
-                            || "Tiền Mặt".equals(pName)) 
-                            && (ticket.getCustomer() != null))  {
+                            || "Tiền Mặt".equals(pName)
+                            || "Trả lại".equals(pName))
+                            && (ticket.getCustomer() != null)) {
                         // udate customer fields...
                         if ("Nợ Gối".equals(pName)) {
                             ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
                         } else if ("Tiền Mặt".equals(pName)) {
-
                             if (RoundUtils.compare(getTendered, getTotal) == 0) {
                                 double newdebt = 0.0;
                                 newdebt = ticket.getCustomer().getCurdebt() - getTotal;
@@ -933,21 +933,27 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                 ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
                             }
                         } else if ("Trả Nợ".equals(pName)) {
-                            ticket.getCustomer().updateCurDebt(ticket.getCustomer().getCurdebt(), ticket.getDate());                                                        
+                            ticket.getCustomer().updateCurDebt(ticket.getCustomer().getCurdebt(), ticket.getDate());
+                        } else if ("Trả lại".equals(pName)) {
+                            if (RoundUtils.compare(getTotal, 0) >= 0) {
+                                ticket.getCustomer().updateCurDebt(getTotal, ticket.getDate());
+                            } else {
+                                ticket.getCustomer().updateCurDebt(0.0, ticket.getDate());
+                            }
+                                    
                         } else {
                             ticket.getCustomer().updateCurDebt(getTotal, ticket.getDate());
                         }
+                        // save customer fields...
+                        getDebtUpdate().exec(new DataParams() {
+                            @Override
+                            public void writeValues() throws BasicException {
+                                setDouble(1, ticket.getCustomer().getCurdebt());
+                                setTimestamp(2, ticket.getCustomer().getCurdate());
+                                setString(3, ticket.getCustomer().getId());
+                            }
+                        });
 
-                            // save customer fields...
-                            getDebtUpdate().exec(new DataParams() {
-                                @Override
-                                public void writeValues() throws BasicException {
-                                    setDouble(1, ticket.getCustomer().getCurdebt());
-                                    setTimestamp(2, ticket.getCustomer().getCurdate());
-                                    setString(3, ticket.getCustomer().getId());
-                                }
-                            });
-                        
                     }
                 }
 

@@ -153,7 +153,7 @@
             <opendrawer/>
         #end
     
-        #if ($paymentline.name == "cashrefund")
+        #if ($paymentline.name == "Trả lại")
             <opendrawer/>
         #end
     #end

@@ -90,7 +90,7 @@
 	        <line><text align="left" length="22">Trả lại:</text><text align ="right" length="20">${paymentline.printChange()}</text></line>
 	#end
           	
-	#if ($paymentline.name == "cashrefund")
+	#if ($paymentline.name == "Trả lại")
             		<line><text bold="true">T.Toán</text></line>
 		<line><text align ="right" length="42">${paymentline.printTotal()}</text></line>
 	#end
@@ -174,7 +174,7 @@
 	#if ($paymentline.name == "cash")
 		<opendrawer/>
 	#end
-	#if ($paymentline.name == "cashrefund")
+	#if ($paymentline.name == "Trả lại")
 		<opendrawer/>
 	#end
 #end

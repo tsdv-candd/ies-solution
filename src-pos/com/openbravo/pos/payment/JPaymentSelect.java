@@ -255,7 +255,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
     public class JPaymentCashRefundCreator implements JPaymentCreator {
         @Override
         public JPaymentInterface createJPayment() {
-            return new JPaymentRefund(JPaymentSelect.this, "cashrefund");
+            return new JPaymentRefund(JPaymentSelect.this, "Trả lại");
         }
         @Override
         public String getKey() { return "refund.cash"; }

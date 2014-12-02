@@ -42,7 +42,7 @@
          #if ($paymentline.name == "cash")
             <total paid="${paymentline.getPaid()}">Tiền mặt</total>
          #end
-         #if ($paymentline.name == "cashrefund")
+         #if ($paymentline.name == "Trả lại")
             <total paid="${paymentline.getTotal()}">Trả lại</total>  
          #end
          #if ($paymentline.name == "magcard")
