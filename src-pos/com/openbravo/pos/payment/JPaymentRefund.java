@@ -19,8 +19,10 @@
 
 package com.openbravo.pos.payment;
 
+import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.util.RoundUtils;
 import java.awt.Component;
 
 public class JPaymentRefund extends javax.swing.JPanel implements JPaymentInterface {
@@ -42,7 +44,11 @@ public class JPaymentRefund extends javax.swing.JPanel implements JPaymentInterf
     @Override
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
         m_dTotal = dTotal;
-        
+        if(RoundUtils.compare(dTotal, 0.0) >=0 ) {
+            jLabel1.setText(AppLocal.getIntString("message.paymentcashpos")+Formats.CURRENCY.formatValue(dTotal));
+        } else {
+            jLabel1.setText(AppLocal.getIntString("message.paymentcashneg"));
+        }
         m_notifier.setStatus(true, true);
     }
     
