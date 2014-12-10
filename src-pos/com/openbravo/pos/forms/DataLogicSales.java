@@ -923,17 +923,19 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         if ("Nợ Gối".equals(pName)) {
                             ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
                         } else if ("Tiền Mặt".equals(pName)) {
-                            if (RoundUtils.compare(getTendered, getTotal) == 0) {
+                            if (RoundUtils.compare(getTendered, getTotal) >= 0) {
                                 double newdebt = 0.0;
-                                newdebt = ticket.getCustomer().getCurdebt() - getTotal;
+                                //CanDDnewdebt = ticket.getCustomer().getCurdebt() - getTotal;
                                 ticket.getCustomer().updateCurDebt(newdebt, ticket.getDate());
-                            } else if (RoundUtils.compare(getTendered, getTotal) > 0) {
-                                ticket.getCustomer().updateCurDebt((Double) 0.0, ticket.getDate());
+                                //} else if (RoundUtils.compare(getTendered, getTotal) > 0) {
+                                //ticket.getCustomer().updateCurDebt((Double) 0.0, ticket.getDate());
                             } else {
                                 ticket.getCustomer().updateCurDebt(getTotal - getTendered, ticket.getDate());
                             }
                         } else if ("Trả Nợ".equals(pName)) {
-                            ticket.getCustomer().updateCurDebt(ticket.getCustomer().getCurdebt(), ticket.getDate());
+                            double newdebt = 0.0;
+                            newdebt = ticket.getCustomer().getCurdebt() + getTotal;
+                            ticket.getCustomer().updateCurDebt(newdebt, ticket.getDate());
                         } else if ("Trả lại".equals(pName)) {
                             if (RoundUtils.compare(getTotal, 0) >= 0) {
                                 ticket.getCustomer().updateCurDebt(getTotal, ticket.getDate());

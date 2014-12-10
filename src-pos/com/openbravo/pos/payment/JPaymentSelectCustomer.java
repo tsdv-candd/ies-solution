@@ -50,7 +50,8 @@ public class JPaymentSelectCustomer extends JPaymentSelect {
     @Override
     protected void addTabs() {
 // Bank Payment Receipt - Thanks Steve Clough! August 2011
-        addTabPayment(new JPaymentSelect.JPaymentCashCreator());
+        //addTabPayment(new JPaymentSelect.JPaymentCashCreator());
+        addTabPayment(new JPaymentSelect.JPaymentCashDebtCreator());
         addTabPayment(new JPaymentSelect.JPaymentChequeCreator());
         addTabPayment(new JPaymentSelect.JPaymentPaperCreator());
         addTabPayment(new JPaymentSelect.JPaymentBankCreator());
@@ -67,6 +68,6 @@ public class JPaymentSelectCustomer extends JPaymentSelect {
     
     @Override
     protected PaymentInfo getDefaultPayment(double total) {
-        return new PaymentInfoCash_original(total, total);
+        return new PaymentInfoCashDebt_original(total, total);
     }    
 }

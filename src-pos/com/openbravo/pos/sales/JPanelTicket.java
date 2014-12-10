@@ -553,7 +553,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
     private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice) {
 // Added JDL 19.12.12 Variable Price Product    
-        if (oProduct.isVprice()) {
+             if (oProduct.isVprice()) {
 // take the number entered and convert to an amount rather than quantity. 
 // modified 02.05.13 read tax selected from the panel
 // modified 22.06.13 to allow mulitplier to be used with variable price           
