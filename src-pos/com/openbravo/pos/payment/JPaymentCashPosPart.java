@@ -135,6 +135,7 @@ public class JPaymentCashPosPart extends javax.swing.JPanel implements JPaymentI
         //CanDD Add for checking status of the current debt
         if (customerext == null) {
             m_jMoneyEuros.setText(null);
+            m_jRemainingDebt.setText(null);
             jlblMessage.setText(AppLocal.getIntString("message.nocustomernodebt"));
             m_notifier.setStatus(false, false);
         } else {
