@@ -72,7 +72,7 @@ public class JPaymentCashPosDebt extends javax.swing.JPanel implements JPaymentI
         }
 //        m_config=null;
        
-        String code = dlSystem.getResourceAsXML("payment.cashdebt");
+        String code = dlSystem.getResourceAsXML("payment.cash");
         if (code != null) {
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
