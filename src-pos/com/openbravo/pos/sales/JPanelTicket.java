@@ -135,6 +135,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private JRootApp root;
     private Object m_principalapp;
     private Boolean restaurant;
+    private Boolean m_isEditTicket = false;
 
 // added 27.04.13 JDL for inactivity and Auto logoff    
     private Action logout;
@@ -475,8 +476,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
             //Refresh current debt  by CanDD 2014-11-16
             if(m_oTicket.getCustomer() != null) {
-                m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
-                m_jTotalEuros.setText(m_oTicket.printTotal(true));
+                m_jTotalEuros.setText(m_oTicket.printTotal(!m_isEditTicket));
+                if(m_isEditTicket) {
+                    m_jCurDebt.setText(m_oTicket.getCustomer().printOldDebt());
+                } else {
+                    m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                }
             } else {
                 m_jCurDebt.setText(null);
             }
@@ -520,13 +525,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jTaxesEuros.setText(null);
             m_jTotalEuros.setText(null);
             if (m_oTicket.getCustomer() != null) {
-                m_jTotalEuros.setText(m_oTicket.printTotal(true));
+                m_jTotalEuros.setText(m_oTicket.printTotal(!m_isEditTicket));
+            } else {
+                m_jTotalEuros.setText(m_oTicket.printTotal(false));
             }
             repaint();
         } else {
             m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
             m_jTaxesEuros.setText(m_oTicket.printTax());
-            m_jTotalEuros.setText(m_oTicket.printTotal(true));
+            if (m_oTicket.getCustomer() != null) {
+                m_jTotalEuros.setText(m_oTicket.printTotal(!m_isEditTicket));
+            } else {
+                m_jTotalEuros.setText(m_oTicket.printTotal(false));
+            }
             //CanDD comment set ty
 //            if (m_oTicket.getCustomer() != null) {
 //                m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
@@ -827,12 +838,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             m_oTicket.setCustomer(newcustomer);
                             m_jTicketId.setText(m_oTicket.getName(m_oTicketExt));
                             //CanDD Add Current Debt to the Sale Panel 2014-11-16
-                            m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
-                            m_jTotalEuros.setText(m_oTicket.printTotal(true));
-                            //CanDD comment
-//                            if(m_oTicket.getCustomer().getCurdebt() != 0) {
-//                                m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
-//                            }
+                            m_jTotalEuros.setText(m_oTicket.printTotal(!m_isEditTicket));
+                            if (m_isEditTicket) {
+                                m_jCurDebt.setText(m_oTicket.getCustomer().printOldDebt());
+                            } else {
+                                m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                            }
                         }
                     } catch (BasicException e) {
                         Toolkit.getDefaultToolkit().beep();
@@ -1200,7 +1211,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
                     paymentdialog.setTransactionID(ticket.getTransactionID());
 
-                    if (paymentdialog.showDialog(ticket.getTotal(true), ticket.getCustomer())) {
+                    //CanDD change for current debt
+                    //if (paymentdialog.showDialog(ticket.getTotal(true), ticket.getCustomer())) {
+                    if (paymentdialog.showDialog(ticket.getTotal(!m_isEditTicket), ticket.getCustomer())) {
 
                         // assign the payments selected and calculate taxes.         
                         ticket.setPayments(paymentdialog.getSelectedPayments());
@@ -2227,8 +2240,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 //CanDD Add Current Debt to the Sale Panel 2014-11-16
                 if (m_oTicket.getCustomer().getCurdebt() != 0) {
                     //CanDD comment m_oTicket.setTicketType(TicketInfo.RECEIPT_PAYMENT);
-                    m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
-                    m_jTotalEuros.setText(m_oTicket.printTotal(true));
+                    m_jTotalEuros.setText(m_oTicket.printTotal(!m_isEditTicket));
+                    if (m_isEditTicket) {
+                        m_jCurDebt.setText(m_oTicket.getCustomer().printOldDebt());
+                    } else {
+                        m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                    }
+                    //m_jCurDebt.setText(m_oTicket.getCustomer().printCurDebt());
+                    //m_jTotalEuros.setText(m_oTicket.printTotal(true));
                 }
             }
 
@@ -2355,6 +2374,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
     }//GEN-LAST:event_j_btnKitchenPrtActionPerformed
 
+    //Added 28.12.2014 CanDD
+    public void setEditTicket (boolean isEditTicket) {
+        m_isEditTicket = isEditTicket;
+    }
     //Added 22.08.14 Whole sale function by CanDD
     private void m_jWholeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jWholeSaleActionPerformed
         String tmp = m_jWholeSale.getSelectedItem().toString();

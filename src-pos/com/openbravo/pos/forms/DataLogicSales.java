@@ -745,7 +745,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CITY, "
                 + "REGION, "
                 + "COUNTRY, "
-                + "IMAGE "
+                + "IMAGE, "
+                + "OLDDEBT, "
+                + "OLDDATE "
                 + "FROM CUSTOMERS WHERE ID = ?", SerializerWriteString.INSTANCE, new CustomerExtRead()).find(id);
     }
 
@@ -952,7 +954,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                             public void writeValues() throws BasicException {
                                 setDouble(1, ticket.getCustomer().getCurdebt());
                                 setTimestamp(2, ticket.getCustomer().getCurdate());
-                                setString(3, ticket.getCustomer().getId());
+                                setDouble(3, ticket.getCustomer().getOlddebt());
+                                setTimestamp(4, ticket.getCustomer().getOlddate());
+                                setString(5, ticket.getCustomer().getId());
                             }
                         });
 
@@ -1021,7 +1025,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                             public void writeValues() throws BasicException {
                                 setDouble(1, ticket.getCustomer().getCurdebt());
                                 setTimestamp(2, ticket.getCustomer().getCurdate());
-                                setString(3, ticket.getCustomer().getId());
+                                setDouble(3, ticket.getCustomer().getOlddebt());
+                                setTimestamp(4, ticket.getCustomer().getOlddate());
+                                setString(5, ticket.getCustomer().getId());
                             }
                         });
                     }
@@ -1122,7 +1128,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
     public final SentenceExec getDebtUpdate() {
 
-        return new PreparedSentence(s, "UPDATE CUSTOMERS SET CURDEBT = ?, CURDATE = ? WHERE ID = ?", SerializerWriteParams.INSTANCE);
+        return new PreparedSentence(s, "UPDATE CUSTOMERS SET CURDEBT = ?, CURDATE = ?, OLDDEBT = ?, OLDDATE = ? WHERE ID = ?", SerializerWriteParams.INSTANCE);
     }
 
     public final SentenceExec getStockDiaryInsert() {
@@ -1256,7 +1262,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             c.setRegion(dr.getString(22));
             c.setCountry(dr.getString(23));
             c.setImage(dr.getString(24));
-
+            c.setOlddebt(dr.getDouble(25));
+            c.setOlddate(dr.getTimestamp(26));
             return c;
         }
     }

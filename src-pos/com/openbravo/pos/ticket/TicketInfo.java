@@ -367,8 +367,12 @@ public class TicketInfo implements SerializableRead, Externalizable {
     
     //CanDD Add Current Debt option
     public double getTotal(boolean isAddDebt) {
-        if (m_Customer != null && isAddDebt) {
-            return getSubTotal() + getTax() + m_Customer.getCurdebt();
+        if (m_Customer != null) {
+            if (isAddDebt) {
+                return getSubTotal() + getTax() + m_Customer.getCurdebt();
+            } else {
+                return getSubTotal() + getTax() + m_Customer.getOlddebt();
+            }
         } else {
             return getSubTotal() + getTax();
         }

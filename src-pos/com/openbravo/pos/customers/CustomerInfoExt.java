@@ -118,6 +118,10 @@ public class CustomerInfoExt extends CustomerInfo {
         return curdebt;
     }
     
+    public void setOlddate(Date olddate) {
+        this.olddate = olddate;
+    }
+    
     public Double getOlddebt() {
         return olddebt;
     }
@@ -138,6 +142,10 @@ public class CustomerInfoExt extends CustomerInfo {
     
     public void setCurdebt(Double curdebt) {
         this.curdebt = curdebt;
+    }
+    
+    public void setOlddebt(Double olddebt) {
+        this.olddebt = olddebt;
     }
     
     public void updateCurDebt(Double amount, Date d) {

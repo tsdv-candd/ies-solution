@@ -68,6 +68,8 @@ public class JTicketsBagTicket extends JTicketsBag {
         
         super(app, panelticket);
         m_panelticketedit = panelticket; 
+        //CanDD Add set Edit ticket
+        m_panelticketedit.setEditTicket(true);
         m_dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
         m_dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
         dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
@@ -445,6 +447,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 // Indicate that this a ticket in edit mode      
         m_ticketCopy.setOldTicket(true); 
         m_panelticketedit.setActiveTicket(m_ticket.copyTicket(), null);  
+        
         
     }//GEN-LAST:event_m_jEditActionPerformed
 

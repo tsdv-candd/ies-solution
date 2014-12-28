@@ -33,6 +33,7 @@ public class JPanelTicketEdits extends JPanelTicket {
     
     /** Creates a new instance of JPanelTicketRefunds */
     public JPanelTicketEdits() {
+        //m_isEditTicket = true;
     }
     
     @Override
