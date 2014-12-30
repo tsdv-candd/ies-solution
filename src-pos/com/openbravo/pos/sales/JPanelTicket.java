@@ -449,7 +449,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jSubtotalEuros.setText(null);
             m_jTaxesEuros.setText(null);
             m_jTotalEuros.setText(null); 
-        
+            
+            //CanDD Add Cpoint
+            m_jCurPoint.setText(null);
+            
             stateToZero();
             repaint();
             
@@ -499,6 +502,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
      
     private void printPartialTotals(){
                
+        if (m_oTicket.getCustomer() != null) {
+            m_jCurPoint.setText(m_oTicket.getCustomer().printCPoint());
+        } else {
+            m_jCurPoint.setText(null);
+        }
+            
         if (m_oTicket.getLinesCount() == 0) {
             m_jSubtotalEuros.setText(null);
             m_jTaxesEuros.setText(null);
@@ -1586,8 +1595,10 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         jPanel4 = new javax.swing.JPanel();
         m_jPanTotals = new javax.swing.JPanel();
         m_jLblTotalEuros3 = new javax.swing.JLabel();
+        m_jLblTotalEuros5 = new javax.swing.JLabel();
         m_jLblTotalEuros2 = new javax.swing.JLabel();
         m_jLblTotalEuros1 = new javax.swing.JLabel();
+        m_jCurPoint = new javax.swing.JLabel();
         m_jSubtotalEuros = new javax.swing.JLabel();
         m_jTaxesEuros = new javax.swing.JLabel();
         m_jTotalEuros = new javax.swing.JLabel();
@@ -1874,16 +1885,24 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jPanelCentral.setPreferredSize(new java.awt.Dimension(450, 240));
         m_jPanelCentral.setLayout(new java.awt.BorderLayout());
 
+        jPanel4.setMinimumSize(new java.awt.Dimension(448, 78));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        m_jPanTotals.setPreferredSize(new java.awt.Dimension(375, 60));
+        m_jPanTotals.setPreferredSize(new java.awt.Dimension(538, 68));
         m_jPanTotals.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
 
         m_jLblTotalEuros3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        m_jLblTotalEuros3.setForeground(new java.awt.Color(0, 51, 255));
         m_jLblTotalEuros3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         m_jLblTotalEuros3.setLabelFor(m_jSubtotalEuros);
-        m_jLblTotalEuros3.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
+        m_jLblTotalEuros3.setText(AppLocal.getIntString("label.customerpoint")); // NOI18N
         m_jPanTotals.add(m_jLblTotalEuros3);
+
+        m_jLblTotalEuros5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        m_jLblTotalEuros5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jLblTotalEuros5.setLabelFor(m_jSubtotalEuros);
+        m_jLblTotalEuros5.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
+        m_jPanTotals.add(m_jLblTotalEuros5);
 
         m_jLblTotalEuros2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblTotalEuros2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1896,6 +1915,19 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jLblTotalEuros1.setLabelFor(m_jTotalEuros);
         m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
         m_jPanTotals.add(m_jLblTotalEuros1);
+
+        m_jCurPoint.setBackground(m_jEditLine.getBackground());
+        m_jCurPoint.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        m_jCurPoint.setForeground(m_jEditLine.getForeground());
+        m_jCurPoint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jCurPoint.setLabelFor(m_jSubtotalEuros);
+        m_jCurPoint.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        m_jCurPoint.setMaximumSize(new java.awt.Dimension(125, 25));
+        m_jCurPoint.setMinimumSize(new java.awt.Dimension(80, 25));
+        m_jCurPoint.setOpaque(true);
+        m_jCurPoint.setPreferredSize(new java.awt.Dimension(80, 25));
+        m_jCurPoint.setRequestFocusEnabled(false);
+        m_jPanTotals.add(m_jCurPoint);
 
         m_jSubtotalEuros.setBackground(m_jEditLine.getBackground());
         m_jSubtotalEuros.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -2326,6 +2358,7 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JPanel m_jButtons;
     private javax.swing.JPanel m_jButtonsExt;
     private javax.swing.JPanel m_jContEntries;
+    private javax.swing.JLabel m_jCurPoint;
     private javax.swing.JButton m_jDelete;
     private javax.swing.JButton m_jDown;
     private javax.swing.JButton m_jEditLine;
@@ -2334,6 +2367,7 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JLabel m_jLblTotalEuros1;
     private javax.swing.JLabel m_jLblTotalEuros2;
     private javax.swing.JLabel m_jLblTotalEuros3;
+    private javax.swing.JLabel m_jLblTotalEuros5;
     private javax.swing.JButton m_jList;
     private com.openbravo.beans.JNumberKeys m_jNumberKeys;
     private javax.swing.JPanel m_jOptions;

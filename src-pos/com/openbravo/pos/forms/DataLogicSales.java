@@ -811,7 +811,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CITY, "
                 + "REGION, "
                 + "COUNTRY, "
-                + "IMAGE "
+                + "IMAGE, "
+                + "CPOINT, "
+                + "CPOINTDATE "
                 + "FROM CUSTOMERS WHERE ID = ?"
                 , SerializerWriteString.INSTANCE
                 , new CustomerExtRead()).find(id);
@@ -1005,7 +1007,18 @@ public void writeValues() throws BasicException {
                 setTimestamp(2, ticket.getCustomer().getCurdate());
                 setString(3, ticket.getCustomer().getId());
             }});
-        }
+        } else if(("Tiền Mặt".equals(pName) )&& (ticket.getCustomer()!=null) ) {
+            
+            // udate customer fields...
+            ticket.getCustomer().updateCPoint(getTotal, ticket.getDate());                        
+            // save customer fields...
+            getPointUpdate().exec(new DataParams() {@Override
+public void writeValues() throws BasicException {
+                setDouble(1, ticket.getCustomer().getCPoint());
+                setTimestamp(2, ticket.getCustomer().getCPointdate());
+                setString(3, ticket.getCustomer().getId());
+            }});
+        } 
     }
 
     SentenceExec taxlinesinsert = new PreparedSentence(s
@@ -1208,6 +1221,14 @@ public void writeValues() throws BasicException {
                 , "UPDATE CUSTOMERS SET CURDEBT = ?, CURDATE = ? WHERE ID = ?"
                 , SerializerWriteParams.INSTANCE);
     }
+    
+    //CanDD update point card
+    public final SentenceExec getPointUpdate() {
+
+        return new PreparedSentence(s
+                , "UPDATE CUSTOMERS SET CPOINT = ?, CPOINTDATE=? WHERE ID = ?"
+                , SerializerWriteParams.INSTANCE);
+    }
 
     public final SentenceExec getStockDiaryInsert() {
         return new SentenceExecTransaction(s) {
@@ -1393,7 +1414,8 @@ public void writeValues() throws BasicException {
             c.setRegion(dr.getString(22));
             c.setCountry(dr.getString(23));
             c.setImage(dr.getString(24));
-
+            c.setCPoint(dr.getDouble(25));
+            c.setCPointdate(dr.getTimestamp(26));
             return c;
         }
     }  

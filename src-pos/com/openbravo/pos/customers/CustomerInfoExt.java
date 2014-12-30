@@ -50,6 +50,9 @@ public class CustomerInfoExt extends CustomerInfo {
     protected String country;
     protected String image;
     
+    //Add point card
+    protected Date cpointdate;
+    protected Double cpoint;
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
         super(id);
@@ -129,7 +132,7 @@ public class CustomerInfoExt extends CustomerInfo {
                 curdate = d;
             }
         } else if (RoundUtils.compare(curdebt, 0.0) == 0) {
-            curdebt = null;
+            curdebt = 0.0;
             curdate = null;
         } else { // < 0
             curdate = null;
@@ -246,4 +249,40 @@ public class CustomerInfoExt extends CustomerInfo {
         this.image = image;
     }
     
+    //CanDD add point
+    public Date getCPointdate() {
+        return cpointdate;
+    }
+
+    public void setCPointdate(Date cpointdate) {
+        this.cpointdate = cpointdate;
+    }
+
+    public Double getCPoint() {
+        return cpoint;
+    }
+    public void setCPoint(Double cpoint) {
+        this.cpoint = cpoint;
+    }
+    
+    public void updateCPoint(Double amount, Date d) {
+        
+        cpoint = cpoint == null ? amount : cpoint + amount;
+
+        if (RoundUtils.compare(cpoint, 0.0) > 0) {
+            if (cpointdate == null) {
+                // new date
+                cpointdate = d;
+            }
+        } else if (RoundUtils.compare(cpoint, 0.0) == 0) {
+            cpoint = 0.0;
+            cpointdate = null;
+        } else { // < 0
+            cpointdate = null;
+        }
+    }
+    
+    public String printCPoint() {       
+        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCPoint()/100000));
+    }
 }
