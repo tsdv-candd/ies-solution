@@ -1007,7 +1007,7 @@ public void writeValues() throws BasicException {
                 setTimestamp(2, ticket.getCustomer().getCurdate());
                 setString(3, ticket.getCustomer().getId());
             }});
-        } else if(("Tiền Mặt".equals(pName) )&& (ticket.getCustomer()!=null) ) {
+        } else if(("Tiền Mặt".equals(pName) || "cashrefund".equals(pName) )&& (ticket.getCustomer()!=null) ) {
             
             // udate customer fields...
             ticket.getCustomer().updateCPoint(getTotal, ticket.getDate());                        
@@ -1086,6 +1086,19 @@ public void writeValues() throws BasicException {
                             setTimestamp(2, ticket.getCustomer().getCurdate());
                             setString(3, ticket.getCustomer().getId());
                         }});
+                    } else if (("Tiền Mặt".equals(pName)) && (ticket.getCustomer() != null)) {
+
+                        // udate customer fields...
+                        ticket.getCustomer().updateCPoint(-p.getTotal(), ticket.getDate());
+                        // save customer fields...
+                        getPointUpdate().exec(new DataParams() {
+                            @Override
+                            public void writeValues() throws BasicException {
+                                setDouble(1, ticket.getCustomer().getCPoint());
+                                setTimestamp(2, ticket.getCustomer().getCPointdate());
+                                setString(3, ticket.getCustomer().getId());
+                            }
+                        });
                     }
                 }
 
