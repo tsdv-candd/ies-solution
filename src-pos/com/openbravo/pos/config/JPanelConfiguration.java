@@ -89,6 +89,10 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         m_panelconfig.add(panel);
         jPanelTicketSetup.add(panel.getConfigComponent());
         
+        panel = new JPanelPointCardSetup();
+        m_panelconfig.add(panel);
+        jPanelPointCardSetup.add(panel.getConfigComponent());
+        
         
         //m_panelconfig.add(new JPanelConfigGeneral());
         //m_panelconfig.add(new JPanelConfigLocale());
@@ -190,6 +194,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         jPanelPeripheral = new javax.swing.JPanel();
         jPanelSystem = new javax.swing.JPanel();
         jPanelTicketSetup = new javax.swing.JPanel();
+        jPanelPointCardSetup = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jbtnRestore = new javax.swing.JButton();
         jbtnExit = new javax.swing.JButton();
@@ -236,6 +241,12 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         jPanelTicketSetup.setPreferredSize(new java.awt.Dimension(0, 400));
         jPanelTicketSetup.setLayout(new javax.swing.BoxLayout(jPanelTicketSetup, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("Ticket Setup", jPanelTicketSetup);
+
+        jPanelPointCardSetup.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jPanelPointCardSetup.setPreferredSize(new java.awt.Dimension(0, 400));
+        jPanelPointCardSetup.setLayout(new javax.swing.BoxLayout(jPanelPointCardSetup, javax.swing.BoxLayout.LINE_AXIS));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
+        jTabbedPane1.addTab(bundle.getString("label.configpointcard"), jPanelPointCardSetup); // NOI18N
 
         jbtnRestore.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jbtnRestore.setText(AppLocal.getIntString("Button.Factory")); // NOI18N
@@ -297,9 +308,13 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,6 +353,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
     private javax.swing.JPanel jPanelLocale;
     private javax.swing.JPanel jPanelPayment;
     private javax.swing.JPanel jPanelPeripheral;
+    private javax.swing.JPanel jPanelPointCardSetup;
     private javax.swing.JPanel jPanelSystem;
     private javax.swing.JPanel jPanelTicketSetup;
     private javax.swing.JTabbedPane jTabbedPane1;

@@ -20,7 +20,10 @@
 package com.openbravo.pos.customers;
 
 import com.openbravo.format.Formats;
+import com.openbravo.pos.forms.AppConfig;
+import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.util.RoundUtils;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -53,6 +56,7 @@ public class CustomerInfoExt extends CustomerInfo {
     //Add point card
     protected Date cpointdate;
     protected Double cpoint;
+    private Object m_config;
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
         super(id);
@@ -282,7 +286,12 @@ public class CustomerInfoExt extends CustomerInfo {
         }
     }
     
-    public String printCPoint() {       
-        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCPoint()/100000));
+    public String printCPoint() {  
+        AppConfig m_config =  new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));        
+        m_config.load();
+        String moneytopoint =(m_config.getProperty("till.moneytopoint"));
+        double moneytopointdob = Double.parseDouble(moneytopoint);
+        moneytopointdob = RoundUtils.compare(moneytopointdob , 0.0) > 0 ? moneytopointdob : 100000;
+        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCPoint()/moneytopointdob));
     }
 }
