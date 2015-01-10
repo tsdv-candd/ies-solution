@@ -50,12 +50,15 @@ import com.openbravo.pos.util.AltEncrypter;
 import com.openbravo.pos.util.InactivityListener;
 import com.openbravo.pos.util.JRPrinterAWT300;
 import com.openbravo.pos.util.ReportUtils;
+import com.openbravo.pos.util.RoundUtils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -90,7 +93,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private final static int NUMBER_PORZERODEC = 5; 
     private final static int NUMBER_PORINT = 6; 
     private final static int NUMBER_PORDEC = 7; 
-
     protected JTicketLines m_ticketlines;
         
     // private Template m_tempLine;
@@ -153,10 +155,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
     //  Added 22.08.14 Add whole sale CanDD
     private Boolean m_isWholeSale=false;
+    
+    //CanDD Add timer
+    private javax.swing.Timer timerLB;
+    
     /** Creates new form JTicketView */
     public JPanelTicket() {
         
         initComponents ();
+        
+        //Set blinking sequence for promotion button 0.368 second
+        timerLB = new javax.swing.Timer(368, new JPanelTicket.LbBlink(m_jCurAward));
     }
    
     @Override
@@ -258,6 +267,29 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
        }
     }
 
+    //CanDD add Blinking lable
+    private class LbBlink implements ActionListener {
+
+        private javax.swing.JLabel label;
+        private java.awt.Color cor1 = java.awt.Color.red;
+        private java.awt.Color cor2 = java.awt.Color.gray;
+        private int count;
+
+        public LbBlink(javax.swing.JLabel label) {
+            this.label = label;
+        }
+
+        //@Override
+        public void actionPerformed(ActionEvent e) {
+            if (count % 2 == 0) {
+                label.setForeground(cor1);
+            } else {
+                label.setForeground(cor2);
+            }
+            count++;
+        }
+    }
+    
     private void saveCurrentTicket() {
         String currentTicket =(String)m_oTicketExt;
         if (currentTicket != null) {
@@ -452,6 +484,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             
             //CanDD Add Cpoint
             m_jCurPoint.setText(null);
+            m_jCurAward.setText(null);
+            timerLB.stop();
             
             stateToZero();
             repaint();
@@ -502,10 +536,24 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
      
     private void printPartialTotals(){
                
+        //Check award condition
         if (m_oTicket.getCustomer() != null) {
             m_jCurPoint.setText(m_oTicket.getCustomer().printCPoint());
+            AppConfig m_config = new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));
+            m_config.load();
+            String isaward = (m_config.getProperty("till.awardpoint"));
+            double isawarddob = Double.parseDouble(isaward);
+            if (RoundUtils.compare(m_oTicket.getCustomer().getCPoint(), isawarddob) >= 0) {
+                m_jCurAward.setText("Thưởng");
+                timerLB.start();
+            } else {
+                m_jCurAward.setText("Chưa thưởng");
+                timerLB.stop();
+            }
         } else {
             m_jCurPoint.setText(null);
+            m_jCurAward.setText(null);
+            timerLB.stop();
         }
             
         if (m_oTicket.getLinesCount() == 0) {
@@ -1208,6 +1256,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                     ? "Printer.Ticket"
                                     : "Printer.Ticket2", ticket, ticketext);  
                             
+                            // Print two receipt.
+                            printTicket(paymentdialog.isPrintSelected() 
+                                    //|| warrantyPrint
+                                    ? "Printer.Ticket"
+                                    : "Printer.Ticket2", ticket, ticketext);  
+                            
 //                            if (m_oTicket.getLoyaltyCardNumber() != null){
 // add points to the card
 //                                System.out.println("Point added to card = " + ticket.getTotal()/100);
@@ -1575,6 +1629,7 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         jButton1 = new javax.swing.JButton();
         btnCustomer = new javax.swing.JButton();
         btnSplit = new javax.swing.JButton();
+        btnStop = new javax.swing.JButton();
         m_jPanelScripts = new javax.swing.JPanel();
         m_jButtonsExt = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -1594,10 +1649,12 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jPanelCentral = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         m_jPanTotals = new javax.swing.JPanel();
-        m_jLblTotalEuros3 = new javax.swing.JLabel();
+        m_jLblAward = new javax.swing.JLabel();
+        m_jLblTotalPoint = new javax.swing.JLabel();
         m_jLblTotalEuros5 = new javax.swing.JLabel();
         m_jLblTotalEuros2 = new javax.swing.JLabel();
         m_jLblTotalEuros1 = new javax.swing.JLabel();
+        m_jCurAward = new javax.swing.JLabel();
         m_jCurPoint = new javax.swing.JLabel();
         m_jSubtotalEuros = new javax.swing.JLabel();
         m_jTaxesEuros = new javax.swing.JLabel();
@@ -1674,6 +1731,21 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
             }
         });
 
+        btnStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kmai.jpg"))); // NOI18N
+        btnStop.setToolTipText("Thưởng cho khách");
+        btnStop.setFocusPainted(false);
+        btnStop.setFocusable(false);
+        btnStop.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        btnStop.setMaximumSize(new java.awt.Dimension(50, 40));
+        btnStop.setMinimumSize(new java.awt.Dimension(50, 40));
+        btnStop.setPreferredSize(new java.awt.Dimension(50, 40));
+        btnStop.setRequestFocusEnabled(false);
+        btnStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout m_jButtonsLayout = new javax.swing.GroupLayout(m_jButtons);
         m_jButtons.setLayout(m_jButtonsLayout);
         m_jButtonsLayout.setHorizontalGroup(
@@ -1683,11 +1755,13 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
                 .addComponent(m_jTicketId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSplit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
         );
         m_jButtonsLayout.setVerticalGroup(
             m_jButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1699,11 +1773,13 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(m_jButtonsLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(m_jButtonsLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(btnSplit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(m_jButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSplit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
+
+        btnStop.getAccessibleContext().setAccessibleDescription("Thưởng cho khách");
 
         m_jOptions.add(m_jButtons, java.awt.BorderLayout.LINE_START);
 
@@ -1888,15 +1964,22 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         jPanel4.setMinimumSize(new java.awt.Dimension(448, 78));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        m_jPanTotals.setPreferredSize(new java.awt.Dimension(538, 68));
+        m_jPanTotals.setPreferredSize(new java.awt.Dimension(586, 68));
         m_jPanTotals.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
 
-        m_jLblTotalEuros3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        m_jLblTotalEuros3.setForeground(new java.awt.Color(0, 51, 255));
-        m_jLblTotalEuros3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        m_jLblTotalEuros3.setLabelFor(m_jSubtotalEuros);
-        m_jLblTotalEuros3.setText(AppLocal.getIntString("label.customerpoint")); // NOI18N
-        m_jPanTotals.add(m_jLblTotalEuros3);
+        m_jLblAward.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        m_jLblAward.setForeground(new java.awt.Color(0, 0, 255));
+        m_jLblAward.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jLblAward.setLabelFor(m_jSubtotalEuros);
+        m_jLblAward.setText(AppLocal.getIntString("label.customeraward")); // NOI18N
+        m_jPanTotals.add(m_jLblAward);
+
+        m_jLblTotalPoint.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        m_jLblTotalPoint.setForeground(new java.awt.Color(0, 51, 255));
+        m_jLblTotalPoint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jLblTotalPoint.setLabelFor(m_jSubtotalEuros);
+        m_jLblTotalPoint.setText(AppLocal.getIntString("label.customerpoint")); // NOI18N
+        m_jPanTotals.add(m_jLblTotalPoint);
 
         m_jLblTotalEuros5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         m_jLblTotalEuros5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1916,6 +1999,19 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
         m_jPanTotals.add(m_jLblTotalEuros1);
 
+        m_jCurAward.setBackground(m_jEditLine.getBackground());
+        m_jCurAward.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        m_jCurAward.setForeground(m_jEditLine.getForeground());
+        m_jCurAward.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        m_jCurAward.setLabelFor(m_jSubtotalEuros);
+        m_jCurAward.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        m_jCurAward.setMaximumSize(new java.awt.Dimension(125, 25));
+        m_jCurAward.setMinimumSize(new java.awt.Dimension(40, 25));
+        m_jCurAward.setOpaque(true);
+        m_jCurAward.setPreferredSize(new java.awt.Dimension(68, 25));
+        m_jCurAward.setRequestFocusEnabled(false);
+        m_jPanTotals.add(m_jCurAward);
+
         m_jCurPoint.setBackground(m_jEditLine.getBackground());
         m_jCurPoint.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         m_jCurPoint.setForeground(m_jEditLine.getForeground());
@@ -1923,9 +2019,9 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         m_jCurPoint.setLabelFor(m_jSubtotalEuros);
         m_jCurPoint.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         m_jCurPoint.setMaximumSize(new java.awt.Dimension(125, 25));
-        m_jCurPoint.setMinimumSize(new java.awt.Dimension(80, 25));
+        m_jCurPoint.setMinimumSize(new java.awt.Dimension(40, 25));
         m_jCurPoint.setOpaque(true);
-        m_jCurPoint.setPreferredSize(new java.awt.Dimension(80, 25));
+        m_jCurPoint.setPreferredSize(new java.awt.Dimension(68, 25));
         m_jCurPoint.setRequestFocusEnabled(false);
         m_jPanTotals.add(m_jCurPoint);
 
@@ -2339,10 +2435,23 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
         refreshTicket();
     }//GEN-LAST:event_m_jWholeSaleActionPerformed
 
+    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
+        // Award to customer
+        timerLB.stop();
+        //Reset CPOINT
+        if (m_oTicket.getCustomer() != null) {
+            m_jCurAward.setText("Đã thưởng");
+            m_oTicket.getCustomer().setCPoint(0.0);
+            m_jCurPoint.setText(null);            
+        }
+        
+    }//GEN-LAST:event_btnStopActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCustomer;
     private javax.swing.JButton btnSplit;
+    private javax.swing.JButton btnStop;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel catcontainer;
@@ -2358,16 +2467,18 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
     private javax.swing.JPanel m_jButtons;
     private javax.swing.JPanel m_jButtonsExt;
     private javax.swing.JPanel m_jContEntries;
+    private javax.swing.JLabel m_jCurAward;
     private javax.swing.JLabel m_jCurPoint;
     private javax.swing.JButton m_jDelete;
     private javax.swing.JButton m_jDown;
     private javax.swing.JButton m_jEditLine;
     private javax.swing.JButton m_jEnter;
     private javax.swing.JTextField m_jKeyFactory;
+    private javax.swing.JLabel m_jLblAward;
     private javax.swing.JLabel m_jLblTotalEuros1;
     private javax.swing.JLabel m_jLblTotalEuros2;
-    private javax.swing.JLabel m_jLblTotalEuros3;
     private javax.swing.JLabel m_jLblTotalEuros5;
+    private javax.swing.JLabel m_jLblTotalPoint;
     private javax.swing.JButton m_jList;
     private com.openbravo.beans.JNumberKeys m_jNumberKeys;
     private javax.swing.JPanel m_jOptions;

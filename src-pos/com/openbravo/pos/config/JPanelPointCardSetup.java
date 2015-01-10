@@ -38,6 +38,7 @@ public class JPanelPointCardSetup extends javax.swing.JPanel implements PanelCon
     public JPanelPointCardSetup() {
         initComponents();
         jTextMoneyToPoint.getDocument().addDocumentListener(dirty);
+        jTextAwardPoint.getDocument().addDocumentListener(dirty);
     }
     
     
@@ -53,13 +54,15 @@ public class JPanelPointCardSetup extends javax.swing.JPanel implements PanelCon
    
     @Override
     public void loadProperties(AppConfig config) {
-        jTextMoneyToPoint.setText(config.getProperty("till.moneytopoint"));               
+        jTextMoneyToPoint.setText(config.getProperty("till.moneytopoint"));
+        jTextAwardPoint.setText(config.getProperty("till.awardpoint"));
     }
    
     @Override
     public void saveProperties(AppConfig config) {
         
         config.setProperty("till.moneytopoint", jTextMoneyToPoint.getText());
+        config.setProperty("till.awardpoint", jTextAwardPoint.getText());
         dirty.setDirty(false);
     }
     
@@ -75,6 +78,8 @@ public class JPanelPointCardSetup extends javax.swing.JPanel implements PanelCon
         jPanel1 = new javax.swing.JPanel();
         jTextMoneyToPoint = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jTextAwardPoint = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         jTextField2.setText("jTextField2");
 
@@ -100,6 +105,23 @@ public class JPanelPointCardSetup extends javax.swing.JPanel implements PanelCon
         jLabel3.setText(bundle.getString("Label.moneytopoint")); // NOI18N
         jPanel1.add(jLabel3);
         jLabel3.setBounds(20, 20, 130, 40);
+        jLabel3.getAccessibleContext().setAccessibleName(bundle.getString("Label.moneytopoint")); // NOI18N
+
+        jTextAwardPoint.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTextAwardPoint.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextAwardPoint.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextAwardPointKeyReleased(evt);
+            }
+        });
+        jPanel1.add(jTextAwardPoint);
+        jTextAwardPoint.setBounds(460, 20, 150, 40);
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setText(bundle.getString("Label.awardpoint")); // NOI18N
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(330, 20, 130, 40);
+        jLabel4.getAccessibleContext().setAccessibleName(bundle.getString("Label.awardpoint")); // NOI18N
 
         add(jPanel1);
         jPanel1.setBounds(10, 10, 730, 160);
@@ -108,11 +130,17 @@ public class JPanelPointCardSetup extends javax.swing.JPanel implements PanelCon
     private void jTextMoneyToPointKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextMoneyToPointKeyReleased
 
     }//GEN-LAST:event_jTextMoneyToPointKeyReleased
+
+    private void jTextAwardPointKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextAwardPointKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextAwardPointKeyReleased
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextAwardPoint;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextMoneyToPoint;
     // End of variables declaration//GEN-END:variables
