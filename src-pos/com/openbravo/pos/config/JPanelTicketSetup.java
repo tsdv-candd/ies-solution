@@ -43,6 +43,7 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
         jPickupSize.addChangeListener(dirty);
         jTextReceiptPrefix.getDocument().addDocumentListener(dirty);
         m_jReceiptPrintOff.addActionListener(dirty);
+        m_jReceiptPrintDouble.addActionListener(dirty);
         
 /** Added: JG 23 July 13 */        
         jchkSCOnOff.addActionListener(dirty);
@@ -92,6 +93,7 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
         receipt += "1";
          jTicketExample.setText(jTextReceiptPrefix.getText()+receipt);  
          m_jReceiptPrintOff.setSelected(Boolean.valueOf(config.getProperty("till.receiptprintoff")).booleanValue()); 
+         m_jReceiptPrintDouble.setSelected(Boolean.valueOf(config.getProperty("till.receiptprintdouble")).booleanValue()); 
         
         dirty.setDirty(false);
 
@@ -127,6 +129,7 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
         config.setProperty("till.receiptsize", jReceiptSize.getValue().toString());
         config.setProperty("till.pickupsize", jPickupSize.getValue().toString());        
         config.setProperty("till.receiptprintoff",Boolean.toString(m_jReceiptPrintOff.isSelected()));
+        config.setProperty("till.receiptprintdouble",Boolean.toString(m_jReceiptPrintDouble.isSelected()));
         
 /** Added: JG 23 July 13 */
         config.setProperty("till.SCOnOff",Boolean.toString(jchkSCOnOff.isSelected()));
@@ -155,6 +158,7 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
         jLabel2 = new javax.swing.JLabel();
         jPickupSize = new javax.swing.JSpinner();
         m_jReceiptPrintOff = new javax.swing.JCheckBox();
+        m_jReceiptPrintDouble = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jchkSCOnOff = new javax.swing.JCheckBox();
         jchkSCRestaurant = new javax.swing.JCheckBox();
@@ -236,6 +240,16 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
         });
         jPanel1.add(m_jReceiptPrintOff);
         m_jReceiptPrintOff.setBounds(10, 120, 180, 30);
+
+        m_jReceiptPrintDouble.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        m_jReceiptPrintDouble.setText(bundle.getString("label.receiptprintdouble")); // NOI18N
+        m_jReceiptPrintDouble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jReceiptPrintDoubleActionPerformed(evt);
+            }
+        });
+        jPanel1.add(m_jReceiptPrintDouble);
+        m_jReceiptPrintDouble.setBounds(210, 120, 180, 30);
 
         add(jPanel1);
         jPanel1.setBounds(10, 10, 730, 160);
@@ -339,6 +353,10 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
     private void m_jReceiptPrintOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jReceiptPrintOffActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_m_jReceiptPrintOffActionPerformed
+
+    private void m_jReceiptPrintDoubleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jReceiptPrintDoubleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m_jReceiptPrintDoubleActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -358,6 +376,7 @@ public class JPanelTicketSetup extends javax.swing.JPanel implements PanelConfig
     private javax.swing.JTextField jTicketExample;
     private javax.swing.JCheckBox jchkSCOnOff;
     private javax.swing.JCheckBox jchkSCRestaurant;
+    private javax.swing.JCheckBox m_jReceiptPrintDouble;
     private javax.swing.JCheckBox m_jReceiptPrintOff;
     // End of variables declaration//GEN-END:variables
     

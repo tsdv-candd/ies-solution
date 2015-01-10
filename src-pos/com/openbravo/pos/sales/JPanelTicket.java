@@ -1256,11 +1256,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                     ? "Printer.Ticket"
                                     : "Printer.Ticket2", ticket, ticketext);  
                             
-                            // Print two receipt.
-                            printTicket(paymentdialog.isPrintSelected() 
-                                    //|| warrantyPrint
-                                    ? "Printer.Ticket"
-                                    : "Printer.Ticket2", ticket, ticketext);  
                             
 //                            if (m_oTicket.getLoyaltyCardNumber() != null){
 // add points to the card
@@ -1355,8 +1350,9 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
                 script.put("warranty", warrantyPrint);
                 script.put("pickupid",getPickupString(ticket));
 
-                
-
+                if(Boolean.valueOf(m_App.getProperties().getProperty("till.receiptprintdouble")).booleanValue() == true) {
+                    m_TTP.printTicket(script.eval(sresource).toString(), ticket);
+                }
                 m_TTP.printTicket(script.eval(sresource).toString(), ticket);
 // JG May 2013 replaced with Multicatch            
             } catch (    ScriptException | TicketPrinterException e) {
