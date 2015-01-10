@@ -263,16 +263,29 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public Double getCPoint() {
-        return cpoint;
+        if(this.cpoint !=null) {
+            return cpoint;
+        } else {
+            return 0.0;
+        }
     }
     public void setCPoint(Double cpoint) {
-        this.cpoint = cpoint;
+        if(cpoint!=null) {
+            this.cpoint = cpoint;
+        } else {
+            this.cpoint = 0.0;
+        }
     }
     
     public void updateCPoint(Double amount, Date d) {
         
-        cpoint = cpoint == null ? amount : cpoint + amount;
-
+        //cpoint = cpoint == null ? amount : cpoint + amount;
+        AppConfig m_config = new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));
+        m_config.load();
+        String moneytopoint = (m_config.getProperty("till.moneytopoint"));
+        double moneytopointdob = Double.parseDouble(moneytopoint);
+        moneytopointdob = RoundUtils.compare(moneytopointdob, 0.0) > 0 ? moneytopointdob : 100000;
+        cpoint = cpoint == null ? amount/moneytopointdob : cpoint + amount/moneytopointdob;
         if (RoundUtils.compare(cpoint, 0.0) > 0) {
             if (cpointdate == null) {
                 // new date
@@ -287,11 +300,12 @@ public class CustomerInfoExt extends CustomerInfo {
     }
     
     public String printCPoint() {  
-        AppConfig m_config =  new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));        
-        m_config.load();
-        String moneytopoint =(m_config.getProperty("till.moneytopoint"));
-        double moneytopointdob = Double.parseDouble(moneytopoint);
-        moneytopointdob = RoundUtils.compare(moneytopointdob , 0.0) > 0 ? moneytopointdob : 100000;
-        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCPoint()/moneytopointdob));
+//        AppConfig m_config =  new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));        
+//        m_config.load();
+//        String moneytopoint =(m_config.getProperty("till.moneytopoint"));
+//        double moneytopointdob = Double.parseDouble(moneytopoint);
+//        moneytopointdob = RoundUtils.compare(moneytopointdob , 0.0) > 0 ? moneytopointdob : 100000;
+        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCPoint()));
+        //return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCPoint()/moneytopointdob));
     }
 }
