@@ -159,13 +159,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     //CanDD Add timer
     private javax.swing.Timer timerLB;
     
+    //CanDD Add calculate award
+    private int m_awardcal = 0;
     /** Creates new form JTicketView */
     public JPanelTicket() {
         
         initComponents ();
         
         //Set blinking sequence for promotion button 0.368 second
-        timerLB = new javax.swing.Timer(368, new JPanelTicket.LbBlink(m_jCurAward));
+        //timerLB = new javax.swing.Timer(368, new JPanelTicket.LbBlink(m_jCurAward));
+        timerLB = new javax.swing.Timer(368, new JPanelTicket.LbBlink(m_jLblAward));
     }
    
     @Override
@@ -227,7 +230,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         // inicializamos
         m_oTicket = null;
         m_oTicketExt = null;      
-        
     }
     
  
@@ -531,6 +533,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     m_jKeyFactory.requestFocus();
                 }
             });
+            //Calculate award status
+            calculateAward();
         }
     }
      
@@ -539,21 +543,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         //Check award condition
         if (m_oTicket.getCustomer() != null) {
             m_jCurPoint.setText(m_oTicket.getCustomer().printCPoint());
-            AppConfig m_config = new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));
-            m_config.load();
-            String isaward = (m_config.getProperty("till.awardpoint"));
-            double isawarddob = Double.parseDouble(isaward);
-            if (RoundUtils.compare(m_oTicket.getCustomer().getCPoint(), isawarddob) >= 0) {
-                m_jCurAward.setText("Thưởng");
-                timerLB.start();
-            } else {
-                m_jCurAward.setText("Chưa thưởng");
-                timerLB.stop();
-            }
+            //In case the currentpoint >= awardnumber*awardlevel continue award.
+            calculateAward();
         } else {
             m_jCurPoint.setText(null);
-            m_jCurAward.setText(null);
-            timerLB.stop();
+            //m_jCurAward.setText(null);
+            //timerLB.stop();
         }
             
         if (m_oTicket.getLinesCount() == 0) {
@@ -1603,9 +1598,40 @@ if (pickupSize!=null && (Integer.parseInt(pickupSize) >= tmpPickupId.length())){
         }            
     }
     
+    private void calculateAward() {
+        if (m_oTicket.getCustomer() != null) {
+            AppConfig m_config = new AppConfig(new File((System.getProperty("user.home")), AppLocal.APP_ID + ".properties"));
+            m_config.load();
+            String saward = (m_config.getProperty("till.awardpoint"));
+            int isaward = Integer.parseInt(saward);
+            int awardcal = isaward > 0 ? isaward : 1;
+            m_awardcal = (int) (m_oTicket.getCustomer().getCPoint() / awardcal);
+            if (m_awardcal > m_oTicket.getCustomer().getAward()) {
+                //m_jCurAward.setText("Thưởng");
+                //Calculate award
+                m_jCurAward.setText(m_oTicket.getCustomer().printAward());
+                timerLB.start();
+            } else {
+                //m_jCurAward.setText("Chưa thưởng");
+                m_jCurAward.setText(m_oTicket.getCustomer().printAward());
+                timerLB.stop();
+            }
+        } else {
+            m_jCurAward.setText(null);
+            timerLB.stop();
+        }
+    }
 
- 
-    
+    private Boolean isAward() {
+        if (m_oTicket.getCustomer() == null) {
+            return false;
+        }
+        if (m_awardcal > m_oTicket.getCustomer().getAward()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 /** This method is called from within the constructor to
      * initialize the form.
@@ -2431,16 +2457,25 @@ m_App.getAppUserView().showTask("com.openbravo.pos.customers.CustomersPanel");
         refreshTicket();
     }//GEN-LAST:event_m_jWholeSaleActionPerformed
 
+    // Award to customer
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
-        // Award to customer
-        timerLB.stop();
-        //Reset CPOINT
-        if (m_oTicket.getCustomer() != null) {
-            m_jCurAward.setText("Đã thưởng");
-            m_oTicket.getCustomer().setCPoint(0.0);
-            m_jCurPoint.setText(null);            
+        //Do nothing in case no award;
+        if (!isAward() || m_oTicket.getCustomer() == null) {
+            return;
         }
-        
+        timerLB.stop();
+        //Reset award status
+
+        m_oTicket.getCustomer().updateAward(1, new Date());
+        m_jCurAward.setText(m_oTicket.getCustomer().printAward());
+        try {
+            dlSales.UpdateAward(m_oTicket);
+        } catch (BasicException eData) {
+            MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"), eData);
+            msg.show(this);
+        }
+
+
     }//GEN-LAST:event_btnStopActionPerformed
 
 

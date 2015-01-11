@@ -813,7 +813,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "COUNTRY, "
                 + "IMAGE, "
                 + "CPOINT, "
-                + "CPOINTDATE "
+                + "CPOINTDATE, "
+                + "AWARD, "
+                + "AWDATE "
                 + "FROM CUSTOMERS WHERE ID = ?"
                 , SerializerWriteString.INSTANCE
                 , new CustomerExtRead()).find(id);
@@ -872,7 +874,40 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         }
         return ticket;
     }
+    //public final void UpdateAward(final int award, final Date awadate, final String ID) throws BasicException {
+    public final void UpdateAward(final TicketInfo ticket) throws BasicException {
 
+        Transaction t;
+        t = new Transaction(s) {
+            @Override
+            public Object transact() throws BasicException {
+                //Update Award status
+//                getAwardUpdate().exec(new DataParams() {
+//                    @Override
+//                    public void writeValues() throws BasicException {
+//                        setInt(1, award);
+//                        setTimestamp(2, awadate);
+//                        setString(3, ID);
+//                    }
+//                });
+
+                if (ticket.getCustomer() != null) {
+                    //Update Award status
+                    getAwardUpdate().exec(new DataParams() {
+                        @Override
+                        public void writeValues() throws BasicException {
+                            setInt(1, ticket.getCustomer().getAward());
+                            setTimestamp(2, ticket.getCustomer().getAwdate());
+                            setString(3, ticket.getCustomer().getId());
+                        }
+                    });
+                }
+                return null;
+            }
+        };
+        t.execute();
+    }
+    
     public final void saveTicket(final TicketInfo ticket, final String location) throws BasicException {
 
         Transaction t;
@@ -1019,6 +1054,17 @@ public void writeValues() throws BasicException {
                 setString(3, ticket.getCustomer().getId());
             }});
         } 
+//        if (ticket.getCustomer() != null) {
+//            //Update Award status
+//            getAwardUpdate().exec(new DataParams() {
+//                @Override
+//                public void writeValues() throws BasicException {
+//                    setInt(1, ticket.getCustomer().getAward());
+//                    setTimestamp(2, ticket.getCustomer().getAwdate());
+//                    setString(3, ticket.getCustomer().getId());
+//                }
+//            });
+//        }
     }
 
     SentenceExec taxlinesinsert = new PreparedSentence(s
@@ -1243,6 +1289,14 @@ public void writeValues() throws BasicException {
                 , SerializerWriteParams.INSTANCE);
     }
 
+    //CanDD update award
+    public final SentenceExec getAwardUpdate() {
+
+        return new PreparedSentence(s
+                , "UPDATE CUSTOMERS SET AWARD = ?, AWDATE = ? WHERE ID = ?"
+                , SerializerWriteParams.INSTANCE);
+    }
+
     public final SentenceExec getStockDiaryInsert() {
         return new SentenceExecTransaction(s) {
             @Override
@@ -1429,6 +1483,8 @@ public void writeValues() throws BasicException {
             c.setImage(dr.getString(24));
             c.setCPoint(dr.getDouble(25));
             c.setCPointdate(dr.getTimestamp(26));
+            c.setAward(dr.getInt(27));
+            c.setAwdate(dr.getTimestamp(28));
             return c;
         }
     }  

@@ -56,7 +56,11 @@ public class CustomerInfoExt extends CustomerInfo {
     //Add point card
     protected Date cpointdate;
     protected Double cpoint;
-    private Object m_config;
+    
+    //Add point card
+    protected Date awdate;
+    protected int award;
+    
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
         super(id);
@@ -142,7 +146,44 @@ public class CustomerInfoExt extends CustomerInfo {
             curdate = null;
         }
     }
+    
+    public void updateAward(int inaward, Date d) {
+        
+        award = award == 0 ? inaward : award + inaward;
 
+        if (award > 0) {
+            if (awdate == null) {
+                // new date
+                awdate = d;
+            }
+        } else if (award == 0) {
+            award = 0;
+            awdate = null;
+        } else { // < 0
+            awdate = null;
+        }
+    }
+
+    public Date getAwdate() {
+        return awdate;
+    }
+
+    public void setAwdate(Date awdate) {
+        this.awdate = awdate;
+    }
+
+    public int getAward() {
+        return award;
+    }
+    
+    public String printAward() {       
+        return new Integer(getAward()).toString();
+    }
+    
+    public void setAward(int iaward) {
+        this.award = iaward;
+    }
+    
     public String getFirstname() {
         return firstname;
     }
