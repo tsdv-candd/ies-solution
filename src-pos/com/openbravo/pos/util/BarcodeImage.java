@@ -126,4 +126,21 @@ public class BarcodeImage {
         
         return imgtext;  
     }
+    // CanDD add mixing barcode 2015-Mar-28
+    public static Image getBarcodeEAN8_13(String value) {
+        try {
+            switch (value.length()) {
+                case 7:
+                case 8:
+                    return getBarcodeEAN8(value);
+                case 13:
+                case 12:
+                default:
+                    return getBarcodeEAN13(value);
+            }
+        } catch (Exception e) {
+            System.out.print("Null string of barcode was push");
+            return null;
+        }
+    }
 }
